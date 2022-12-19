@@ -9,21 +9,18 @@ import Cocoa
 
 class ViewController: NSViewController {
     
+    @IBOutlet weak var titleField: NSTextField!
     @IBOutlet weak var locationControl: NSSegmentedControl!
-    @IBOutlet weak var tableView: NSTableView!
     
-    let northEateries = [("Morrison", "text.book.closed"), ("North Star", "moon.stars.fill"), ("Risley", "theatermasks")]
-    let westEateries = [("104West!", "fork.knife"), ("Becker House", "books.vertical"), ("Bethe House", "atom"), ("Cook House", "hammer"), ("Keeton House", "pawprint.fill"), ("Rose House", "lightbulb")]
-    let centralEateries = [("Okenshields", "crown")]
+    var tabVC: NSTabViewController?
+    var listVC: ListViewController?
+    var infoVC: InfoViewController?
     
-    var currentEateries : [(String, String)] = []
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.backgroundColor = .clear
-        currentEateries = westEateries
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showEateryInfo(notification:)), name: Notification.Name("NotificationIdentifier"), object: nil)
         
-
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showEateryList(notification:)), name: Notification.Name("Notification2Identifier"), object: nil)
     }
 
     override var representedObject: Any? {
@@ -32,48 +29,44 @@ class ViewController: NSViewController {
         }
     }
 
-
     @IBAction func locationDidChange(_ sender: NSSegmentedControl) {
-        switch sender.selectedSegment {
-        case 0:
-            currentEateries = westEateries
-        case 1:
-            currentEateries = centralEateries
-        default:
-            currentEateries = northEateries
-        }
-        self.tableView.reloadData()
-    }
-}
-
-extension ViewController: NSTableViewDataSource {
-    
-    func numberOfRows(in tableView: NSTableView) -> Int {
-        return currentEateries.count
+        listVC!.changeLocation(location: sender.selectedSegment)
     }
     
-    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
-        return 40
-    }
-    
-    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
+        guard let tabViewController = segue.destinationController
+          as? NSTabViewController else { return }
         
-        guard let eateryCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "eateryCell"), owner: self) as? EateryCell else { return nil }
-        
-        eateryCell.name.stringValue = currentEateries[row].0
-        eateryCell.icon.image = NSImage(systemSymbolName: currentEateries[row].1, accessibilityDescription: nil)
-        
-        return eateryCell
+        tabVC = tabViewController
+        listVC = tabViewController.tabViewItems[0].viewController as? ListViewController
+        infoVC = tabViewController.tabViewItems[1].viewController as? InfoViewController
     }
     
-}
-
-extension ViewController: NSTableViewDelegate {
-    
-    func tableViewSelectionDidChange(_ notification: Notification) {
+    @objc func showEateryInfo(notification: Notification) {
+        print(notification)
+        titleField.stringValue = notification.userInfo!.values.first! as! String
         
+        locationControl.segmentDistribution = .fit
+        
+        locationControl.setLabel("Breakfast", forSegment: 0)
+        locationControl.setLabel("Lunch", forSegment: 1)
+        locationControl.setLabel("Dinner", forSegment: 2)
+        
+        infoVC?.updateInfo(name: notification.userInfo!.values.first! as! String)
+        tabVC?.selectedTabViewItemIndex = 1
     }
     
+    @objc func showEateryList(notification: Notification) {
+        titleField.stringValue = "DiningBar"
+        
+        locationControl.segmentDistribution = .fillEqually
+        
+        locationControl.setLabel("West", forSegment: 0)
+        locationControl.setLabel("Central", forSegment: 1)
+        locationControl.setLabel("North", forSegment: 2)
+        
+        tabVC?.selectedTabViewItemIndex = 0
+    }
 }
 
 extension ViewController {
@@ -86,6 +79,3 @@ extension ViewController {
         return vc
     }
 }
-
-
-
