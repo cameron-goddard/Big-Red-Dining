@@ -67,15 +67,12 @@
 			isa = PBXGroup;
 			children = (
 				3BDB3B8C294ECF0700ADE2E2 /* AppDelegate.swift */,
-				3BDB3B8E294ECF0700ADE2E2 /* ViewController.swift */,
-				3BDB3BA8294FADF600ADE2E2 /* ListViewController.swift */,
-				3BDB3B9D294EE22800ADE2E2 /* EateryCell.swift */,
-				3BDB3BAA294FAE1300ADE2E2 /* InfoViewController.swift */,
-				3BDB3BAC2950141900ADE2E2 /* CategoryCell.swift */,
-				3BDB3BAE2950142000ADE2E2 /* MenuItemCell.swift */,
-				3BDB3BA1294F985000ADE2E2 /* Model */,
-				3BDB3B90294ECF0800ADE2E2 /* Assets.xcassets */,
 				3BDB3B92294ECF0800ADE2E2 /* Main.storyboard */,
+				3BDB3B90294ECF0800ADE2E2 /* Assets.xcassets */,
+				3BDB3B8E294ECF0700ADE2E2 /* ViewController.swift */,
+				3BDB3BB029501EF200ADE2E2 /* List View */,
+				3BDB3BB129501F0700ADE2E2 /* Info View */,
+				3BDB3BA1294F985000ADE2E2 /* Model */,
 				3BDB3B95294ECF0800ADE2E2 /* DiningBar.entitlements */,
 			);
 			path = DiningBar;
@@ -88,6 +85,25 @@
 				3BDB3BA2294F986400ADE2E2 /* Dining API.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		3BDB3BB029501EF200ADE2E2 /* List View */ = {
+			isa = PBXGroup;
+			children = (
+				3BDB3BA8294FADF600ADE2E2 /* ListViewController.swift */,
+				3BDB3B9D294EE22800ADE2E2 /* EateryCell.swift */,
+			);
+			path = "List View";
+			sourceTree = "<group>";
+		};
+		3BDB3BB129501F0700ADE2E2 /* Info View */ = {
+			isa = PBXGroup;
+			children = (
+				3BDB3BAA294FAE1300ADE2E2 /* InfoViewController.swift */,
+				3BDB3BAC2950141900ADE2E2 /* CategoryCell.swift */,
+				3BDB3BAE2950142000ADE2E2 /* MenuItemCell.swift */,
+			);
+			path = "Info View";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
