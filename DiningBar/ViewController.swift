@@ -18,9 +18,9 @@ class ViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(self.showEateryInfo(notification:)), name: Notification.Name("NotificationIdentifier"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showEateryInfo(notification:)), name: Notification.Name("ShowInfo"), object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.showEateryList(notification:)), name: Notification.Name("Notification2Identifier"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showEateryList(notification:)), name: Notification.Name("ShowList"), object: nil)
     }
 
     override var representedObject: Any? {
@@ -53,7 +53,8 @@ class ViewController: NSViewController {
         locationControl.setLabel("Dinner", forSegment: 2)
         
         infoVC?.updateInfo(name: notification.userInfo!.values.first! as! String)
-        tabVC?.selectedTabViewItemIndex = 1
+        
+        tabVC?.transition(from: listVC!, to: infoVC!, options: .slideLeft)
     }
     
     @objc func showEateryList(notification: Notification) {
@@ -65,7 +66,7 @@ class ViewController: NSViewController {
         locationControl.setLabel("Central", forSegment: 1)
         locationControl.setLabel("North", forSegment: 2)
         
-        tabVC?.selectedTabViewItemIndex = 0
+        tabVC?.transition(from: infoVC!, to: listVC!, options: .slideRight)
     }
 }
 

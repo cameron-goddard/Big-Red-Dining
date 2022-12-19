@@ -10,8 +10,10 @@ import Cocoa
 class InfoViewController: NSViewController {
 
     @IBOutlet weak var back: NSButton!
+    @IBOutlet weak var expandAll: NSButton!
     @IBOutlet weak var outlineView: NSOutlineView!
     
+    // temporary data for testing
     var breakfastCategories : [MenuCategory] = [
         MenuCategory(category: "Grill", items: [
             MenuItem(item: "Spicy Macaroni & Cheese", healthy: false),
@@ -35,13 +37,9 @@ class InfoViewController: NSViewController {
             MenuItem(item: "Roasted Corn & Black Bean Salad", healthy: false),
             MenuItem(item: "Grilled Marinated Tofu", healthy: false),
             MenuItem(item: "Egg Salad", healthy: false),
-            MenuItem(item: "White Win Vinaigrette Tuna Salad", healthy: false),
+            MenuItem(item: "White Wine Vinaigrette Tuna Salad", healthy: false),
             MenuItem(item: "Grilled Chicken Breast", healthy: false)
-        
-        
         ])
-    
-    
     ]
     var lunchCategories : [MenuCategory] = []
     var dinnerCategories : [MenuCategory] = []
@@ -53,10 +51,9 @@ class InfoViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         outlineView.backgroundColor = .clear
-        currentCategory = breakfastCategories
         
+        currentCategory = breakfastCategories
         outlineView.reloadData()
-        outlineView.expandItem(nil, expandChildren: true)
     }
     
     override func viewWillAppear() {
@@ -66,14 +63,22 @@ class InfoViewController: NSViewController {
     func updateInfo(name: String) {
     }
     
-    @IBAction func backButtonPressed(_ sender: Any) {
-        NotificationCenter.default.post(name: Notification.Name("Notification2Identifier"), object: "test", userInfo: ["row": "test"])
+    @IBAction func backButtonPressed(_ sender: NSButton) {
+        NotificationCenter.default.post(name: Notification.Name("ShowList"), object: "test", userInfo: ["row": "test"])
     }
+    
+    @IBAction func expandAllButtonPressed(_ sender: NSButton) {
+        if sender.state == .on {
+            outlineView.animator().expandItem(nil, expandChildren: true)
+        } else {
+            outlineView.animator().collapseItem(nil, collapseChildren: true)
+        }
+    }
+    
 }
 
 extension InfoViewController: NSOutlineViewDataSource {
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
-        print(currentCategory.count)
         if let category = item as? MenuCategory {
             return category.items.count
         }

@@ -12,9 +12,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     let statusItem = NSStatusBar.system.statusItem(withLength:NSStatusItem.variableLength)
     let popover = NSPopover()
+    
     var positioningView: NSView?
+    var eventMonitor: EventMonitor?
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        
         if let button = statusItem.button {
             let statusImage = NSImage(systemSymbolName: "fork.knife", accessibilityDescription: nil)
             statusImage?.isTemplate = true
@@ -22,6 +25,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             button.action = #selector(AppDelegate.togglePopover(_:))
         }
         popover.contentViewController = ViewController.newController()
+        
+        eventMonitor = EventMonitor(mask: [NSEvent.EventTypeMask.leftMouseDown, NSEvent.EventTypeMask.rightMouseDown]) { [weak self] event in
+            if let popover = self?.popover {
+                if popover.isShown {
+                    self?.closePopover(event)
+                }
+            }
+        }
+        eventMonitor?.start()
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -41,20 +53,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         positioningView.identifier = NSUserInterfaceItemIdentifier(rawValue: "positioningView")
         sender.addSubview(positioningView)
         
-        popover.animates = false
+        //popover.animates = false
         popover.show(relativeTo: positioningView.bounds, of: positioningView, preferredEdge: .maxY)
         
-        sender.bounds = sender.bounds.offsetBy(dx: 0, dy: sender.bounds.height)
-        if let popoverWindow = popover.contentViewController?.view.window {
-            popoverWindow.setFrame(popoverWindow.frame.offsetBy(dx: 0, dy: 13), display: false)
-        }
+//        sender.bounds = sender.bounds.offsetBy(dx: 0, dy: sender.bounds.height)
+//        if let popoverWindow = popover.contentViewController?.view.window {
+//            popoverWindow.setFrame(popoverWindow.frame.offsetBy(dx: 0, dy: 13), display: false)
+//        }
+        eventMonitor?.start()
     }
     
-    func closePopover(_ sender: NSButton) {
+    func closePopover(_ sender: AnyObject?) {
         let positioningView = statusItem.button?.subviews.first {
             $0.identifier == NSUserInterfaceItemIdentifier(rawValue: "positioningView")
         }
         positioningView?.removeFromSuperview()
+        eventMonitor?.stop()
     }
 
     func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {

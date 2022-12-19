@@ -690,7 +690,7 @@
                         <subviews>
                             <box title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="GcP-uF-l5x">
                                 <rect key="frame" x="17" y="16" width="316" height="198"/>
-                                <view key="contentView" id="Ht2-1O-DgQ">
+                                <view key="contentView" wantsLayer="YES" id="Ht2-1O-DgQ">
                                     <rect key="frame" x="4" y="5" width="308" height="190"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -792,7 +792,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="308" height="190"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <scrollView fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="40" horizontalPageScroll="10" verticalLineScroll="40" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VVr-64-Uai">
+                            <scrollView fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="40" horizontalPageScroll="10" verticalLineScroll="40" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VVr-64-Uai">
                                 <rect key="frame" x="0.0" y="0.0" width="308" height="190"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <clipView key="contentView" drawsBackground="NO" id="27X-E9-U7Z">
@@ -876,11 +876,11 @@
                                     <nil key="backgroundColor"/>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="jmX-JF-sfM">
-                                    <rect key="frame" x="1" y="118" width="238" height="16"/>
+                                    <rect key="frame" x="-100" y="-100" width="238" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="Ypb-Lv-IZw">
-                                    <rect key="frame" x="224" y="17" width="15" height="102"/>
+                                    <rect key="frame" x="-100" y="-100" width="15" height="102"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
@@ -997,8 +997,19 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ggx-5G-Ypx">
+                                <rect key="frame" x="265" y="153" width="40" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" bezelStyle="rounded" image="arrow.up.and.down.text.horizontal" catalog="system" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="YpA-3o-YWf">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="expandAllButtonPressed:" target="zqO-KF-5rA" id="aUg-AT-MNm"/>
+                                </connections>
+                            </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mLN-r1-FIh">
-                                <rect key="frame" x="176" y="162" width="114" height="16"/>
+                                <rect key="frame" x="97" y="162" width="114" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Open 5pm to 8pm" id="Xyd-5a-6Mk">
                                     <font key="font" metaFont="system"/>
@@ -1010,6 +1021,7 @@
                     </view>
                     <connections>
                         <outlet property="back" destination="qEH-TT-SfJ" id="Ccm-KS-oTu"/>
+                        <outlet property="expandAll" destination="ggx-5G-Ypx" id="aos-Ym-PBx"/>
                         <outlet property="outlineView" destination="kHf-Hp-pf9" id="dMa-hG-5xY"/>
                     </connections>
                 </viewController>
@@ -1020,6 +1032,7 @@
     </scenes>
     <resources>
         <image name="NSStatusAvailable" width="16" height="16"/>
+        <image name="arrow.up.and.down.text.horizontal" catalog="system" width="20" height="15"/>
         <image name="atom" catalog="system" width="17" height="18"/>
         <image name="chevron.forward" catalog="system" width="10" height="14"/>
         <image name="chevron.left" catalog="system" width="10" height="14"/>

@@ -61,9 +61,9 @@ extension ListViewController: NSTableViewDelegate {
 
     func tableViewSelectionDidChange(_ notification: Notification) {
         let row = tableView.selectedRow
-        print("row", row)
-        //tableView.deselectRow(row)
-        NotificationCenter.default.post(name: Notification.Name("NotificationIdentifier"), object: "test", userInfo: ["row": currentEateries[row].0])
+        tableView.deselectRow(row)
+        if row != -1 {
+            NotificationCenter.default.post(name: Notification.Name("ShowInfo"), object: "test", userInfo: ["row": currentEateries[row].0])
+        }
     }
-
 }
