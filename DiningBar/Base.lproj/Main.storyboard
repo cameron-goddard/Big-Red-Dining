@@ -718,7 +718,7 @@
                                     </segments>
                                 </segmentedCell>
                                 <connections>
-                                    <action selector="locationDidChange:" target="XfG-lQ-9wD" id="ZYF-tR-lHu"/>
+                                    <action selector="controlDidChange:" target="XfG-lQ-9wD" id="8gX-8G-SIe"/>
                                 </connections>
                             </segmentedControl>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mV2-a6-CFz">
@@ -750,7 +750,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="locationControl" destination="9E0-Fd-w8N" id="AX5-lO-MTo"/>
+                        <outlet property="mainControl" destination="9E0-Fd-w8N" id="ckA-5W-bwA"/>
                         <outlet property="titleField" destination="mV2-a6-CFz" id="mjj-wN-gBD"/>
                     </connections>
                 </viewController>

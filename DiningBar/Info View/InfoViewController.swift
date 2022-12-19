@@ -63,6 +63,19 @@ class InfoViewController: NSViewController {
     func updateInfo(name: String) {
     }
     
+    func changeMeal(to: Int) {
+        switch to {
+        case 0:
+            currentCategory = breakfastCategories
+        case 1:
+            currentCategory = lunchCategories
+        default:
+            currentCategory = dinnerCategories
+        }
+        outlineView.reloadData()
+        expandAllButtonPressed(expandAll)
+    }
+    
     @IBAction func backButtonPressed(_ sender: NSButton) {
         NotificationCenter.default.post(name: Notification.Name("ShowList"), object: nil)
     }

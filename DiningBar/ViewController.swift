@@ -10,7 +10,10 @@ import Cocoa
 class ViewController: NSViewController {
     
     @IBOutlet weak var titleField: NSTextField!
-    @IBOutlet weak var locationControl: NSSegmentedControl!
+    @IBOutlet weak var mainControl: NSSegmentedControl!
+    
+    var controlIsLocation = true
+    var savedLocation = 0
     
     var tabVC: NSTabViewController?
     var listVC: ListViewController?
@@ -29,8 +32,13 @@ class ViewController: NSViewController {
         }
     }
 
-    @IBAction func locationDidChange(_ sender: NSSegmentedControl) {
-        listVC!.changeLocation(location: sender.selectedSegment)
+    @IBAction func controlDidChange(_ sender: NSSegmentedControl) {
+        if controlIsLocation {
+            listVC!.changeLocation(location: sender.selectedSegment)
+            savedLocation = sender.selectedSegment
+        } else {
+            infoVC?.changeMeal(to: sender.selectedSegment)
+        }
     }
     
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
@@ -43,13 +51,15 @@ class ViewController: NSViewController {
     }
     
     @objc func showEateryInfo(notification: Notification) {
+        controlIsLocation = false
         titleField.stringValue = notification.object as! String
         
-        locationControl.segmentDistribution = .fit
         
-        locationControl.setLabel("Breakfast", forSegment: 0)
-        locationControl.setLabel("Lunch", forSegment: 1)
-        locationControl.setLabel("Dinner", forSegment: 2)
+        mainControl.segmentDistribution = .fit
+        
+        mainControl.setLabel("Breakfast", forSegment: 0)
+        mainControl.setLabel("Lunch", forSegment: 1)
+        mainControl.setLabel("Dinner", forSegment: 2)
         
         infoVC?.updateInfo(name: notification.object as! String)
         
@@ -57,13 +67,16 @@ class ViewController: NSViewController {
     }
     
     @objc func showEateryList(notification: Notification) {
+        controlIsLocation = true
         titleField.stringValue = "DiningBar"
         
-        locationControl.segmentDistribution = .fillEqually
+        mainControl.segmentDistribution = .fillEqually
         
-        locationControl.setLabel("West", forSegment: 0)
-        locationControl.setLabel("Central", forSegment: 1)
-        locationControl.setLabel("North", forSegment: 2)
+        mainControl.setLabel("West", forSegment: 0)
+        mainControl.setLabel("Central", forSegment: 1)
+        mainControl.setLabel("North", forSegment: 2)
+        
+        mainControl.setSelected(true, forSegment: savedLocation)
         
         tabVC?.transition(from: infoVC!, to: listVC!, options: .slideRight)
     }
