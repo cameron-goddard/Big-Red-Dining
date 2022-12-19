@@ -63,7 +63,7 @@ extension ListViewController: NSTableViewDelegate {
         let row = tableView.selectedRow
         tableView.deselectRow(row)
         if row != -1 {
-            NotificationCenter.default.post(name: Notification.Name("ShowInfo"), object: "test", userInfo: ["row": currentEateries[row].0])
+            NotificationCenter.default.post(name: Notification.Name("ShowInfo"), object: currentEateries[row].0)
         }
     }
 }

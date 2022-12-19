@@ -43,8 +43,7 @@ class ViewController: NSViewController {
     }
     
     @objc func showEateryInfo(notification: Notification) {
-        print(notification)
-        titleField.stringValue = notification.userInfo!.values.first! as! String
+        titleField.stringValue = notification.object as! String
         
         locationControl.segmentDistribution = .fit
         
@@ -52,7 +51,7 @@ class ViewController: NSViewController {
         locationControl.setLabel("Lunch", forSegment: 1)
         locationControl.setLabel("Dinner", forSegment: 2)
         
-        infoVC?.updateInfo(name: notification.userInfo!.values.first! as! String)
+        infoVC?.updateInfo(name: notification.object as! String)
         
         tabVC?.transition(from: listVC!, to: infoVC!, options: .slideLeft)
     }

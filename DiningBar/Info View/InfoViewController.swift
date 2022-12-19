@@ -64,7 +64,7 @@ class InfoViewController: NSViewController {
     }
     
     @IBAction func backButtonPressed(_ sender: NSButton) {
-        NotificationCenter.default.post(name: Notification.Name("ShowList"), object: "test", userInfo: ["row": "test"])
+        NotificationCenter.default.post(name: Notification.Name("ShowList"), object: nil)
     }
     
     @IBAction func expandAllButtonPressed(_ sender: NSButton) {
