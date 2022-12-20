@@ -7,32 +7,46 @@
 
 import Cocoa
 
+enum Status {
+    case open
+    case closed
+    case closingSoon
+}
+
 class ListViewController: NSViewController {
     
     @IBOutlet weak var tableView: NSTableView!
     
-    let northEateries = [("Morrison", "text.book.closed"), ("North Star", "moon.stars.fill"), ("Risley", "theatermasks")]
-    let westEateries = [("104West!", "fork.knife"), ("Becker House", "books.vertical"), ("Bethe House", "atom"), ("Cook House", "hammer"), ("Keeton House", "pawprint.fill"), ("Rose House", "lightbulb")]
-    let centralEateries = [("Okenshields", "crown")]
-    
-    var currentEateries : [(String, String)] = []
+    var currentEateries : [EateryInfo] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.backgroundColor = .clear
-        currentEateries = westEateries
+        
+        currentEateries = allEateries.filter({
+            $0.location == 0
+        })
     }
     
     func changeLocation(location: Int) {
-        switch location {
-        case 0:
-            currentEateries = westEateries
-        case 1:
-            currentEateries = centralEateries
-        default:
-            currentEateries = northEateries
-        }
+        currentEateries = allEateries.filter({
+            $0.location == location
+        })
         tableView.reloadData()
+    }
+    
+    func getCurrentStatus(events: [Event]) -> Status {
+        let time = Int(Date().timeIntervalSince1970)
+        
+        for event in events {
+            if time >= event.startTimestamp && abs(time - event.endTimestamp) < 30 {
+                return .closingSoon
+            }
+            else if time >= event.startTimestamp && time < event.endTimestamp {
+                return .open
+            }
+        }
+        return .closed
     }
 }
 
@@ -48,10 +62,23 @@ extension ListViewController: NSTableViewDataSource {
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         guard let eateryCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "eateryCell"), owner: self) as? EateryCell else { return nil }
+        
+        let eatery = currentEateries[row]
 
-        eateryCell.name.stringValue = currentEateries[row].0
-        eateryCell.icon.image = NSImage(systemSymbolName: currentEateries[row].1, accessibilityDescription: nil)
-
+        eateryCell.name.stringValue = eatery.name
+        eateryCell.icon.image = NSImage(systemSymbolName: eatery.icon, accessibilityDescription: nil)
+        
+        switch getCurrentStatus(events: eatery.events) {
+        case .open:
+            eateryCell.status.image! = NSImage(named: "NSStatusAvailable")!
+            eateryCell.status.title = "Open now"
+        case .closingSoon:
+            eateryCell.status.image! = NSImage(named: "NSStatusPartiallyAvailable")!
+            eateryCell.status.title = "Closing soon"
+        default:
+            eateryCell.status.image! = NSImage(named: "NSStatusUnavailable")!
+            eateryCell.status.title = "Closed"
+        }
         return eateryCell
     }
 
@@ -64,10 +91,10 @@ extension ListViewController: NSTableViewDelegate {
         tableView.deselectRow(row)
         if row != -1 {
             var shortName = ""
-            if currentEateries[row].0.contains("House") {
-                shortName = currentEateries[row].0.components(separatedBy: " ").first!
+            if currentEateries[row].name.contains("House") {
+                shortName = currentEateries[row].name.components(separatedBy: " ").first!
             } else {
-                shortName = currentEateries[row].0
+                shortName = currentEateries[row].name
             }
             NotificationCenter.default.post(name: Notification.Name("ShowInfo"), object: shortName)
         }

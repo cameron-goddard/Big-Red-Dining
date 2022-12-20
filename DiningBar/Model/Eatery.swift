@@ -15,20 +15,7 @@ struct Root: Decodable {
 struct Eatery: Decodable {
     let id : Int
     let name : String
-    let about : String
-    let aboutshort : String
-    let cornellDining : Bool
-    let latitude : Double
-    let longitude : Double
-    let location : String
     let operatingHours : [OperatingHours]
-    
-    //let eateryTypes : [[Int:EateryType]]
-}
-
-struct EateryType: Decodable {
-    let descr : String
-    let descrshort : String
 }
 
 struct OperatingHours: Decodable {
@@ -41,8 +28,6 @@ struct Event: Decodable {
     let descr: String
     let startTimestamp: Int
     let endTimestamp: Int
-    let start: String
-    let end: String
     let menu: [MenuCategory]
 }
 
@@ -50,11 +35,6 @@ struct MenuCategory: Decodable {
     let category: String
     let items: [MenuItem]
 }
-
-/*struct Menu: Decodable {
-    //let category: String
-    //let items: [MenuItem]
-}*/
 
 struct MenuItem: Decodable {
     let item: String

@@ -19,11 +19,55 @@ class ViewController: NSViewController {
     var listVC: ListViewController?
     var infoVC: InfoViewController?
     
+    let allowedEateries = [3, 4, 20, 25, 26, 27, 29, 30, 31, 43]
+    var lastMainAPILoad : Date = Date(timeIntervalSince1970: .zero)
+    var eateries : [Eatery] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(self.showEateryInfo(notification:)), name: Notification.Name("ShowInfo"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.showEateryList(notification:)), name: Notification.Name("ShowList"), object: nil)
+    }
+    
+    override func viewDidAppear() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone(abbreviation: "EDT")
+        dateFormatter.dateFormat = "yMMdd"
+        
+        let current = Date()
+        
+        if dateFormatter.string(from: current) != dateFormatter.string(from: lastMainAPILoad) {
+            NetworkManager.getEateryInfo(completion: { json, error in
+                for eatery in json!.data["eateries"]! {
+                    if self.allowedEateries.contains(eatery.id) {
+                        self.eateries.append(eatery)
+                    }
+                }
+                DispatchQueue.main.async {
+                    dateFormatter.dateFormat = "dd"
+                    let currentDay = dateFormatter.string(from: Date())
+                    
+                    for e in self.eateries {
+                        for oh in e.operatingHours {
+                            dateFormatter.dateFormat = "yyyy-MM-dd"
+                            let date = dateFormatter.date(from: oh.date)
+                            dateFormatter.dateFormat = "dd"
+                            if currentDay == dateFormatter.string(from: date!) {
+                                for i in 0..<allEateries.count {
+                                    if e.id == allEateries[i].id {
+                                        for event in oh.events {
+                                            allEateries[i].events.append(event)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            })
+            lastMainAPILoad = current
+        }
     }
 
     override var representedObject: Any? {
@@ -63,7 +107,9 @@ class ViewController: NSViewController {
         
         infoVC?.updateInfo(name: notification.object as! String)
         
-        tabVC?.transition(from: listVC!, to: infoVC!, options: .slideLeft)
+        tabVC?.transition(from: listVC!, to: infoVC!, options: .slideLeft, completionHandler: {
+            
+        })
     }
     
     @objc func showEateryList(notification: Notification) {

@@ -19,6 +19,7 @@
 		3BDB3BAD2950141900ADE2E2 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB3BAC2950141900ADE2E2 /* CategoryCell.swift */; };
 		3BDB3BAF2950142000ADE2E2 /* MenuItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB3BAE2950142000ADE2E2 /* MenuItemCell.swift */; };
 		3BDB3BB32950262A00ADE2E2 /* EventMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB3BB22950262A00ADE2E2 /* EventMonitor.swift */; };
+		3BDB3BB529518DB200ADE2E2 /* EateryInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB3BB429518DB200ADE2E2 /* EateryInfo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		3BDB3BAC2950141900ADE2E2 /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		3BDB3BAE2950142000ADE2E2 /* MenuItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemCell.swift; sourceTree = "<group>"; };
 		3BDB3BB22950262A00ADE2E2 /* EventMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventMonitor.swift; sourceTree = "<group>"; };
+		3BDB3BB429518DB200ADE2E2 /* EateryInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EateryInfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +74,7 @@
 				3BDB3B92294ECF0800ADE2E2 /* Main.storyboard */,
 				3BDB3B90294ECF0800ADE2E2 /* Assets.xcassets */,
 				3BDB3B8E294ECF0700ADE2E2 /* ViewController.swift */,
+				3BDB3BB429518DB200ADE2E2 /* EateryInfo.swift */,
 				3BDB3BB22950262A00ADE2E2 /* EventMonitor.swift */,
 				3BDB3BB029501EF200ADE2E2 /* List View */,
 				3BDB3BB129501F0700ADE2E2 /* Info View */,
@@ -185,6 +188,7 @@
 				3BDB3BA9294FADF600ADE2E2 /* ListViewController.swift in Sources */,
 				3BDB3BAD2950141900ADE2E2 /* CategoryCell.swift in Sources */,
 				3BDB3BAB294FAE1300ADE2E2 /* InfoViewController.swift in Sources */,
+				3BDB3BB529518DB200ADE2E2 /* EateryInfo.swift in Sources */,
 				3BDB3B9E294EE22800ADE2E2 /* EateryCell.swift in Sources */,
 				3BDB3BAF2950142000ADE2E2 /* MenuItemCell.swift in Sources */,
 				3BDB3BA3294F986400ADE2E2 /* Dining API.swift in Sources */,
