@@ -58,6 +58,11 @@ class InfoViewController: NSViewController {
     
     override func viewWillAppear() {
         super.viewWillAppear()
+        
+        if let state = UserDefaults.standard.object(forKey: "expandButton") as? NSControl.StateValue {
+            expandAll.state = state
+        }
+        expandAllButtonPressed(expandAll)
     }
     
     func updateInfo(name: String) {
@@ -86,6 +91,7 @@ class InfoViewController: NSViewController {
         } else {
             outlineView.animator().collapseItem(nil, collapseChildren: true)
         }
+        UserDefaults.standard.set(sender.state, forKey: "expandButton")
     }
     
 }

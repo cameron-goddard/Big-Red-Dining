@@ -53,13 +53,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         positioningView.identifier = NSUserInterfaceItemIdentifier(rawValue: "positioningView")
         sender.addSubview(positioningView)
         
-        //popover.animates = false
         popover.show(relativeTo: positioningView.bounds, of: positioningView, preferredEdge: .maxY)
-        
-//        sender.bounds = sender.bounds.offsetBy(dx: 0, dy: sender.bounds.height)
-//        if let popoverWindow = popover.contentViewController?.view.window {
-//            popoverWindow.setFrame(popoverWindow.frame.offsetBy(dx: 0, dy: 13), display: false)
-//        }
         eventMonitor?.start()
     }
     
