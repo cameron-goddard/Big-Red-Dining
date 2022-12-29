@@ -12,6 +12,7 @@ class InfoViewController: NSViewController {
     @IBOutlet weak var back: NSButton!
     @IBOutlet weak var expandAll: NSButton!
     @IBOutlet weak var outlineView: NSOutlineView!
+    @IBOutlet weak var openStatus: NSTextField!
     
     // temporary data for testing
     var breakfastCategories : [MenuCategory] = [
@@ -54,6 +55,7 @@ class InfoViewController: NSViewController {
         
         currentCategory = breakfastCategories
         outlineView.reloadData()
+        setStatus()
     }
     
     override func viewWillAppear() {
@@ -68,6 +70,12 @@ class InfoViewController: NSViewController {
     func updateInfo(name: String) {
     }
     
+    func setStatus() {
+        if currentCategory.isEmpty {
+            openStatus.stringValue = "Closed for " + "placeholder"
+        }
+    }
+    
     func changeMeal(to: Int) {
         switch to {
         case 0:
@@ -78,6 +86,7 @@ class InfoViewController: NSViewController {
             currentCategory = dinnerCategories
         }
         outlineView.reloadData()
+        setStatus()
         expandAllButtonPressed(expandAll)
     }
     
