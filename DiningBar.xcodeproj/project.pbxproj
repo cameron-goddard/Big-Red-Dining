@@ -24,7 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3BC77715295D2E3700990850 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		3BC77715295D2E3700990850 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3BDB3B89294ECF0700ADE2E2 /* DiningBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiningBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BDB3B8C294ECF0700ADE2E2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3BDB3B8E294ECF0700ADE2E2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -73,10 +73,10 @@
 		3BDB3B8B294ECF0700ADE2E2 /* DiningBar */ = {
 			isa = PBXGroup;
 			children = (
-				3BC77715295D2E3700990850 /* Info.plist */,
 				3BDB3B8C294ECF0700ADE2E2 /* AppDelegate.swift */,
 				3BDB3B92294ECF0800ADE2E2 /* Main.storyboard */,
 				3BDB3B90294ECF0800ADE2E2 /* Assets.xcassets */,
+				3BC77715295D2E3700990850 /* Info.plist */,
 				3BDB3B8E294ECF0700ADE2E2 /* ViewController.swift */,
 				3BDB3BB429518DB200ADE2E2 /* EateryInfo.swift */,
 				3BDB3BB22950262A00ADE2E2 /* EventMonitor.swift */,
@@ -355,6 +355,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 0.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.camerongoddard.DiningBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -385,6 +386,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 0.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.camerongoddard.DiningBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
