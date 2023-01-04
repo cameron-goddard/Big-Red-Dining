@@ -1007,7 +1007,7 @@
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ggx-5G-Ypx">
                                 <rect key="frame" x="265" y="153" width="40" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" bezelStyle="rounded" image="arrow.up.and.down.text.horizontal" catalog="system" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="YpA-3o-YWf">
+                                <buttonCell key="cell" type="push" bezelStyle="rounded" image="gearshape" catalog="system" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="YpA-3o-YWf">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -1040,10 +1040,10 @@
     </scenes>
     <resources>
         <image name="NSStatusAvailable" width="16" height="16"/>
-        <image name="arrow.up.and.down.text.horizontal" catalog="system" width="20" height="15"/>
         <image name="atom" catalog="system" width="17" height="18"/>
         <image name="chevron.down" catalog="system" width="15" height="9"/>
         <image name="chevron.forward" catalog="system" width="10" height="14"/>
         <image name="chevron.left" catalog="system" width="10" height="14"/>
+        <image name="gearshape" catalog="system" width="16" height="16"/>
     </resources>
 </document>
