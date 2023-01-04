@@ -6,10 +6,13 @@
 //
 
 import Cocoa
+import Sparkle
 
 class ViewController: NSViewController {
     
     @IBOutlet weak var titleField: NSTextField!
+    @IBOutlet weak var infoButton: NSButton!
+    
     @IBOutlet weak var mainControl: NSSegmentedControl!
     
     var controlIsLocation = true
@@ -23,8 +26,15 @@ class ViewController: NSViewController {
     var lastMainAPILoad : Date = Date(timeIntervalSince1970: .zero)
     var eateries : [Eatery] = []
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        
+        
+        
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.showEateryInfo(notification:)), name: Notification.Name("ShowInfo"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.showEateryList(notification:)), name: Notification.Name("ShowList"), object: nil)
@@ -110,6 +120,7 @@ class ViewController: NSViewController {
         tabVC?.transition(from: listVC!, to: infoVC!, options: .slideLeft, completionHandler: {
             
         })
+        infoButton.isHidden = true
     }
     
     @objc func showEateryList(notification: Notification) {
@@ -125,6 +136,38 @@ class ViewController: NSViewController {
         mainControl.setSelected(true, forSegment: savedLocation)
         
         tabVC?.transition(from: infoVC!, to: listVC!, options: .slideRight)
+        infoButton.isHidden = false
+    }
+    
+    @objc func quitApp() {
+        NSApp.terminate(self)
+    }
+    
+    @objc func showAboutPanel() {
+        let appDelegate = NSApplication.shared.delegate as! AppDelegate
+        appDelegate.closePopover(nil)
+        NSApplication.shared.orderFrontStandardAboutPanel()
+    }
+    
+    
+    @IBAction func infoButtonPressed(_ sender: NSButton) {
+        let infoMenu = NSMenu()
+        infoMenu.addItem(withTitle: "About DiningBar", action: #selector(showAboutPanel), keyEquivalent: "")
+        
+        let appDelegate = NSApplication.shared.delegate as! AppDelegate
+        
+        let checkForUpdatesItem = NSMenuItem()
+        checkForUpdatesItem.title = "Check for Updates..."
+        checkForUpdatesItem.target = appDelegate.updaterController
+        checkForUpdatesItem.action = #selector(SPUStandardUpdaterController.checkForUpdates(_:))
+        
+        infoMenu.addItem(checkForUpdatesItem)
+        infoMenu.addItem(NSMenuItem.separator())
+        infoMenu.addItem(withTitle: "Quit DiningBar", action: #selector(quitApp), keyEquivalent: "q")
+        
+        
+        let p = NSPoint(x: -100, y: sender.frame.height+15)
+        infoMenu.popUp(positioning: nil, at: p, in: sender)
     }
 }
 

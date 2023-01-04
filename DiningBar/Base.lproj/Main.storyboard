@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -676,10 +677,9 @@
                 </application>
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="DiningBar" customModuleProvider="target"/>
                 <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
-                <customObject id="yaG-2q-jqC" customClass="SPUStandardUpdaterController"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="0.0"/>
+            <point key="canvasLocation" x="68" y="-113"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="hIz-AP-VOD">
@@ -734,6 +734,18 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5ip-E8-XSB">
+                                <rect key="frame" x="114" y="228" width="10.5" height="12"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="chevron.down" catalog="system" imagePosition="only" alignment="center" controlSize="large" imageScaling="proportionallyUpOrDown" inset="2" id="1F0-08-Xz7">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <symbolConfiguration key="symbolConfiguration" scale="large" weight="black"/>
+                                <connections>
+                                    <action selector="infoButtonPressed:" target="XfG-lQ-9wD" id="TMl-Lq-dqG"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="9E0-Fd-w8N" secondAttribute="trailing" constant="20" symbolic="YES" id="79a-iv-KXb"/>
@@ -751,6 +763,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="infoButton" destination="5ip-E8-XSB" id="xLa-IR-wIS"/>
                         <outlet property="mainControl" destination="9E0-Fd-w8N" id="ckA-5W-bwA"/>
                         <outlet property="titleField" destination="mV2-a6-CFz" id="mjj-wN-gBD"/>
                     </connections>
@@ -1033,6 +1046,7 @@
         <image name="NSStatusAvailable" width="16" height="16"/>
         <image name="arrow.up.and.down.text.horizontal" catalog="system" width="20" height="15"/>
         <image name="atom" catalog="system" width="17" height="18"/>
+        <image name="chevron.down" catalog="system" width="15" height="9"/>
         <image name="chevron.forward" catalog="system" width="10" height="14"/>
         <image name="chevron.left" catalog="system" width="10" height="14"/>
     </resources>
