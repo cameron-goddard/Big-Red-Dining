@@ -853,23 +853,19 @@
                                                                         <font key="font" metaFont="smallSystem"/>
                                                                     </buttonCell>
                                                                 </button>
-                                                                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gyo-EE-ggs">
-                                                                    <rect key="frame" x="258" y="13" width="10" height="15"/>
-                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="chevron.forward" catalog="system" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="l7t-Bw-qWL">
-                                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                        <font key="font" metaFont="system"/>
-                                                                    </buttonCell>
-                                                                </button>
                                                                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GaX-lw-qgb">
                                                                     <rect key="frame" x="3" y="5" width="22.5" height="29"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="atom" catalog="system" id="Gug-jM-seV"/>
                                                                 </imageView>
+                                                                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="psw-BL-sWx">
+                                                                    <rect key="frame" x="258" y="13" width="10" height="15"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="chevron.forward" catalog="system" id="N0q-zI-75K"/>
+                                                                </imageView>
                                                             </subviews>
                                                             <connections>
                                                                 <outlet property="icon" destination="GaX-lw-qgb" id="Dlz-gZ-Tc0"/>
-                                                                <outlet property="more" destination="Gyo-EE-ggs" id="nO3-iy-6SB"/>
                                                                 <outlet property="name" destination="Oho-os-bCy" id="cYe-Mb-Heh"/>
                                                                 <outlet property="status" destination="LoW-mi-Lhw" id="oJZ-td-Pau"/>
                                                                 <outlet property="textField" destination="Oho-os-bCy" id="xOC-aQ-sNo"/>

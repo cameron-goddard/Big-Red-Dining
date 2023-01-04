@@ -12,8 +12,6 @@ class EateryCell: NSTableCellView {
     @IBOutlet weak var name: NSTextField!
     @IBOutlet weak var icon: NSImageView!
     @IBOutlet weak var status: NSButton!
-    @IBOutlet weak var more: NSButton!
-    
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
