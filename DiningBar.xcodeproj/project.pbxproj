@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B46A31129660CA100C26502 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 3B46A31029660CA100C26502 /* LaunchAtLogin */; };
 		3BC77714295D2C4F00990850 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 3BC77713295D2C4F00990850 /* Sparkle */; };
 		3BDB3B8D294ECF0700ADE2E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB3B8C294ECF0700ADE2E2 /* AppDelegate.swift */; };
 		3BDB3B8F294ECF0700ADE2E2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB3B8E294ECF0700ADE2E2 /* ViewController.swift */; };
@@ -47,6 +48,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B46A31129660CA100C26502 /* LaunchAtLogin in Frameworks */,
 				3BC77714295D2C4F00990850 /* Sparkle in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -126,6 +128,7 @@
 				3BDB3B85294ECF0700ADE2E2 /* Sources */,
 				3BDB3B86294ECF0700ADE2E2 /* Frameworks */,
 				3BDB3B87294ECF0700ADE2E2 /* Resources */,
+				3B46A31229660CF700C26502 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -134,6 +137,7 @@
 			name = DiningBar;
 			packageProductDependencies = (
 				3BC77713295D2C4F00990850 /* Sparkle */,
+				3B46A31029660CA100C26502 /* LaunchAtLogin */,
 			);
 			productName = DiningBar;
 			productReference = 3BDB3B89294ECF0700ADE2E2 /* DiningBar.app */;
@@ -165,6 +169,7 @@
 			mainGroup = 3BDB3B80294ECF0700ADE2E2;
 			packageReferences = (
 				3BC77712295D2C4F00990850 /* XCRemoteSwiftPackageReference "Sparkle" */,
+				3B46A30F29660CA100C26502 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
 			);
 			productRefGroup = 3BDB3B8A294ECF0700ADE2E2 /* Products */;
 			projectDirPath = "";
@@ -186,6 +191,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3B46A31229660CF700C26502 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${BUILT_PRODUCTS_DIR}/LaunchAtLogin_LaunchAtLogin.bundle/Contents/Resources/copy-helper-swiftpm.sh\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3BDB3B85294ECF0700ADE2E2 /* Sources */ = {
@@ -419,6 +445,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		3B46A30F29660CA100C26502 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/LaunchAtLogin";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		3BC77712295D2C4F00990850 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sparkle-project/Sparkle";
@@ -430,6 +464,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		3B46A31029660CA100C26502 /* LaunchAtLogin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3B46A30F29660CA100C26502 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;
+			productName = LaunchAtLogin;
+		};
 		3BC77713295D2C4F00990850 /* Sparkle */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3BC77712295D2C4F00990850 /* XCRemoteSwiftPackageReference "Sparkle" */;

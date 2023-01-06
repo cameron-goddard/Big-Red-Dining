@@ -7,6 +7,7 @@
 
 import Cocoa
 import Sparkle
+import LaunchAtLogin
 
 class ViewController: NSViewController {
     
@@ -149,6 +150,14 @@ class ViewController: NSViewController {
         NSApplication.shared.orderFrontStandardAboutPanel()
     }
     
+    @objc func toggleLaunchAtLogin(_ sender: NSMenuItem) {
+        if LaunchAtLogin.isEnabled {
+            sender.state = .off
+        } else {
+            sender.state = .on
+        }
+        LaunchAtLogin.isEnabled.toggle()
+    }
     
     @IBAction func infoButtonPressed(_ sender: NSButton) {
         let infoMenu = NSMenu()
@@ -162,6 +171,16 @@ class ViewController: NSViewController {
         checkForUpdatesItem.action = #selector(SPUStandardUpdaterController.checkForUpdates(_:))
         
         infoMenu.addItem(checkForUpdatesItem)
+        infoMenu.addItem(NSMenuItem.separator())
+        
+        let launchAtLoginItem = NSMenuItem(title: "Launch at login", action: #selector(toggleLaunchAtLogin), keyEquivalent: "")
+        if LaunchAtLogin.isEnabled {
+            launchAtLoginItem.state = .on
+        } else {
+            launchAtLoginItem.state = .off
+        }
+        infoMenu.addItem(launchAtLoginItem)
+        
         infoMenu.addItem(NSMenuItem.separator())
         infoMenu.addItem(withTitle: "Quit DiningBar", action: #selector(quitApp), keyEquivalent: "q")
         
