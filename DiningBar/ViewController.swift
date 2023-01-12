@@ -27,15 +27,8 @@ class ViewController: NSViewController {
     var lastMainAPILoad : Date = Date(timeIntervalSince1970: .zero)
     var eateries : [Eatery] = []
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        
-        
-        
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.showEateryInfo(notification:)), name: Notification.Name("ShowInfo"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.showEateryList(notification:)), name: Notification.Name("ShowList"), object: nil)
@@ -46,7 +39,9 @@ class ViewController: NSViewController {
         dateFormatter.timeZone = TimeZone(abbreviation: "EDT")
         dateFormatter.dateFormat = "yMMdd"
         
-        let current = Date()
+        let testDateFormatter = DateFormatter()
+        testDateFormatter.dateFormat = "MMdd"
+        let current = testDateFormatter.date(from: "0117")!
         
         if dateFormatter.string(from: current) != dateFormatter.string(from: lastMainAPILoad) {
             NetworkManager.getEateryInfo(completion: { json, error in
@@ -57,19 +52,17 @@ class ViewController: NSViewController {
                 }
                 DispatchQueue.main.async {
                     dateFormatter.dateFormat = "dd"
-                    let currentDay = dateFormatter.string(from: Date())
-                    
+                    let currentDay = dateFormatter.string(from: current)
                     for e in self.eateries {
                         for oh in e.operatingHours {
                             dateFormatter.dateFormat = "yyyy-MM-dd"
                             let date = dateFormatter.date(from: oh.date)
                             dateFormatter.dateFormat = "dd"
+                            
                             if currentDay == dateFormatter.string(from: date!) {
                                 for i in 0..<allEateries.count {
                                     if e.id == allEateries[i].id {
-                                        for event in oh.events {
-                                            allEateries[i].events.append(event)
-                                        }
+                                        allEateries[i].events = oh.events
                                     }
                                 }
                             }
@@ -107,8 +100,17 @@ class ViewController: NSViewController {
     
     @objc func showEateryInfo(notification: Notification) {
         controlIsLocation = false
-        titleField.stringValue = notification.object as! String
+        let name = notification.object as! String
         
+        var shortName = ""
+        if name.contains("House") {
+            shortName = name.components(separatedBy: " ").first!
+        } else {
+            shortName = name
+        }
+        titleField.stringValue = shortName
+        
+        let events = allEateries.filter({ $0.name == name })[0].events
         
         mainControl.segmentDistribution = .fit
         
@@ -116,12 +118,53 @@ class ViewController: NSViewController {
         mainControl.setLabel("Lunch", forSegment: 1)
         mainControl.setLabel("Dinner", forSegment: 2)
         
-        infoVC?.updateInfo(name: notification.object as! String)
+        var selected = getSelectedSegment(events: events)
+        
+        if selected == -1 {
+            for i in 0..<3 { mainControl.setSelected(false, forSegment: i) }
+            for i in 0..<3 { mainControl.setEnabled(false, forSegment: i) }
+        } else {
+            let meals = events.map({ $0.descr })
+            
+            if !meals.contains("Breakfast") {
+                mainControl.setEnabled(false, forSegment: 0)
+                selected += 1
+            }
+            if !meals.contains("Lunch") {
+                mainControl.setEnabled(false, forSegment: 1)
+                if selected == 1 { selected += 1 }
+            }
+            if !meals.contains("Dinner") {
+                mainControl.setEnabled(false, forSegment: 2)
+            }
+            if meals.contains("Brunch") {
+                mainControl.setLabel("Brunch", forSegment: 0)
+                mainControl.setEnabled(false, forSegment: 1)
+                if selected == 1 { selected += 1 }
+            }
+            mainControl.setSelected(true, forSegment: selected)
+        }
+        
+        infoVC?.updateInfo(events: events, meals: events.map({ $0.descr }))
         
         tabVC?.transition(from: listVC!, to: infoVC!, options: .slideLeft, completionHandler: {
-            
         })
         infoButton.isHidden = true
+    }
+    
+    func getSelectedSegment(events: [Event]) -> Int {
+        //let current = Int(Date().timeIntervalSince1970)
+        let current = 1673972729
+        
+        if events.count == 0 {
+            return -1
+        }
+        for i in 0..<events.count {
+            if current < events[i].endTimestamp {
+                return i
+            }
+        }
+        return events.count-1
     }
     
     @objc func showEateryList(notification: Notification) {
@@ -133,6 +176,8 @@ class ViewController: NSViewController {
         mainControl.setLabel("West", forSegment: 0)
         mainControl.setLabel("Central", forSegment: 1)
         mainControl.setLabel("North", forSegment: 2)
+        
+        for i in 0..<3 { mainControl.setEnabled(true, forSegment: i) }
         
         mainControl.setSelected(true, forSegment: savedLocation)
         
@@ -183,7 +228,6 @@ class ViewController: NSViewController {
         
         infoMenu.addItem(NSMenuItem.separator())
         infoMenu.addItem(withTitle: "Quit DiningBar", action: #selector(quitApp), keyEquivalent: "q")
-        
         
         let p = NSPoint(x: -100, y: sender.frame.height+15)
         infoMenu.popUp(positioning: nil, at: p, in: sender)

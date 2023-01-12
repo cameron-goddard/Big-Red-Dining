@@ -14,34 +14,9 @@ class InfoViewController: NSViewController {
     @IBOutlet weak var outlineView: NSOutlineView!
     @IBOutlet weak var openStatus: NSTextField!
     
-    // temporary data for testing
-    var breakfastCategories : [MenuCategory] = [
-        MenuCategory(category: "Grill", items: [
-            MenuItem(item: "Spicy Macaroni & Cheese", healthy: false),
-            MenuItem(item: "Hot Ham And Cheese Sandwich", healthy: false),
-            MenuItem(item: "Seasoned Wedge Fries", healthy: false),
-            MenuItem(item: "Grilled Hot Dogs", healthy: false)
-        ]),
-        MenuCategory(category: "Soup", items: [
-            MenuItem(item: "Cornell Cream of Tomato Soup", healthy: false),
-            MenuItem(item: "Black Bean Soup", healthy: false),
-        ]),
-        MenuCategory(category: "Beverage", items: [
-            MenuItem(item: "Hot & Cold Beverage Service", healthy: false)
-        ]),
-        MenuCategory(category: "Chef's Table", items: [
-            MenuItem(item: "Marinated Asian Tofu", healthy: false),
-            MenuItem(item: "Chicken Rigatoni", healthy: false)
-        ]),
-        MenuCategory(category: "Salad", items: [
-            MenuItem(item: "Healthy Style Salad Station", healthy: false),
-            MenuItem(item: "Roasted Corn & Black Bean Salad", healthy: false),
-            MenuItem(item: "Grilled Marinated Tofu", healthy: false),
-            MenuItem(item: "Egg Salad", healthy: false),
-            MenuItem(item: "White Wine Vinaigrette Tuna Salad", healthy: false),
-            MenuItem(item: "Grilled Chicken Breast", healthy: false)
-        ])
-    ]
+    var events : [Event] = []
+    
+    var breakfastCategories : [MenuCategory] = []
     var lunchCategories : [MenuCategory] = []
     var dinnerCategories : [MenuCategory] = []
     
@@ -58,14 +33,17 @@ class InfoViewController: NSViewController {
         } else {
             expandAll.image = NSImage(named: "arrow.up.and.down.text.horizontal")
         }
-        
-        currentCategory = breakfastCategories
-        outlineView.reloadData()
-        setStatus()
     }
     
     override func viewWillAppear() {
-        super.viewWillAppear()
+        if events.isEmpty {
+            currentCategory = []
+            openStatus.stringValue = "Closed today"
+        }
+        else {
+            showCurrentEvent()
+        }
+        outlineView.reloadData()
         
         if let state = UserDefaults.standard.object(forKey: "expandButton") as? NSControl.StateValue {
             expandAll.state = state
@@ -73,26 +51,60 @@ class InfoViewController: NSViewController {
         expandAllButtonPressed(expandAll)
     }
     
-    func updateInfo(name: String) {
+    func showCurrentEvent() {
+        //let current = Int(Date().timeIntervalSince1970)
+        let current = 1673972729
+        
+        for event in events {
+            if current < event.endTimestamp {
+                
+                // set openStatus
+                if current > event.startTimestamp {
+                    let timeRemaining = abs(current - event.endTimestamp)
+                    if timeRemaining <= 30 {
+                        openStatus.stringValue = "Closing in " + String(timeRemaining) + " minutes"
+                    } else {
+                        openStatus.stringValue = "Open now"
+                    }
+                } else {
+                    let timeUntilOpen = abs(current - event.startTimestamp)
+                    if timeUntilOpen <= 30 {
+                        openStatus.stringValue = "Opening in " + String(timeUntilOpen) + " minutes"
+                    } else {
+                        let startTime = Date(timeIntervalSince1970: TimeInterval(event.startTimestamp))
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.timeZone = TimeZone(abbreviation: "EST")
+                        dateFormatter.dateFormat = "HH:mm"
+                        
+                        openStatus.stringValue = "Opens for " + event.descr.lowercased() + " at " + dateFormatter.string(from: startTime)
+                    }
+                }
+                currentCategory = event.menu
+                return
+            }
+        }
     }
     
-    func setStatus() {
-        if currentCategory.isEmpty {
-            openStatus.stringValue = "Closed for " + "placeholder"
-        }
+    func updateInfo(events: [Event], meals: [String]) {
+        self.events = events
     }
     
     func changeMeal(to: Int) {
-        switch to {
-        case 0:
-            currentCategory = breakfastCategories
-        case 1:
-            currentCategory = lunchCategories
-        default:
-            currentCategory = dinnerCategories
+        if to == 0 {
+            if !events.filter({ $0.descr == "Breakfast" }).isEmpty {
+                currentCategory = events.filter({ $0.descr == "Breakfast" })[0].menu
+            } else {
+                currentCategory = events.filter({ $0.descr == "Brunch" })[0].menu
+            }
         }
+        if to == 1 {
+            currentCategory = events.filter({ $0.descr == "Lunch" })[0].menu
+        }
+        if to == 2 {
+            currentCategory = events.filter({ $0.descr == "Dinner" })[0].menu
+        }
+        
         outlineView.reloadData()
-        setStatus()
         expandAllButtonPressed(expandAll)
     }
     
@@ -138,7 +150,6 @@ extension InfoViewController: NSOutlineViewDelegate {
             guard let categoryCell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "categoryCell"), owner: self) as? CategoryCell else { return nil }
             
             categoryCell.name.stringValue = (item as! MenuCategory).category
-            //categoryCell.name.font = NSFont.systemFont(ofSize: 14, weight: .semibold)
             return categoryCell
         }
         if item is MenuItem {

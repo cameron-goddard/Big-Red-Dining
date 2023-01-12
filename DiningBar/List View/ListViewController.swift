@@ -36,7 +36,8 @@ class ListViewController: NSViewController {
     }
     
     func getCurrentStatus(events: [Event]) -> Status {
-        let time = Int(Date().timeIntervalSince1970)
+        //let time = Int(Date().timeIntervalSince1970)
+        let time = 1673972729
         
         for event in events {
             if time >= event.startTimestamp && abs(time - event.endTimestamp) < 30 {
@@ -81,7 +82,6 @@ extension ListViewController: NSTableViewDataSource {
         }
         return eateryCell
     }
-
 }
 
 extension ListViewController: NSTableViewDelegate {
@@ -90,13 +90,7 @@ extension ListViewController: NSTableViewDelegate {
         let row = tableView.selectedRow
         tableView.deselectRow(row)
         if row != -1 {
-            var shortName = ""
-            if currentEateries[row].name.contains("House") {
-                shortName = currentEateries[row].name.components(separatedBy: " ").first!
-            } else {
-                shortName = currentEateries[row].name
-            }
-            NotificationCenter.default.post(name: Notification.Name("ShowInfo"), object: shortName)
+            NotificationCenter.default.post(name: Notification.Name("ShowInfo"), object: currentEateries[row].name)
         }
     }
 }
