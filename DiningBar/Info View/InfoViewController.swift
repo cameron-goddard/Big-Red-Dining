@@ -52,8 +52,8 @@ class InfoViewController: NSViewController {
     }
     
     func showCurrentEvent() {
-        //let current = Int(Date().timeIntervalSince1970)
-        let current = 1673972729
+        let current = Int(Date().timeIntervalSince1970)
+        //let current = 1673972729
         
         for event in events {
             if current < event.endTimestamp {
@@ -74,7 +74,7 @@ class InfoViewController: NSViewController {
                         let startTime = Date(timeIntervalSince1970: TimeInterval(event.startTimestamp))
                         let dateFormatter = DateFormatter()
                         dateFormatter.timeZone = TimeZone(abbreviation: "EST")
-                        dateFormatter.dateFormat = "HH:mm"
+                        dateFormatter.dateFormat = "h:mm"
                         
                         openStatus.stringValue = "Opens for " + event.descr.lowercased() + " at " + dateFormatter.string(from: startTime)
                     }

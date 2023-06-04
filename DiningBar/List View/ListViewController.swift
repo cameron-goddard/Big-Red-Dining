@@ -11,6 +11,7 @@ enum Status {
     case open
     case closed
     case closingSoon
+    case openingSoon
 }
 
 class ListViewController: NSViewController {
@@ -28,6 +29,10 @@ class ListViewController: NSViewController {
         })
     }
     
+    override func viewDidAppear() {
+        tableView.reloadData()
+    }
+    
     func changeLocation(location: Int) {
         currentEateries = allEateries.filter({
             $0.location == location
@@ -36,8 +41,8 @@ class ListViewController: NSViewController {
     }
     
     func getCurrentStatus(events: [Event]) -> Status {
-        //let time = Int(Date().timeIntervalSince1970)
-        let time = 1673972729
+        //print("events:" , events)
+        let time = Int(Date().timeIntervalSince1970)
         
         for event in events {
             if time >= event.startTimestamp && abs(time - event.endTimestamp) < 30 {
@@ -49,6 +54,22 @@ class ListViewController: NSViewController {
         }
         return .closed
     }
+    
+//    func getCurrentStatusNew(events: [Event]) -> (NSImage, String) {
+//        let time = Int(Date().timeIntervalSince1970)
+//
+//        for event in events {
+//            if time >= event.startTimestamp && abs(time - event.endTimestamp) < 30 {
+//                return (NSImage(named: "NSStatusPartiallyAvailable")!, "")
+//            }
+//            else if time >= event.startTimestamp && time < event.endTimestamp {
+//                return .open
+//            }
+//        }
+//        return .closed
+//
+//
+//    }
 }
 
 extension ListViewController: NSTableViewDataSource {
@@ -78,7 +99,7 @@ extension ListViewController: NSTableViewDataSource {
             eateryCell.status.title = "Closing soon"
         default:
             eateryCell.status.image! = NSImage(named: "NSStatusUnavailable")!
-            eateryCell.status.title = "Closed"
+            eateryCell.status.title = "Open at 5:00"
         }
         return eateryCell
     }
