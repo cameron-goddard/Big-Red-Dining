@@ -1,13 +1,13 @@
 //
-//  MenuItemCell.swift
-//  DiningBar
+//  CategoryCell.swift
+//  Big Red Dining
 //
 //  Created by Cameron Goddard on 12/18/22.
 //
 
 import Cocoa
 
-class MenuItemCell: NSTableCellView {
+class CategoryCell: NSTableCellView {
 
     @IBOutlet weak var name: NSTextField!
     

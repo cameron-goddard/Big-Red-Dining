@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -12,11 +11,11 @@
                 <application id="hnw-xV-0zn" sceneMemberID="viewController">
                     <menu key="mainMenu" title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
                         <items>
-                            <menuItem title="DiningBar" id="1Xt-HY-uBw">
+                            <menuItem title="Big Red Dining" id="1Xt-HY-uBw">
                                 <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="DiningBar" systemMenu="apple" id="uQy-DD-JDr">
+                                <menu key="submenu" title="Big Red Dining" systemMenu="apple" id="uQy-DD-JDr">
                                     <items>
-                                        <menuItem title="About DiningBar" id="5kV-Vb-QxS">
+                                        <menuItem title="About Big Red Dining" id="5kV-Vb-QxS">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="orderFrontStandardAboutPanel:" target="Ady-hI-5gd" id="Exp-CZ-Vem"/>
@@ -30,7 +29,7 @@
                                             <menu key="submenu" title="Services" systemMenu="services" id="hz9-B4-Xy5"/>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="4je-JR-u6R"/>
-                                        <menuItem title="Hide DiningBar" keyEquivalent="h" id="Olw-nP-bQN">
+                                        <menuItem title="Hide Big Red Dining" keyEquivalent="h" id="Olw-nP-bQN">
                                             <connections>
                                                 <action selector="hide:" target="Ady-hI-5gd" id="PnN-Uc-m68"/>
                                             </connections>
@@ -48,7 +47,7 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="kCx-OE-vgT"/>
-                                        <menuItem title="Quit DiningBar" keyEquivalent="q" id="4sb-4s-VLi">
+                                        <menuItem title="Quit Big Red Dining" keyEquivalent="q" id="4sb-4s-VLi">
                                             <connections>
                                                 <action selector="terminate:" target="Ady-hI-5gd" id="Te7-pn-YzF"/>
                                             </connections>
@@ -661,7 +660,7 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Help" systemMenu="help" id="F2S-fz-NVQ">
                                     <items>
-                                        <menuItem title="DiningBar Help" keyEquivalent="?" id="FKE-Sm-Kum">
+                                        <menuItem title="Big Red Dining Help" keyEquivalent="?" id="FKE-Sm-Kum">
                                             <connections>
                                                 <action selector="showHelp:" target="Ady-hI-5gd" id="y7X-2Q-9no"/>
                                             </connections>
@@ -783,7 +782,7 @@
                     <tabView key="tabView" type="noTabsNoBorder" id="fiL-SE-kp6">
                         <rect key="frame" x="0.0" y="0.0" width="308" height="190"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <font key="font" metaFont="message"/>
+                        <font key="font" usesAppearanceFont="YES"/>
                         <connections>
                             <outlet property="delegate" destination="wRT-S5-tlA" id="Jbu-9a-1YJ"/>
                         </connections>
@@ -811,7 +810,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <clipView key="contentView" drawsBackground="NO" id="27X-E9-U7Z">
                                     <rect key="frame" x="0.0" y="0.0" width="308" height="190"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" multipleSelection="NO" autosaveColumns="NO" rowHeight="40" rowSizeStyle="automatic" viewBased="YES" id="92l-j2-Hjc">
                                             <rect key="frame" x="0.0" y="0.0" width="308" height="190"/>
@@ -925,7 +924,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <clipView key="contentView" drawsBackground="NO" id="sm3-eC-fFd">
                                     <rect key="frame" x="0.0" y="0.0" width="308" height="154"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" multipleSelection="NO" autosaveColumns="NO" rowHeight="24" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="13" outlineTableColumn="PHm-PA-G2y" id="kHf-Hp-pf9">
                                             <rect key="frame" x="0.0" y="0.0" width="308" height="154"/>
@@ -1040,10 +1039,10 @@
     </scenes>
     <resources>
         <image name="NSStatusAvailable" width="16" height="16"/>
-        <image name="atom" catalog="system" width="17" height="18"/>
-        <image name="chevron.down" catalog="system" width="15" height="9"/>
-        <image name="chevron.forward" catalog="system" width="10" height="14"/>
-        <image name="chevron.left" catalog="system" width="10" height="14"/>
-        <image name="gearshape" catalog="system" width="16" height="16"/>
+        <image name="atom" catalog="system" width="32" height="32"/>
+        <image name="chevron.down" catalog="system" width="32" height="32"/>
+        <image name="chevron.forward" catalog="system" width="32" height="32"/>
+        <image name="chevron.left" catalog="system" width="32" height="32"/>
+        <image name="gearshape" catalog="system" width="32" height="32"/>
     </resources>
 </document>

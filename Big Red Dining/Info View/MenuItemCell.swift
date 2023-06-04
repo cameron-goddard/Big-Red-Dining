@@ -1,17 +1,15 @@
 //
-//  EateryCell.swift
-//  DiningBar
+//  MenuItemCell.swift
+//  Big Red Dining
 //
 //  Created by Cameron Goddard on 12/18/22.
 //
 
 import Cocoa
 
-class EateryCell: NSTableCellView {
+class MenuItemCell: NSTableCellView {
 
     @IBOutlet weak var name: NSTextField!
-    @IBOutlet weak var icon: NSImageView!
-    @IBOutlet weak var status: NSButton!
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)

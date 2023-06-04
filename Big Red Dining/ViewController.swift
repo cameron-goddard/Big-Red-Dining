@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  DiningBar
+//  Big Red Dining
 //
 //  Created by Cameron Goddard on 12/17/22.
 //
@@ -205,7 +205,7 @@ class ViewController: NSViewController {
     
     @IBAction func infoButtonPressed(_ sender: NSButton) {
         let infoMenu = NSMenu()
-        infoMenu.addItem(withTitle: "About DiningBar", action: #selector(showAboutPanel), keyEquivalent: "")
+        infoMenu.addItem(withTitle: "About Big Red Dining", action: #selector(showAboutPanel), keyEquivalent: "")
         
         let appDelegate = NSApplication.shared.delegate as! AppDelegate
         
@@ -226,7 +226,7 @@ class ViewController: NSViewController {
         infoMenu.addItem(launchAtLoginItem)
         
         infoMenu.addItem(NSMenuItem.separator())
-        infoMenu.addItem(withTitle: "Quit DiningBar", action: #selector(quitApp), keyEquivalent: "q")
+        infoMenu.addItem(withTitle: "Quit Big Red Dining", action: #selector(quitApp), keyEquivalent: "q")
         
         let p = NSPoint(x: -110, y: sender.frame.height+15)
         infoMenu.popUp(positioning: nil, at: p, in: sender)

@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  DiningBar
+//  Big Red Dining
 //
 //  Created by Cameron Goddard on 12/17/22.
 //
