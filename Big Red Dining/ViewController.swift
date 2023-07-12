@@ -41,21 +41,32 @@ class ViewController: NSViewController {
         
         let current = Date()
         
+        // Download API data only if the date has changed
         if dateFormatter.string(from: current) != dateFormatter.string(from: lastMainAPILoad) {
             NetworkManager.getEateryInfo(completion: { json, error in
-                for eatery in json!.data["eateries"]! {
+                // TODO: Handle error gracefully
+                if error != nil {
+                    print("error")
+                }
+                
+                for eatery in json! {
                     if self.allowedEateries.contains(eatery.id) {
                         self.eateries.append(eatery)
                     }
                 }
                 DispatchQueue.main.async {
                     dateFormatter.dateFormat = "dd"
+                    #if TESTING
+                    let currentDay = "10"
+                    #else
                     let currentDay = dateFormatter.string(from: current)
+                    #endif
                     for e in self.eateries {
                         for oh in e.operatingHours {
                             dateFormatter.dateFormat = "yyyy-MM-dd"
                             let date = dateFormatter.date(from: oh.date)
                             dateFormatter.dateFormat = "dd"
+                            dateFormatter.string(from: date!)
                             
                             if currentDay == dateFormatter.string(from: date!) {
                                 for i in 0..<allEateries.count {
@@ -66,8 +77,7 @@ class ViewController: NSViewController {
                             }
                         }
                     }
-                    print("reminder to check line below")
-                    self.listVC?.tableView.reloadData()
+                    self.listVC!.tableView.reloadData()
                 }
             })
             lastMainAPILoad = current
@@ -92,7 +102,6 @@ class ViewController: NSViewController {
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         guard let tabViewController = segue.destinationController
           as? NSTabViewController else { return }
-        
         tabVC = tabViewController
         listVC = tabViewController.tabViewItems[0].viewController as? ListViewController
         infoVC = tabViewController.tabViewItems[1].viewController as? InfoViewController
@@ -100,8 +109,10 @@ class ViewController: NSViewController {
     
     @objc func showEateryInfo(notification: Notification) {
         controlIsLocation = false
+        infoButton.isHidden = true
         let name = notification.object as! String
         
+        // Set eatery display name
         var shortName = ""
         if name.contains("House") {
             shortName = name.components(separatedBy: " ").first!
@@ -146,28 +157,37 @@ class ViewController: NSViewController {
         }
         
         infoVC?.updateInfo(events: events, meals: events.map({ $0.descr }))
-        
         tabVC?.transition(from: listVC!, to: infoVC!, options: .slideLeft)
-        infoButton.isHidden = true
     }
     
     func getSelectedSegment(events: [Event]) -> Int {
+        #if TESTING
+        let current = 1686444300
+        #else
         let current = Int(Date().timeIntervalSince1970)
-        //let current = 1673972729
+        #endif
         
         if events.count == 0 {
             return -1
         }
+        var eventNames: [String] = []
         for i in 0..<events.count {
+            eventNames.append(events[i].descr)
             if current < events[i].endTimestamp {
                 return i
             }
         }
-        return events.count-1
+        
+        // Handle multiple events with the same name (e.g. Morrison's two lunches)
+        if eventNames.count != Set(eventNames).count {
+            return events.count - abs(eventNames.count - Set(eventNames).count) - 1
+        }
+        return events.count - 1
     }
     
     @objc func showEateryList(notification: Notification) {
         controlIsLocation = true
+        infoButton.isHidden = false
         titleField.stringValue = "All Eateries"
         
         mainControl.segmentDistribution = .fillEqually
@@ -181,7 +201,6 @@ class ViewController: NSViewController {
         mainControl.setSelected(true, forSegment: savedLocation)
         
         tabVC?.transition(from: infoVC!, to: listVC!, options: .slideRight)
-        infoButton.isHidden = false
     }
     
     @objc func quitApp() {

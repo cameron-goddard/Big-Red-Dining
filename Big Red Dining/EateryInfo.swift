@@ -7,12 +7,20 @@
 
 import Foundation
 
-struct EateryInfo {
+class EateryInfo {
     let name: String
     let icon: String
     let location: Int
     let id: Int
     var events: [Event]
+    
+    init(name: String, icon: String, location: Int, id: Int, events: [Event]) {
+        self.name = name
+        self.icon = icon
+        self.location = location
+        self.id = id
+        self.events = events
+    }
 }
 
 var allEateries = [

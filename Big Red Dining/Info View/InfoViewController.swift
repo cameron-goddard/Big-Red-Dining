@@ -36,6 +36,7 @@ class InfoViewController: NSViewController {
     }
     
     override func viewWillAppear() {
+        // Update status
         if events.isEmpty {
             currentCategory = []
             openStatus.stringValue = "Closed today"
@@ -45,6 +46,7 @@ class InfoViewController: NSViewController {
         }
         outlineView.reloadData()
         
+        // Update expandAll button
         if let state = UserDefaults.standard.object(forKey: "expandButton") as? NSControl.StateValue {
             expandAll.state = state
         }
@@ -52,24 +54,44 @@ class InfoViewController: NSViewController {
     }
     
     func showCurrentEvent() {
+        #if TESTING
+        let current = 1686444300
+        #else
         let current = Int(Date().timeIntervalSince1970)
-        //let current = 1673972729
+        #endif
+        
+        let currentTime = Date(timeIntervalSince1970: TimeInterval(current))
+        let format = DateFormatter()
+        format.dateFormat = "MM-dd-yyyy HH:mm"
+        format.timeZone = .current
+        let str = format.string(from: currentTime)
+        print("current: \(str)")
+        
+        let formatTime = DateFormatter()
+        formatTime.timeZone = .current
+        formatTime.dateFormat = "h:mm a"
         
         for event in events {
+            print("\(event.descr) opening time: \(format.string(from: Date(timeIntervalSince1970: TimeInterval(event.startTimestamp))))")
+            print("\(event.descr) closing time: \(format.string(from: Date(timeIntervalSince1970: TimeInterval(event.endTimestamp))))")
+            
             if current < event.endTimestamp {
                 
                 // set openStatus
                 if current > event.startTimestamp {
                     let timeRemaining = abs(current - event.endTimestamp)
-                    if timeRemaining <= 30 {
-                        openStatus.stringValue = "Closing in " + String(timeRemaining) + " minutes"
+                    let closingTime = Date(timeIntervalSince1970: TimeInterval(event.endTimestamp))
+                    if timeRemaining <= 30 * 60 {
+                        
+                        openStatus.stringValue = "Closes at " + formatTime.string(from: closingTime)
                     } else {
-                        openStatus.stringValue = "Open now"
+                        openStatus.stringValue = "Open until " + formatTime.string(from: closingTime)
                     }
                 } else {
                     let timeUntilOpen = abs(current - event.startTimestamp)
-                    if timeUntilOpen <= 30 {
-                        openStatus.stringValue = "Opening in " + String(timeUntilOpen) + " minutes"
+                    if timeUntilOpen <= 30 * 60 {
+                        let openingTime = Date(timeIntervalSince1970: TimeInterval(event.startTimestamp))
+                        openStatus.stringValue = "Opens at " + formatTime.string(from: openingTime)
                     } else {
                         let startTime = Date(timeIntervalSince1970: TimeInterval(event.startTimestamp))
                         let dateFormatter = DateFormatter()
@@ -79,6 +101,7 @@ class InfoViewController: NSViewController {
                         openStatus.stringValue = "Opens for " + event.descr.lowercased() + " at " + dateFormatter.string(from: startTime)
                     }
                 }
+                print("---")
                 currentCategory = event.menu
                 return
             }
@@ -168,4 +191,12 @@ extension InfoViewController: NSOutlineViewDelegate {
     func selectionShouldChange(in outlineView: NSOutlineView) -> Bool {
         return false
     }
+}
+
+extension Date {
+
+    static func - (lhs: Date, rhs: Date) -> TimeInterval {
+        return lhs.timeIntervalSinceReferenceDate - rhs.timeIntervalSinceReferenceDate
+    }
+
 }
