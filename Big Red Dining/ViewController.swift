@@ -41,12 +41,14 @@ class ViewController: NSViewController {
         
         let current = Date()
         
-        // Download API data only if the date has changed
-        if dateFormatter.string(from: current) != dateFormatter.string(from: lastMainAPILoad) {
+        // Download API data if the date has changed or if connection failed last time
+        if dateFormatter.string(from: current) != dateFormatter.string(from: lastMainAPILoad) || noEateryInfo {
             NetworkManager.getEateryInfo(completion: { json, error in
-                // TODO: Handle error gracefully
                 if error != nil {
-                    print("error")
+                    noEateryInfo = true
+                    return
+                } else {
+                    noEateryInfo = false
                 }
                 
                 for eatery in json! {

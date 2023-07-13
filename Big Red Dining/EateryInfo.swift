@@ -7,6 +7,8 @@
 
 import Foundation
 
+var noEateryInfo = false
+
 class EateryInfo {
     let name: String
     let icon: String

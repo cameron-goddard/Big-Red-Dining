@@ -86,6 +86,9 @@ class InfoViewController: NSViewController {
     
     func status(for event: Event?) -> String {
         if event == nil {
+            if noEateryInfo {
+                return "Could not get eatery info"
+            }
             return "Closed today"
         }
         
