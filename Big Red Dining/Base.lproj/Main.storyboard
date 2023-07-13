@@ -845,14 +845,6 @@
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
-                                                                <button verticalHuggingPriority="750" fixedFrame="YES" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LoW-mi-Lhw">
-                                                                    <rect key="frame" x="30" y="3" width="119" height="18"/>
-                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                    <buttonCell key="cell" type="bevel" title="Open now" bezelStyle="rounded" image="NSStatusAvailable" imagePosition="left" alignment="left" imageScaling="proportionallyDown" inset="2" id="h4G-6W-BiE">
-                                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                        <font key="font" metaFont="smallSystem"/>
-                                                                    </buttonCell>
-                                                                </button>
                                                                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GaX-lw-qgb">
                                                                     <rect key="frame" x="3" y="5" width="22.5" height="29"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -863,11 +855,26 @@
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="chevron.forward" catalog="system" id="N0q-zI-75K"/>
                                                                 </imageView>
+                                                                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="u92-uT-BJr">
+                                                                    <rect key="frame" x="30" y="4" width="16" height="16"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSStatusAvailable" id="Brg-0S-Wsx"/>
+                                                                </imageView>
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N2V-0Y-wXa">
+                                                                    <rect key="frame" x="44" y="5" width="154" height="14"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Open now" id="PxH-iL-6Qp">
+                                                                        <font key="font" metaFont="system" size="11"/>
+                                                                        <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
                                                             </subviews>
                                                             <connections>
                                                                 <outlet property="icon" destination="GaX-lw-qgb" id="Dlz-gZ-Tc0"/>
                                                                 <outlet property="name" destination="Oho-os-bCy" id="cYe-Mb-Heh"/>
-                                                                <outlet property="status" destination="LoW-mi-Lhw" id="oJZ-td-Pau"/>
+                                                                <outlet property="statusIcon" destination="u92-uT-BJr" id="5kU-OU-x3a"/>
+                                                                <outlet property="statusText" destination="N2V-0Y-wXa" id="DKq-5p-Sxu"/>
                                                                 <outlet property="textField" destination="Oho-os-bCy" id="xOC-aQ-sNo"/>
                                                             </connections>
                                                         </tableCellView>

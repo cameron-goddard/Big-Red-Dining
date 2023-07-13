@@ -98,24 +98,24 @@ extension ListViewController: NSTableViewDataSource {
         print(eatery.name)
         switch getCurrentStatus(events: eatery.events) {
         case .open:
-            eateryCell.status.image! = NSImage(named: "NSStatusAvailable")!
-            eateryCell.status.title = "Open now"
+            eateryCell.statusIcon.image = NSImage(named: "NSStatusAvailable")!
+            eateryCell.statusText.stringValue = "Open now"
         case .openingSoon:
-            eateryCell.status.image! = NSImage(named: "NSStatusPartiallyAvailable")!
-            eateryCell.status.title = "Opening soon"
+            eateryCell.statusIcon.image = NSImage(named: "NSStatusPartiallyAvailable")!
+            eateryCell.statusText.stringValue = "Opening soon"
         case .closingSoon:
-            eateryCell.status.image! = NSImage(named: "NSStatusPartiallyAvailable")!
-            eateryCell.status.title = "Closing soon"
+            eateryCell.statusIcon.image = NSImage(named: "NSStatusPartiallyAvailable")!
+            eateryCell.statusText.stringValue = "Closing soon"
         case let .closed(until: time):
-            eateryCell.status.image! = NSImage(named: "NSStatusUnavailable")!
+            eateryCell.statusIcon.image = NSImage(named: "NSStatusUnavailable")!
             if time == "" {
-                eateryCell.status.title = "Closed"
+                eateryCell.statusText.stringValue = "Closed"
             } else {
-                eateryCell.status.title = "Opens at " + time
+                eateryCell.statusText.stringValue = "Opens at " + time
             }
         default:
-            eateryCell.status.image! = NSImage(named: "NSStatusUnavailable")!
-            eateryCell.status.title = "Closed"
+            eateryCell.statusIcon.image = NSImage(named: "NSStatusUnavailable")!
+            eateryCell.statusText.stringValue = "Closed"
         }
         print("~~~~~~~~~~~~~~~~~~~~~")
         return eateryCell
