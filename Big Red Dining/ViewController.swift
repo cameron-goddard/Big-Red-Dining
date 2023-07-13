@@ -156,7 +156,7 @@ class ViewController: NSViewController {
             mainControl.setSelected(true, forSegment: selected)
         }
         
-        infoVC?.updateInfo(events: events, meals: events.map({ $0.descr }))
+        infoVC?.updateInfo(events: events)
         tabVC?.transition(from: listVC!, to: infoVC!, options: .slideLeft)
     }
     
@@ -210,6 +210,7 @@ class ViewController: NSViewController {
     @objc func showAboutPanel() {
         let appDelegate = NSApplication.shared.delegate as! AppDelegate
         appDelegate.closePopover(nil)
+        NSApplication.shared.activate(ignoringOtherApps: true)
         NSApplication.shared.orderFrontStandardAboutPanel()
     }
     

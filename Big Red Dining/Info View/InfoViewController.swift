@@ -15,6 +15,7 @@ class InfoViewController: NSViewController {
     @IBOutlet weak var openStatus: NSTextField!
     
     var events : [Event] = []
+    var currentEvent : Event?
     
     var breakfastCategories : [MenuCategory] = []
     var lunchCategories : [MenuCategory] = []
@@ -23,6 +24,8 @@ class InfoViewController: NSViewController {
     var currentCategory : [MenuCategory] = []
     
     var menuItems : [MenuItem] = []
+    
+    var currentTime = -1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,14 +39,19 @@ class InfoViewController: NSViewController {
     }
     
     override func viewWillAppear() {
-        // Update status
-        if events.isEmpty {
-            currentCategory = []
-            openStatus.stringValue = "Closed today"
-        }
-        else {
-            showCurrentEvent()
-        }
+        // Update current time
+        #if TESTING
+        currentTime = 1686444300
+        #else
+        currentTime = Int(Date().timeIntervalSince1970)
+        #endif
+        
+        // Get current event and update its status
+        currentEvent = getCurrentEvent()
+        openStatus.stringValue = status(for: currentEvent)
+        
+        // Show current event's menu
+        currentCategory = currentEvent?.menu ?? []
         outlineView.reloadData()
         
         // Update expandAll button
@@ -53,77 +61,67 @@ class InfoViewController: NSViewController {
         expandAllButtonPressed(expandAll)
     }
     
-    func showCurrentEvent() {
-        #if TESTING
-        let current = 1686444300
-        #else
-        let current = Int(Date().timeIntervalSince1970)
-        #endif
+    func getCurrentEvent() -> Event? {
+        if events.isEmpty {
+            return nil
+        }
         
-        let currentTime = Date(timeIntervalSince1970: TimeInterval(current))
-        let format = DateFormatter()
-        format.dateFormat = "MM-dd-yyyy HH:mm"
-        format.timeZone = .current
-        let str = format.string(from: currentTime)
-        print("current: \(str)")
+        // Get event happening now
+        for event in events {
+            if currentTime < event.endTimestamp && currentTime >= event.startTimestamp {
+                return event
+            }
+        }
+        
+        // Get next upcoming event
+        for event in events {
+            if currentTime < event.startTimestamp {
+                return event
+            }
+        }
+        
+        // Get last event that happened
+        return events.last
+    }
+    
+    func status(for event: Event?) -> String {
+        if event == nil {
+            return "Closed today"
+        }
         
         let formatTime = DateFormatter()
         formatTime.timeZone = .current
         formatTime.dateFormat = "h:mm a"
         
-        for event in events {
-            print("\(event.descr) opening time: \(format.string(from: Date(timeIntervalSince1970: TimeInterval(event.startTimestamp))))")
-            print("\(event.descr) closing time: \(format.string(from: Date(timeIntervalSince1970: TimeInterval(event.endTimestamp))))")
-            
-            if current < event.endTimestamp {
-                
-                // set openStatus
-                if current > event.startTimestamp {
-                    let timeRemaining = abs(current - event.endTimestamp)
-                    let closingTime = Date(timeIntervalSince1970: TimeInterval(event.endTimestamp))
-                    if timeRemaining <= 30 * 60 {
-                        
-                        openStatus.stringValue = "Closes at " + formatTime.string(from: closingTime)
-                    } else {
-                        openStatus.stringValue = "Open until " + formatTime.string(from: closingTime)
-                    }
-                } else {
-                    let timeUntilOpen = abs(current - event.startTimestamp)
-                    if timeUntilOpen <= 30 * 60 {
-                        let openingTime = Date(timeIntervalSince1970: TimeInterval(event.startTimestamp))
-                        openStatus.stringValue = "Opens at " + formatTime.string(from: openingTime)
-                    } else {
-                        let startTime = Date(timeIntervalSince1970: TimeInterval(event.startTimestamp))
-                        let dateFormatter = DateFormatter()
-                        dateFormatter.timeZone = TimeZone(abbreviation: "EST")
-                        dateFormatter.dateFormat = "h:mm"
-                        
-                        openStatus.stringValue = "Opens for " + event.descr.lowercased() + " at " + dateFormatter.string(from: startTime)
-                    }
-                }
-                print("---")
-                currentCategory = event.menu
-                return
+        if currentTime < event!.startTimestamp {
+            // Before event started
+            return "Opens at " + formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(event!.startTimestamp)))
+        } else {
+            if currentTime > event!.endTimestamp {
+                // After event ended
+                return "Closed since " + formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(event!.endTimestamp)))
             }
+            // Event is happening now
+            return "Open until " + formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(event!.endTimestamp)))
         }
     }
     
-    func updateInfo(events: [Event], meals: [String]) {
+    func updateInfo(events: [Event]) {
         self.events = events
     }
     
-    func changeMeal(to: Int) {
-        if to == 0 {
+    func changeMeal(to meal: Int) {
+        if meal == 0 {
             if !events.filter({ $0.descr == "Breakfast" }).isEmpty {
                 currentCategory = events.filter({ $0.descr == "Breakfast" })[0].menu
             } else {
                 currentCategory = events.filter({ $0.descr == "Brunch" })[0].menu
             }
         }
-        if to == 1 {
+        if meal == 1 {
             currentCategory = events.filter({ $0.descr == "Lunch" })[0].menu
         }
-        if to == 2 {
+        if meal == 2 {
             currentCategory = events.filter({ $0.descr == "Dinner" })[0].menu
         }
         
@@ -191,12 +189,4 @@ extension InfoViewController: NSOutlineViewDelegate {
     func selectionShouldChange(in outlineView: NSOutlineView) -> Bool {
         return false
     }
-}
-
-extension Date {
-
-    static func - (lhs: Date, rhs: Date) -> TimeInterval {
-        return lhs.timeIntervalSinceReferenceDate - rhs.timeIntervalSinceReferenceDate
-    }
-
 }
