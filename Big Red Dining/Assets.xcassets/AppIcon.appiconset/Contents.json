@@ -1,61 +1,61 @@
 {
   "images" : [
     {
-      "filename" : "BRDining-3-16.png",
+      "filename" : "BRDining-1-16.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "16x16"
     },
     {
-      "filename" : "BRDining-3-32.png",
+      "filename" : "BRDining-1-32.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "16x16"
     },
     {
-      "filename" : "BRDining-3-32.png",
+      "filename" : "BRDining-1-32.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "32x32"
     },
     {
-      "filename" : "BRDining-3-64.png",
+      "filename" : "BRDining-1-64.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "32x32"
     },
     {
-      "filename" : "BRDining-3-128.png",
+      "filename" : "BRDining-1-128.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "128x128"
     },
     {
-      "filename" : "BRDining-3-256.png",
+      "filename" : "BRDining-1-256.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "128x128"
     },
     {
-      "filename" : "BRDining-3-256.png",
+      "filename" : "BRDining-1-256.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "256x256"
     },
     {
-      "filename" : "BRDining-3-512.png",
+      "filename" : "BRDining-1-512.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "256x256"
     },
     {
-      "filename" : "BRDining-3-512.png",
+      "filename" : "BRDining-1-512.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "512x512"
     },
     {
-      "filename" : "BRDining-3-1024.png",
+      "filename" : "BRDining-1-1024.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "512x512"
