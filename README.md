@@ -6,6 +6,9 @@
 Big Red Dining allows you to browse any Cornell University dining hall menu right from the comfort of your menu bar.
 
 <p align="left">
-  <img width="375" alt="ListView" src="https://user-images.githubusercontent.com/47681797/209920165-eda7d782-21d4-4d2d-9ec5-39fdeed673cb.png">
-  <img width="375" alt="InfoView" src="https://user-images.githubusercontent.com/47681797/209920178-5c353e2c-5e26-4709-b888-0fd282c55874.png">
+  <img width="375" alt="ListView" src="https://github.com/cameron-goddard/Big-Red-Dining/assets/47681797/5bbc002a-81de-4dc3-9014-1f25a3df8699">
+  <img width="375" alt="InfoView" src="https://github.com/cameron-goddard/Big-Red-Dining/assets/47681797/9fd9f8ee-9c4f-4ca3-90c9-be2cf3e29bf1">
+
+  
+  
 </p>
