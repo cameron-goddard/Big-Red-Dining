@@ -836,18 +836,23 @@
                                                             <rect key="frame" x="18" y="0.0" width="271" height="40"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Oho-os-bCy">
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Oho-os-bCy">
                                                                     <rect key="frame" x="30" y="20" width="121" height="17"/>
-                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="117" id="XCQ-eC-TlO"/>
+                                                                    </constraints>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Eatery Name" id="vLj-jw-vv7">
                                                                         <font key="font" metaFont="systemSemibold" size="14"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
-                                                                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GaX-lw-qgb">
+                                                                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GaX-lw-qgb">
                                                                     <rect key="frame" x="3" y="5" width="22.5" height="29"/>
-                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="20" id="FMi-eq-1cx"/>
+                                                                        <constraint firstAttribute="width" constant="22" id="jCV-s7-VB2"/>
+                                                                    </constraints>
                                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="atom" catalog="system" id="Gug-jM-seV"/>
                                                                 </imageView>
                                                                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="psw-BL-sWx">
@@ -855,21 +860,30 @@
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="chevron.forward" catalog="system" id="N0q-zI-75K"/>
                                                                 </imageView>
-                                                                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="u92-uT-BJr">
+                                                                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="u92-uT-BJr">
                                                                     <rect key="frame" x="30" y="4" width="16" height="16"/>
-                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSStatusAvailable" id="Brg-0S-Wsx"/>
                                                                 </imageView>
-                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N2V-0Y-wXa">
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N2V-0Y-wXa">
                                                                     <rect key="frame" x="44" y="5" width="154" height="14"/>
-                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Open now" id="PxH-iL-6Qp">
-                                                                        <font key="font" metaFont="system" size="11"/>
+                                                                        <font key="font" metaFont="smallSystem"/>
                                                                         <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
                                                             </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="u92-uT-BJr" firstAttribute="top" secondItem="Oho-os-bCy" secondAttribute="bottom" id="5ll-8I-VkI"/>
+                                                                <constraint firstItem="GaX-lw-qgb" firstAttribute="top" secondItem="HNY-iO-Cto" secondAttribute="top" constant="11" id="FLh-hE-Ojk"/>
+                                                                <constraint firstAttribute="bottom" secondItem="u92-uT-BJr" secondAttribute="bottom" constant="4" id="IYb-No-Jso"/>
+                                                                <constraint firstItem="Oho-os-bCy" firstAttribute="leading" secondItem="GaX-lw-qgb" secondAttribute="trailing" constant="6.5" id="WHu-c9-fpn"/>
+                                                                <constraint firstItem="u92-uT-BJr" firstAttribute="leading" secondItem="GaX-lw-qgb" secondAttribute="trailing" constant="5" id="jHY-4s-6gr"/>
+                                                                <constraint firstItem="N2V-0Y-wXa" firstAttribute="leading" secondItem="u92-uT-BJr" secondAttribute="trailing" id="mPN-tk-kvb"/>
+                                                                <constraint firstAttribute="bottom" secondItem="GaX-lw-qgb" secondAttribute="bottom" constant="9" id="vE2-fC-TnS"/>
+                                                                <constraint firstItem="u92-uT-BJr" firstAttribute="centerY" secondItem="N2V-0Y-wXa" secondAttribute="centerY" id="wfE-6m-GzS"/>
+                                                                <constraint firstItem="GaX-lw-qgb" firstAttribute="leading" secondItem="HNY-iO-Cto" secondAttribute="leading" constant="3" id="y1k-Jh-VfJ"/>
+                                                            </constraints>
                                                             <connections>
                                                                 <outlet property="icon" destination="GaX-lw-qgb" id="Dlz-gZ-Tc0"/>
                                                                 <outlet property="name" destination="Oho-os-bCy" id="cYe-Mb-Heh"/>
