@@ -162,6 +162,7 @@ class ViewController: NSViewController {
         tabVC?.transition(from: listVC!, to: infoVC!, options: .slideLeft)
     }
     
+    // TODO: fix
     func getSelectedSegment(events: [Event]) -> Int {
         #if TESTING
         let current = 1686444300

@@ -69,6 +69,7 @@ class InfoViewController: NSViewController {
         // Get event happening now
         for event in events {
             if currentTime < event.endTimestamp && currentTime >= event.startTimestamp {
+                print("happening now")
                 return event
             }
         }
@@ -94,18 +95,20 @@ class InfoViewController: NSViewController {
         
         let formatTime = DateFormatter()
         formatTime.timeZone = .current
-        formatTime.dateFormat = "h:mm a"
+        formatTime.dateFormat = "h:mma"
+        formatTime.amSymbol = "am"
+        formatTime.pmSymbol = "pm"
         
         if currentTime < event!.startTimestamp {
             // Before event started
-            return "Opens at " + formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(event!.startTimestamp)))
+            return "Opens at " + formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(event!.startTimestamp))).replacingOccurrences(of: ":00", with: "")
         } else {
             if currentTime > event!.endTimestamp {
                 // After event ended
-                return "Closed since " + formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(event!.endTimestamp)))
+                return "Closed since " + formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(event!.endTimestamp))).replacingOccurrences(of: ":00", with: "")
             }
             // Event is happening now
-            return "Open until " + formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(event!.endTimestamp)))
+            return "Open until " + formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(event!.endTimestamp))).replacingOccurrences(of: ":00", with: "")
         }
     }
     

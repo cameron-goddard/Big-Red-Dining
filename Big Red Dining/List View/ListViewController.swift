@@ -68,10 +68,12 @@ class ListViewController: NSViewController {
                     return .openingSoon
                 }
                 let formatTime = DateFormatter()
-                formatTime.dateFormat = "hh:mm a"
+                formatTime.dateFormat = "h:mma"
+                formatTime.amSymbol = "am"
+                formatTime.pmSymbol = "pm"
                 formatTime.timeZone = .current
                 
-                return .closed(until: formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(event.startTimestamp))))
+                return .closed(until: formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(event.startTimestamp))).replacingOccurrences(of: ":00", with: ""))
             }
         }
         return .closed(until: "")
@@ -95,7 +97,7 @@ extension ListViewController: NSTableViewDataSource {
 
         eateryCell.name.stringValue = eatery.name
         eateryCell.icon.image = NSImage(systemSymbolName: eatery.icon, accessibilityDescription: nil)
-        print(eatery.name)
+        
         switch getCurrentStatus(events: eatery.events) {
         case .open:
             eateryCell.statusIcon.image = NSImage(named: "NSStatusAvailable")!
@@ -111,13 +113,12 @@ extension ListViewController: NSTableViewDataSource {
             if time == "" {
                 eateryCell.statusText.stringValue = "Closed"
             } else {
-                eateryCell.statusText.stringValue = "Opens at " + time
+                eateryCell.statusText.stringValue = "Closed until " + time
             }
         default:
             eateryCell.statusIcon.image = NSImage(named: "NSStatusUnavailable")!
             eateryCell.statusText.stringValue = "Closed"
         }
-        print("~~~~~~~~~~~~~~~~~~~~~")
         return eateryCell
     }
 }
