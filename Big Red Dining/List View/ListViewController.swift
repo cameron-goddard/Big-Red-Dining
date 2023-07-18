@@ -13,6 +13,7 @@ enum EateryStatus {
     case closedToday
     case closingSoon
     case openingSoon
+    case error
 }
 
 class ListViewController: NSViewController {
@@ -52,6 +53,10 @@ class ListViewController: NSViewController {
         let format = DateFormatter()
         format.dateFormat = "MM-dd-yyyy HH:mm"
         format.timeZone = .current
+        
+        if noEateryInfo {
+            return .error
+        }
         
         if events.isEmpty {
             return .closedToday
@@ -115,6 +120,9 @@ extension ListViewController: NSTableViewDataSource {
             } else {
                 eateryCell.statusText.stringValue = "Closed until " + time
             }
+        case .error:
+            eateryCell.statusIcon.image = NSImage(named: "NSStatusNone")!
+            eateryCell.statusText.stringValue = "No info"
         default:
             eateryCell.statusIcon.image = NSImage(named: "NSStatusUnavailable")!
             eateryCell.statusText.stringValue = "Closed"

@@ -46,6 +46,10 @@ class ViewController: NSViewController {
             NetworkManager.getEateryInfo(completion: { json, error in
                 if error != nil {
                     noEateryInfo = true
+                    // This might be a hacky way to do it, change
+                    DispatchQueue.main.async {
+                        self.listVC!.tableView.reloadData()
+                    }
                     return
                 } else {
                     noEateryInfo = false
