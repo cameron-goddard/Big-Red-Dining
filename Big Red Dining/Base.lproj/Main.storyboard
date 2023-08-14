@@ -679,7 +679,7 @@
                 <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="68" y="-113"/>
+            <point key="canvasLocation" x="90" y="-8"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="hIz-AP-VOD">
@@ -1036,22 +1036,22 @@
                                     <action selector="expandAllButtonPressed:" target="zqO-KF-5rA" id="aUg-AT-MNm"/>
                                 </connections>
                             </button>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mLN-r1-FIh">
-                                <rect key="frame" x="77" y="162" width="154" height="16"/>
+                            <button fixedFrame="YES" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WMy-96-Xon">
+                                <rect key="frame" x="44" y="162" width="220" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Open 5pm to 8pm" id="Xyd-5a-6Mk">
+                                <buttonCell key="cell" type="square" title="Open until 9:30pm" bezelStyle="shadowlessSquare" image="NSStatusAvailable" imagePosition="left" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="jzN-dB-yC4">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="tertiaryLabelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
+                                </buttonCell>
+                                <color key="contentTintColor" name="tertiaryLabelColor" catalog="System" colorSpace="catalog"/>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
                         <outlet property="back" destination="qEH-TT-SfJ" id="Ccm-KS-oTu"/>
                         <outlet property="expandAll" destination="ggx-5G-Ypx" id="aos-Ym-PBx"/>
-                        <outlet property="openStatus" destination="mLN-r1-FIh" id="hZD-5p-ha2"/>
                         <outlet property="outlineView" destination="kHf-Hp-pf9" id="dMa-hG-5xY"/>
+                        <outlet property="status" destination="WMy-96-Xon" id="yUK-T9-g0T"/>
                     </connections>
                 </viewController>
                 <customObject id="gil-Qg-zau" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

@@ -33,7 +33,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         popover.contentViewController = ViewController.newController()
         
-        eventMonitor = EventMonitor(mask: [NSEvent.EventTypeMask.leftMouseDown, NSEvent.EventTypeMask.rightMouseDown]) { [weak self] event in
+        eventMonitor = EventMonitor(mask: [.leftMouseDown, .rightMouseDown]) { [weak self] event in
             if let popover = self?.popover {
                 if popover.isShown {
                     self?.closePopover(event)

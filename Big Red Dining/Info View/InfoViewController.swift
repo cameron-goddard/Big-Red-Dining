@@ -13,6 +13,7 @@ class InfoViewController: NSViewController {
     @IBOutlet weak var expandAll: NSButton!
     @IBOutlet weak var outlineView: NSOutlineView!
     @IBOutlet weak var openStatus: NSTextField!
+    @IBOutlet weak var status: NSButton!
     
     var events : [Event] = []
     var currentEvent : Event?
@@ -48,7 +49,9 @@ class InfoViewController: NSViewController {
         
         // Get current event and update its status
         currentEvent = getCurrentEvent()
-        openStatus.stringValue = status(for: currentEvent)
+        let returnStatus = currentStatus(for: currentEvent)
+        status.image = returnStatus.0
+        status.title = returnStatus.1
         
         // Show current event's menu
         currentCategory = currentEvent?.menu ?? []
@@ -69,7 +72,6 @@ class InfoViewController: NSViewController {
         // Get event happening now
         for event in events {
             if currentTime < event.endTimestamp && currentTime >= event.startTimestamp {
-                print("happening now")
                 return event
             }
         }
@@ -85,12 +87,12 @@ class InfoViewController: NSViewController {
         return events.last
     }
     
-    func status(for event: Event?) -> String {
+    func currentStatus(for event: Event?) -> (NSImage, String) {
         if event == nil {
             if noEateryInfo {
-                return "Could not get eatery info"
+                return (NSImage(named: "NSStatusNone")!, "Could not get eatery info")
             }
-            return "Closed today"
+            return (NSImage(named: "NSStatusUnavailable")!, "Closed today")
         }
         
         let formatTime = DateFormatter()
@@ -101,14 +103,22 @@ class InfoViewController: NSViewController {
         
         if currentTime < event!.startTimestamp {
             // Before event started
-            return "Opens at " + formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(event!.startTimestamp))).replacingOccurrences(of: ":00", with: "")
+            var image = NSImage(named: "NSStatusUnavailable")
+            if abs(currentTime - event!.startTimestamp) < 30 * 60 {
+                image = .init(named: "NSStatusPartiallyAvailable")
+            }
+            return (image!, "Opens at " + formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(event!.startTimestamp))).replacingOccurrences(of: ":00", with: ""))
         } else {
             if currentTime > event!.endTimestamp {
                 // After event ended
-                return "Closed since " + formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(event!.endTimestamp))).replacingOccurrences(of: ":00", with: "")
+                return (NSImage(named: "NSStatusUnavailable")!, "Closed since " + formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(event!.endTimestamp))).replacingOccurrences(of: ":00", with: ""))
             }
             // Event is happening now
-            return "Open until " + formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(event!.endTimestamp))).replacingOccurrences(of: ":00", with: "")
+            if abs(currentTime - event!.endTimestamp) < 30 * 60 {
+                return (NSImage(named: "NSStatusPartiallyAvailable")!, "Closing at " + formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(event!.endTimestamp))).replacingOccurrences(of: ":00", with: ""))
+            }
+            
+            return (NSImage(named: "NSStatusAvailable")!, "Open until " + formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(event!.endTimestamp))).replacingOccurrences(of: ":00", with: ""))
         }
     }
     
