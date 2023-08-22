@@ -166,10 +166,9 @@ class ViewController: NSViewController {
         tabVC?.transition(from: listVC!, to: infoVC!, options: .slideLeft)
     }
     
-    // TODO: fix
     func getSelectedSegment(events: [Event]) -> Int {
         #if TESTING
-        let current = 1686444300
+        let current = 1686421800
         #else
         let current = Int(Date().timeIntervalSince1970)
         #endif
@@ -185,9 +184,14 @@ class ViewController: NSViewController {
             }
         }
         
+        // This may no longer be relevant since the API changed naming
         // Handle multiple events with the same name (e.g. Morrison's two lunches)
         if eventNames.count != Set(eventNames).count {
             return events.count - abs(eventNames.count - Set(eventNames).count) - 1
+        }
+        // TODO: Fix this monstrosity
+        if events.count == 3 {
+            return 2
         }
         return events.count - 1
     }

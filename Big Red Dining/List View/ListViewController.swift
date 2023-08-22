@@ -45,7 +45,7 @@ class ListViewController: NSViewController {
     
     func getCurrentStatus(events: [Event]) -> EateryStatus {
         #if TESTING
-        let time = 1686444300
+        let time = 1686421800
         #else
         let time = Int(Date().timeIntervalSince1970)
         #endif
@@ -61,10 +61,16 @@ class ListViewController: NSViewController {
         if events.isEmpty {
             return .closedToday
         }
+        
+        var i = 0
         for event in events {
             if time < event.endTimestamp {
-                if time > event.startTimestamp {
+                if time >= event.startTimestamp {
                     if abs(time - event.endTimestamp) < 30 * 60 {
+                        // TODO: Clean this up
+                        if i < events.count && event.endTimestamp == events[i+1].startTimestamp {
+                            return .open
+                        }
                         return .closingSoon
                     }
                     return .open
@@ -80,6 +86,7 @@ class ListViewController: NSViewController {
                 
                 return .closed(until: formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(event.startTimestamp))).replacingOccurrences(of: ":00", with: ""))
             }
+            i += 1
         }
         return .closed(until: "")
     }

@@ -12,15 +12,10 @@ class InfoViewController: NSViewController {
     @IBOutlet weak var back: NSButton!
     @IBOutlet weak var expandAll: NSButton!
     @IBOutlet weak var outlineView: NSOutlineView!
-    @IBOutlet weak var openStatus: NSTextField!
     @IBOutlet weak var status: NSButton!
     
     var events : [Event] = []
-    var currentEvent : Event?
-    
-    var breakfastCategories : [MenuCategory] = []
-    var lunchCategories : [MenuCategory] = []
-    var dinnerCategories : [MenuCategory] = []
+    var curr : Int = -1
     
     var currentCategory : [MenuCategory] = []
     
@@ -42,19 +37,23 @@ class InfoViewController: NSViewController {
     override func viewWillAppear() {
         // Update current time
         #if TESTING
-        currentTime = 1686444300
+        currentTime = 1686421800
         #else
         currentTime = Int(Date().timeIntervalSince1970)
         #endif
         
         // Get current event and update its status
-        currentEvent = getCurrentEvent()
-        let returnStatus = currentStatus(for: currentEvent)
+        curr = getCurrentEvent()
+        let returnStatus = currentStatus(for: curr)
         status.image = returnStatus.0
         status.title = returnStatus.1
         
         // Show current event's menu
-        currentCategory = currentEvent?.menu ?? []
+        if curr == -1 {
+            currentCategory = []
+        } else {
+            currentCategory = events[curr].menu
+        }
         outlineView.reloadData()
         
         // Update expandAll button
@@ -64,31 +63,36 @@ class InfoViewController: NSViewController {
         expandAllButtonPressed(expandAll)
     }
     
-    func getCurrentEvent() -> Event? {
+    func getCurrentEvent() -> Int {
         if events.isEmpty {
-            return nil
+            return -1
         }
         
         // Get event happening now
+        
+        var i = 0
         for event in events {
             if currentTime < event.endTimestamp && currentTime >= event.startTimestamp {
-                return event
+                return i
             }
+            i += 1
         }
         
+        i = 0
         // Get next upcoming event
         for event in events {
             if currentTime < event.startTimestamp {
-                return event
+                return i
             }
+            i += 1
         }
         
         // Get last event that happened
-        return events.last
+        return events.count - 1
     }
     
-    func currentStatus(for event: Event?) -> (NSImage, String) {
-        if event == nil {
+    func currentStatus(for eventIndex: Int) -> (NSImage, String) {
+        if eventIndex == -1 {
             if noEateryInfo {
                 return (NSImage(named: "NSStatusNone")!, "Could not get eatery info")
             }
@@ -101,25 +105,43 @@ class InfoViewController: NSViewController {
         formatTime.amSymbol = "am"
         formatTime.pmSymbol = "pm"
         
-        if currentTime < event!.startTimestamp {
+        let event = events[eventIndex]
+        if currentTime < event.startTimestamp {
             // Before event started
             var image = NSImage(named: "NSStatusUnavailable")
-            if abs(currentTime - event!.startTimestamp) < 30 * 60 {
+            if abs(currentTime - event.startTimestamp) < 30 * 60 {
                 image = .init(named: "NSStatusPartiallyAvailable")
             }
-            return (image!, "Opens at " + formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(event!.startTimestamp))).replacingOccurrences(of: ":00", with: ""))
+            return (image!, "Opens at " + formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(event.startTimestamp))).replacingOccurrences(of: ":00", with: ""))
         } else {
-            if currentTime > event!.endTimestamp {
+            if currentTime > event.endTimestamp {
                 // After event ended
-                return (NSImage(named: "NSStatusUnavailable")!, "Closed since " + formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(event!.endTimestamp))).replacingOccurrences(of: ":00", with: ""))
+                return (NSImage(named: "NSStatusUnavailable")!, "Closed since " + formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(event.endTimestamp))).replacingOccurrences(of: ":00", with: ""))
             }
             // Event is happening now
-            if abs(currentTime - event!.endTimestamp) < 30 * 60 {
-                return (NSImage(named: "NSStatusPartiallyAvailable")!, "Closing at " + formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(event!.endTimestamp))).replacingOccurrences(of: ":00", with: ""))
+            
+            // TODO: This is assuming the next event is > 30 mins in duration
+            if hasNextContiguous(for: eventIndex) {
+                return (NSImage(named: "NSStatusAvailable")!, "Open until " + formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(events[eventIndex+1].endTimestamp))).replacingOccurrences(of: ":00", with: ""))
             }
             
-            return (NSImage(named: "NSStatusAvailable")!, "Open until " + formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(event!.endTimestamp))).replacingOccurrences(of: ":00", with: ""))
+            if abs(currentTime - events[curr].endTimestamp) < 30 * 60 {
+                return (NSImage(named: "NSStatusPartiallyAvailable")!, "Closing at " + formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(event.endTimestamp))).replacingOccurrences(of: ":00", with: ""))
+            }
+            
+            return (NSImage(named: "NSStatusAvailable")!, "Open until " + formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(event.endTimestamp))).replacingOccurrences(of: ":00", with: ""))
         }
+    }
+    
+    func hasNextContiguous(for eventIndex: Int) -> Bool {
+        if eventIndex == events.count - 1 {
+            return false
+        }
+        
+        if events[eventIndex].endTimestamp == events[eventIndex+1].startTimestamp {
+            return true
+        }
+        return false
     }
     
     func updateInfo(events: [Event]) {
