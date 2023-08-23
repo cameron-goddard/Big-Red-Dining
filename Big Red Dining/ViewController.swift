@@ -237,8 +237,6 @@ class ViewController: NSViewController {
         let infoMenu = NSMenu()
         infoMenu.addItem(withTitle: "About Big Red Dining", action: #selector(showAboutPanel), keyEquivalent: "")
         
-        let appDelegate = NSApplication.shared.delegate as! AppDelegate
-        
         infoMenu.addItem(NSMenuItem.separator())
         
         let launchAtLoginItem = NSMenuItem(title: "Launch at login", action: #selector(toggleLaunchAtLogin), keyEquivalent: "")
