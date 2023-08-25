@@ -168,7 +168,7 @@ class ViewController: NSViewController {
     
     func getSelectedSegment(events: [Event]) -> Int {
         #if TESTING
-        let current = 1686421800
+        let current = 1686444300
         #else
         let current = Int(Date().timeIntervalSince1970)
         #endif
