@@ -159,6 +159,9 @@ class ViewController: NSViewController {
                 mainControl.setEnabled(false, forSegment: 1)
                 if selected == 1 { selected += 1 }
             }
+            if selected > 2 {
+                selected = 2
+            }
             mainControl.setSelected(true, forSegment: selected)
         }
         
@@ -189,6 +192,7 @@ class ViewController: NSViewController {
         if eventNames.count != Set(eventNames).count {
             return events.count - abs(eventNames.count - Set(eventNames).count) - 1
         }
+        
         // TODO: Fix this monstrosity
         if events.count == 3 {
             return 2
