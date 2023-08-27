@@ -37,7 +37,7 @@ class InfoViewController: NSViewController {
     override func viewWillAppear() {
         // Update current time
         #if TESTING
-        currentTime = 1686421800
+        currentTime = 1686444300
         #else
         currentTime = Int(Date().timeIntervalSince1970)
         #endif
