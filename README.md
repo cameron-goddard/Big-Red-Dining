@@ -3,7 +3,11 @@
 [![macOS](https://img.shields.io/badge/macOS-11.0+-blue.svg)](https://apps.apple.com/us/app/macos-big-sur/id1526878132?mt=12/)
 [![Swift](https://img.shields.io/badge/Swift-5.7-orange.svg)](https://www.swift.org/blog/swift-5.7-released/)
 
-Big Red Dining allows you to browse any Cornell University dining hall menu right from the comfort of your menu bar.
+Big Red Dining allows you to browse any Cornell University dining hall menu right from the comfort of your menu bar. Not affiliated with Cornell Dining.
+
+Mac App Store version [here](https://apps.apple.com/us/app/big-red-dining/id6461573111?mt=12).
+
+
 
 <p align="left">
   <img width="375" alt="ListView" src="https://github.com/cameron-goddard/Big-Red-Dining/assets/47681797/5bbc002a-81de-4dc3-9014-1f25a3df8699">
