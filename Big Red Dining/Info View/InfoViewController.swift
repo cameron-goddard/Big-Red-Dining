@@ -14,6 +14,7 @@ class InfoViewController: NSViewController {
     @IBOutlet weak var outlineView: NSOutlineView!
     @IBOutlet weak var status: NSButton!
     
+    var name : String = ""
     var events : [Event] = []
     var curr : Int = -1
     
@@ -144,7 +145,9 @@ class InfoViewController: NSViewController {
         return false
     }
     
-    func updateInfo(events: [Event]) {
+    // TODO: Consider changing to pass an entire EateryInfo object instead
+    func updateInfo(name: String, events: [Event]) {
+        self.name = name
         self.events = events
     }
     
@@ -169,6 +172,10 @@ class InfoViewController: NSViewController {
     
     @IBAction func backButtonPressed(_ sender: NSButton) {
         NotificationCenter.default.post(name: Notification.Name("ShowList"), object: nil)
+    }
+    
+    @IBAction func timesButtonPressed(_ sender: NSButton) {
+        NotificationCenter.default.post(name: Notification.Name("ShowTimes"), object: self.name)
     }
     
     @IBAction func expandAllButtonPressed(_ sender: NSButton) {

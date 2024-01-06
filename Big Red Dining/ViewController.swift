@@ -22,6 +22,7 @@ class ViewController: NSViewController {
     var tabVC: NSTabViewController?
     var listVC: ListViewController?
     var infoVC: InfoViewController?
+    var timesVC: TimesViewController?
     
     let allowedEateries = [3, 4, 20, 25, 26, 27, 29, 30, 31, 43]
     var lastMainAPILoad : Date = Date(timeIntervalSince1970: .zero)
@@ -32,6 +33,7 @@ class ViewController: NSViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.showEateryInfo(notification:)), name: Notification.Name("ShowInfo"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.showEateryList(notification:)), name: Notification.Name("ShowList"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showEateryTimes(notification:)), name: Notification.Name("ShowTimes"), object: nil)
     }
     
     override func viewDidAppear() {
@@ -109,8 +111,10 @@ class ViewController: NSViewController {
         guard let tabViewController = segue.destinationController
           as? NSTabViewController else { return }
         tabVC = tabViewController
+        
         listVC = tabViewController.tabViewItems[0].viewController as? ListViewController
         infoVC = tabViewController.tabViewItems[1].viewController as? InfoViewController
+        timesVC = tabViewController.tabViewItems[2].viewController as? TimesViewController
     }
     
     @objc func showEateryInfo(notification: Notification) {
@@ -165,8 +169,19 @@ class ViewController: NSViewController {
             mainControl.setSelected(true, forSegment: selected)
         }
         
-        infoVC?.updateInfo(events: events)
-        tabVC?.transition(from: listVC!, to: infoVC!, options: .slideLeft)
+        if notification.userInfo?["fromTimes"] is Bool {
+            tabVC?.transition(from: timesVC!, to: infoVC!, options: .slideUp)
+        } else {
+            infoVC?.updateInfo(name: name, events: events)
+            tabVC?.transition(from: listVC!, to: infoVC!, options: .slideLeft)
+        }
+    }
+    
+    @objc func showEateryTimes(notification: Notification) {
+        let name = notification.object as! String
+        
+        timesVC?.updateInfo(name: name)
+        tabVC?.transition(from: infoVC!, to: timesVC!, options: .slideDown)
     }
     
     func getSelectedSegment(events: [Event]) -> Int {

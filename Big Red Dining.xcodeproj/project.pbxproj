@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3B46A31129660CA100C26502 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 3B46A31029660CA100C26502 /* LaunchAtLogin */; };
+		3B6CD6422B4752FF006E9445 /* TimesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6CD6412B4752FF006E9445 /* TimesViewController.swift */; };
 		3BC77714295D2C4F00990850 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 3BC77713295D2C4F00990850 /* Sparkle */; };
 		3BDB3B8D294ECF0700ADE2E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB3B8C294ECF0700ADE2E2 /* AppDelegate.swift */; };
 		3BDB3B8F294ECF0700ADE2E2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB3B8E294ECF0700ADE2E2 /* ViewController.swift */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3B6CD6412B4752FF006E9445 /* TimesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimesViewController.swift; sourceTree = "<group>"; };
 		3BC77715295D2E3700990850 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3BDB3B89294ECF0700ADE2E2 /* Big Red Dining.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Big Red Dining.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BDB3B8C294ECF0700ADE2E2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -56,6 +58,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3B6CD6432B47530A006E9445 /* Times View */ = {
+			isa = PBXGroup;
+			children = (
+				3B6CD6412B4752FF006E9445 /* TimesViewController.swift */,
+			);
+			path = "Times View";
+			sourceTree = "<group>";
+		};
 		3BDB3B80294ECF0700ADE2E2 = {
 			isa = PBXGroup;
 			children = (
@@ -84,6 +94,7 @@
 				3BDB3BB22950262A00ADE2E2 /* EventMonitor.swift */,
 				3BDB3BB029501EF200ADE2E2 /* List View */,
 				3BDB3BB129501F0700ADE2E2 /* Info View */,
+				3B6CD6432B47530A006E9445 /* Times View */,
 				3BDB3BA1294F985000ADE2E2 /* Model */,
 				3BDB3B95294ECF0800ADE2E2 /* Big Red Dining.entitlements */,
 			);
@@ -219,6 +230,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3BDB3B8F294ECF0700ADE2E2 /* ViewController.swift in Sources */,
+				3B6CD6422B4752FF006E9445 /* TimesViewController.swift in Sources */,
 				3BDB3BB32950262A00ADE2E2 /* EventMonitor.swift in Sources */,
 				3BDB3BA0294F984400ADE2E2 /* Eatery.swift in Sources */,
 				3BDB3BA9294FADF600ADE2E2 /* ListViewController.swift in Sources */,
