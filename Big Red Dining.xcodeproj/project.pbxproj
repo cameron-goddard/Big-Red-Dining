@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3B46A31129660CA100C26502 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 3B46A31029660CA100C26502 /* LaunchAtLogin */; };
 		3B6CD6422B4752FF006E9445 /* TimesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6CD6412B4752FF006E9445 /* TimesViewController.swift */; };
+		3B6CD6462B48D6E1006E9445 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 3B6CD6452B48D6E1006E9445 /* OrderedCollections */; };
 		3BC77714295D2C4F00990850 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 3BC77713295D2C4F00990850 /* Sparkle */; };
 		3BDB3B8D294ECF0700ADE2E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB3B8C294ECF0700ADE2E2 /* AppDelegate.swift */; };
 		3BDB3B8F294ECF0700ADE2E2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB3B8E294ECF0700ADE2E2 /* ViewController.swift */; };
@@ -52,6 +53,7 @@
 			files = (
 				3B46A31129660CA100C26502 /* LaunchAtLogin in Frameworks */,
 				3BC77714295D2C4F00990850 /* Sparkle in Frameworks */,
+				3B6CD6462B48D6E1006E9445 /* OrderedCollections in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -149,6 +151,7 @@
 			packageProductDependencies = (
 				3BC77713295D2C4F00990850 /* Sparkle */,
 				3B46A31029660CA100C26502 /* LaunchAtLogin */,
+				3B6CD6452B48D6E1006E9445 /* OrderedCollections */,
 			);
 			productName = DiningBar;
 			productReference = 3BDB3B89294ECF0700ADE2E2 /* Big Red Dining.app */;
@@ -181,6 +184,7 @@
 			packageReferences = (
 				3BC77712295D2C4F00990850 /* XCRemoteSwiftPackageReference "Sparkle" */,
 				3B46A30F29660CA100C26502 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
+				3B6CD6442B48D6E1006E9445 /* XCRemoteSwiftPackageReference "swift-collections" */,
 			);
 			productRefGroup = 3BDB3B8A294ECF0700ADE2E2 /* Products */;
 			projectDirPath = "";
@@ -558,6 +562,14 @@
 				kind = branch;
 			};
 		};
+		3B6CD6442B48D6E1006E9445 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-collections.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.6;
+			};
+		};
 		3BC77712295D2C4F00990850 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sparkle-project/Sparkle";
@@ -573,6 +585,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3B46A30F29660CA100C26502 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;
 			productName = LaunchAtLogin;
+		};
+		3B6CD6452B48D6E1006E9445 /* OrderedCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3B6CD6442B48D6E1006E9445 /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = OrderedCollections;
 		};
 		3BC77713295D2C4F00990850 /* Sparkle */ = {
 			isa = XCSwiftPackageProductDependency;

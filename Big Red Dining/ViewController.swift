@@ -24,7 +24,6 @@ class ViewController: NSViewController {
     var infoVC: InfoViewController?
     var timesVC: TimesViewController?
     
-    let allowedEateries = [3, 4, 20, 25, 26, 27, 29, 30, 31, 43]
     var lastMainAPILoad : Date = Date(timeIntervalSince1970: .zero)
     var eateries : [Eatery] = []
     
@@ -57,32 +56,11 @@ class ViewController: NSViewController {
                     noEateryInfo = false
                 }
                 
-                for eatery in json! {
-                    if self.allowedEateries.contains(eatery.id) {
-                        self.eateries.append(eatery)
-                    }
-                }
                 DispatchQueue.main.async {
-                    dateFormatter.dateFormat = "dd"
-                    #if TESTING
-                    let currentDay = "10"
-                    #else
-                    let currentDay = dateFormatter.string(from: current)
-                    #endif
-                    for e in self.eateries {
-                        for oh in e.operatingHours {
-                            dateFormatter.dateFormat = "yyyy-MM-dd"
-                            let date = dateFormatter.date(from: oh.date)
-                            dateFormatter.dateFormat = "dd"
-                            dateFormatter.string(from: date!)
-                            
-                            if currentDay == dateFormatter.string(from: date!) {
-                                for i in 0..<allEateries.count {
-                                    if e.id == allEateries[i].id {
-                                        allEateries[i].events = oh.events
-                                    }
-                                }
-                            }
+                    for e in json! {
+                        // If there exists info for the Eatery with this ID
+                        if let eatery = allEateries[e.id] {
+                            eatery.obj = e
                         }
                     }
                     self.listVC!.tableView.reloadData()
@@ -131,7 +109,7 @@ class ViewController: NSViewController {
         }
         titleField.stringValue = shortName
         
-        let events = allEateries.filter({ $0.name == name })[0].events
+        let events = allEateries.values.filter({ $0.name == name })[0].events
         
         mainControl.segmentDistribution = .fit
         

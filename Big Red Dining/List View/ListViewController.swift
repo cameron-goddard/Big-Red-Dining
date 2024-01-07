@@ -26,7 +26,7 @@ class ListViewController: NSViewController {
         super.viewDidLoad()
         self.tableView.backgroundColor = .clear
         
-        currentEateries = allEateries.filter({
+        currentEateries = allEateries.values.filter({
             $0.location == 0
         })
     }
@@ -37,7 +37,7 @@ class ListViewController: NSViewController {
     }
     
     func changeLocation(location: Int) {
-        currentEateries = allEateries.filter({
+        currentEateries = allEateries.values.filter({
             $0.location == location
         })
         tableView.reloadData()
