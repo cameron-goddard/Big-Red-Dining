@@ -92,7 +92,6 @@
 				3BDB3B90294ECF0800ADE2E2 /* Assets.xcassets */,
 				3BC77715295D2E3700990850 /* Info.plist */,
 				3BDB3B8E294ECF0700ADE2E2 /* ViewController.swift */,
-				3BDB3BB429518DB200ADE2E2 /* EateryInfo.swift */,
 				3BDB3BB22950262A00ADE2E2 /* EventMonitor.swift */,
 				3BDB3BB029501EF200ADE2E2 /* List View */,
 				3BDB3BB129501F0700ADE2E2 /* Info View */,
@@ -107,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				3BDB3B9F294F984400ADE2E2 /* Eatery.swift */,
+				3BDB3BB429518DB200ADE2E2 /* EateryInfo.swift */,
 				3BDB3BA2294F986400ADE2E2 /* Dining API.swift */,
 			);
 			path = Model;

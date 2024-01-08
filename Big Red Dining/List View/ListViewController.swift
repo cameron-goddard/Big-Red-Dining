@@ -20,15 +20,14 @@ class ListViewController: NSViewController {
     
     @IBOutlet weak var tableView: NSTableView!
     
-    var currentEateries : [EateryInfo] = []
+    //var currentEateries : [EateryInfo] = []
+    var currentDiningHalls : [EateryInfo] = []
+    var currentCafes : [EateryInfo] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.backgroundColor = .clear
-        
-        currentEateries = allEateries.values.filter({
-            $0.location == 0
-        })
+        changeLocation(location: 0)
     }
     
     override func viewDidAppear() {
@@ -37,9 +36,14 @@ class ListViewController: NSViewController {
     }
     
     func changeLocation(location: Int) {
-        currentEateries = allEateries.values.filter({
-            $0.location == location
+        currentDiningHalls = allEateries.values.filter({
+            $0.location == location && !$0.isCafe
         })
+
+        currentCafes = allEateries.values.filter({
+            $0.location == location && $0.isCafe
+        })
+        
         tableView.reloadData()
     }
     
@@ -90,12 +94,19 @@ class ListViewController: NSViewController {
         }
         return .closed(until: "")
     }
+    
+    func getEateryFromRow(row: Int) -> EateryInfo {
+        if row < currentDiningHalls.count {
+            return currentDiningHalls[row]
+        }
+        return currentCafes[row - 1 - currentDiningHalls.count]
+    }
 }
 
 extension ListViewController: NSTableViewDataSource {
 
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return currentEateries.count
+        return currentDiningHalls.count + currentCafes.count + 1
     }
 
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
@@ -103,9 +114,14 @@ extension ListViewController: NSTableViewDataSource {
     }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        if row == currentDiningHalls.count {
+            guard let separatorCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "separatorCell"), owner: self) as? NSTableCellView else { return nil }
+            
+            return separatorCell
+        }
         guard let eateryCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "eateryCell"), owner: self) as? EateryCell else { return nil }
         
-        let eatery = currentEateries[row]
+        let eatery = getEateryFromRow(row: row)
 
         eateryCell.name.stringValue = eatery.name
         eateryCell.icon.image = NSImage(systemSymbolName: eatery.icon, accessibilityDescription: nil)
@@ -144,7 +160,15 @@ extension ListViewController: NSTableViewDelegate {
         let row = tableView.selectedRow
         tableView.deselectRow(row)
         if row != -1 {
-            NotificationCenter.default.post(name: Notification.Name("ShowInfo"), object: currentEateries[row].name)
+            NotificationCenter.default.post(name: Notification.Name("ShowInfo"), object: getEateryFromRow(row: row).name)
         }
+    }
+    
+    func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
+        let view = tableView.view(atColumn: 0, row: row, makeIfNecessary: true)
+        if !(view is EateryCell) {
+            return false
+        }
+        return true
     }
 }

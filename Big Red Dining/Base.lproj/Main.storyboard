@@ -896,6 +896,16 @@
                                                                 <outlet property="textField" destination="Oho-os-bCy" id="xOC-aQ-sNo"/>
                                                             </connections>
                                                         </tableCellView>
+                                                        <tableCellView identifier="separatorCell" id="PfG-rO-cHS">
+                                                            <rect key="frame" x="18" y="40" width="271" height="40"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <subviews>
+                                                                <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="cxO-xC-EsE">
+                                                                    <rect key="frame" x="3" y="17" width="265" height="5"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                </box>
+                                                            </subviews>
+                                                        </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
                                             </tableColumns>
