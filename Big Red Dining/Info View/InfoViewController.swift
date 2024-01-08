@@ -146,9 +146,9 @@ class InfoViewController: NSViewController {
     }
     
     // TODO: Consider changing to pass an entire EateryInfo object instead
-    func updateInfo(name: String, events: [Event]) {
-        self.name = name
-        self.events = events
+    func updateInfo(eatery: EateryInfo) {
+        self.name = eatery.name
+        self.events = eatery.events
     }
     
     func changeMeal(to meal: Int) {

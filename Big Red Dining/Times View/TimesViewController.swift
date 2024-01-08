@@ -11,22 +11,46 @@ class TimesViewController: NSViewController {
     
     @IBOutlet weak var tableView: NSTableView!
     
-    var name: String = ""
-    var days: [String] = ["Sunday", "Monday to Thursday", "Friday", "Saturday"]
-    var hours: [String] = ["6:00pm - 12:00am", "11:00am - 3:00am", "Closed", "Closed"]
+    var eatery: EateryInfo?
+    var days: [String] = []
+    var hours: [String] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.backgroundColor = .clear
     }
     
-    func updateInfo(name: String) {
-        self.name = name
+    override func viewWillAppear() {
+        super.viewWillAppear()
+        tableView.reloadData()
+    }
+    
+    func updateInfo(eatery: EateryInfo) {
+        days = []
+        hours = []
+        self.eatery = eatery
+        let oh = eatery.obj!.operatingHours
+        let formatter = DateFormatter()
         
+        for i in 1..<oh.count {
+            formatter.dateFormat = "yyyy-MM-dd"
+            let date = formatter.date(from: oh[i].date)!
+            formatter.dateFormat = "EEEE"
+            days.append(formatter.string(from: date))
+            
+            // TODO: Combine identical adjacent times
+            if oh[i].events.isEmpty {
+                hours.append("Closed")
+            } else {
+                let start = oh[i].events.first!.start
+                let end = oh[i].events.last!.end
+                hours.append("\(start) - \(end)")
+            }
+        }
     }
     
     @IBAction func exitButtonPressed(_ sender: NSButton) {
-        NotificationCenter.default.post(name: Notification.Name("ShowInfo"), object: self.name, userInfo: ["fromTimes": true])
+        NotificationCenter.default.post(name: Notification.Name("ShowInfo"), object: self.eatery!.name, userInfo: ["fromTimes": true])
     }
 }
 
@@ -36,7 +60,7 @@ extension TimesViewController: NSTableViewDataSource {
     }
 
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
-        return 25
+        return 19
     }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {

@@ -109,7 +109,7 @@ class ViewController: NSViewController {
         }
         titleField.stringValue = shortName
         
-        let events = allEateries.values.filter({ $0.name == name })[0].events
+        let e = allEateries.values.filter({ $0.name == name })[0]
         
         mainControl.segmentDistribution = .fit
         
@@ -117,13 +117,13 @@ class ViewController: NSViewController {
         mainControl.setLabel("Lunch", forSegment: 1)
         mainControl.setLabel("Dinner", forSegment: 2)
         
-        var selected = getSelectedSegment(events: events)
+        var selected = getSelectedSegment(events: e.events)
         
         if selected == -1 {
             for i in 0..<3 { mainControl.setSelected(false, forSegment: i) }
             for i in 0..<3 { mainControl.setEnabled(false, forSegment: i) }
         } else {
-            let meals = events.map({ $0.descr })
+            let meals = e.events.map({ $0.descr })
             
             if !meals.contains("Breakfast") {
                 mainControl.setEnabled(false, forSegment: 0)
@@ -150,15 +150,15 @@ class ViewController: NSViewController {
         if notification.userInfo?["fromTimes"] is Bool {
             tabVC?.transition(from: timesVC!, to: infoVC!, options: .slideUp)
         } else {
-            infoVC?.updateInfo(name: name, events: events)
+            infoVC?.updateInfo(eatery: e)
             tabVC?.transition(from: listVC!, to: infoVC!, options: .slideLeft)
         }
     }
     
     @objc func showEateryTimes(notification: Notification) {
         let name = notification.object as! String
-        
-        timesVC?.updateInfo(name: name)
+        let e = allEateries.values.filter({ $0.name == name })[0] // TODO: Change this, pass eatery object
+        timesVC?.updateInfo(eatery: e)
         tabVC?.transition(from: infoVC!, to: timesVC!, options: .slideDown)
     }
     
