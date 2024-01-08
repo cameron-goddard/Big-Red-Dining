@@ -854,7 +854,6 @@
                                                                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GaX-lw-qgb">
                                                                     <rect key="frame" x="3" y="5" width="22.5" height="29"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="height" constant="20" id="FMi-eq-1cx"/>
                                                                         <constraint firstAttribute="width" constant="22" id="jCV-s7-VB2"/>
                                                                     </constraints>
                                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="atom" catalog="system" id="Gug-jM-seV"/>
@@ -897,11 +896,11 @@
                                                             </connections>
                                                         </tableCellView>
                                                         <tableCellView identifier="separatorCell" id="PfG-rO-cHS">
-                                                            <rect key="frame" x="18" y="40" width="271" height="40"/>
+                                                            <rect key="frame" x="18" y="40" width="271" height="20"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="cxO-xC-EsE">
-                                                                    <rect key="frame" x="3" y="17" width="265" height="5"/>
+                                                                    <rect key="frame" x="3" y="7" width="265" height="5"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 </box>
                                                             </subviews>
