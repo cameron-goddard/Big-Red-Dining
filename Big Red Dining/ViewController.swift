@@ -100,14 +100,7 @@ class ViewController: NSViewController {
         infoButton.isHidden = true
         let name = notification.object as! String
         
-        // Set eatery display name
-        var shortName = ""
-        if name.contains("House") {
-            shortName = name.components(separatedBy: " ").first!
-        } else {
-            shortName = name
-        }
-        titleField.stringValue = shortName
+        titleField.stringValue = name
         
         let e = allEateries.values.filter({ $0.name == name })[0]
         
@@ -116,6 +109,9 @@ class ViewController: NSViewController {
         mainControl.setLabel("Breakfast", forSegment: 0)
         mainControl.setLabel("Lunch", forSegment: 1)
         mainControl.setLabel("Dinner", forSegment: 2)
+        
+        // Necessary to enable all when coming back from times view
+        for i in 0..<3 { mainControl.setEnabled(true, forSegment: i) }
         
         var selected = getSelectedSegment(events: e.events)
         
@@ -159,6 +155,10 @@ class ViewController: NSViewController {
         let name = notification.object as! String
         let e = allEateries.values.filter({ $0.name == name })[0] // TODO: Change this, pass eatery object
         timesVC?.updateInfo(eatery: e)
+        for i in 0..<3 {
+            mainControl.setSelected(false, forSegment: i)
+            mainControl.setEnabled(false, forSegment: i)
+        }
         tabVC?.transition(from: infoVC!, to: timesVC!, options: .slideDown)
     }
     

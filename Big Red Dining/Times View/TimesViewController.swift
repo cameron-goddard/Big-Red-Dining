@@ -35,10 +35,9 @@ class TimesViewController: NSViewController {
         for i in 1..<oh.count {
             formatter.dateFormat = "yyyy-MM-dd"
             let date = formatter.date(from: oh[i].date)!
-            formatter.dateFormat = "EEEE"
+            formatter.dateFormat = "E"
             days.append(formatter.string(from: date))
             
-            // TODO: Combine identical adjacent times
             if oh[i].events.isEmpty {
                 hours.append("Closed")
             } else {
@@ -47,6 +46,42 @@ class TimesViewController: NSViewController {
                 hours.append("\(start) - \(end)")
             }
         }
+        
+        var streak = false
+        var streakStart : String = ""
+        
+        var combinedDays : [String] = []
+        var combinedHours : [String] = []
+        
+        for i in 0..<hours.count - 1 {
+            if hours[i] == hours[i+1] {
+                if !streak {
+                    streak = true
+                    streakStart = days[i]
+                }
+                if i == hours.count - 2 {
+                    combinedDays.append("\(streakStart) to \(days[i+1])")
+                    combinedHours.append(hours[i+1])
+                }
+            } else {
+                if streak {
+                    combinedDays.append("\(streakStart) to \(days[i])")
+                    combinedHours.append(hours[i])
+                    
+                    streak = false
+                    streakStart = ""
+                } else {
+                    combinedDays.append(days[i])
+                    combinedHours.append(hours[i])
+                }
+                if i == hours.count - 2 {
+                    combinedDays.append(days[i+1])
+                    combinedHours.append(hours[i+1])
+                }
+            }
+        }
+        days = combinedDays
+        hours = combinedHours
     }
     
     @IBAction func exitButtonPressed(_ sender: NSButton) {
@@ -60,7 +95,7 @@ extension TimesViewController: NSTableViewDataSource {
     }
 
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
-        return 19
+        return 25
     }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
