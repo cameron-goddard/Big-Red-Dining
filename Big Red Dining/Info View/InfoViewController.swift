@@ -22,6 +22,8 @@ class InfoViewController: NSViewController {
     
     var menuItems : [MenuItem] = []
     
+    var eatery : EateryInfo? // TODO: Investigate a constructor so this doesn't have to be optional
+    
     var currentTime = -1
     
     override func viewDidLoad() {
@@ -70,7 +72,6 @@ class InfoViewController: NSViewController {
         }
         
         // Get event happening now
-        
         var i = 0
         for event in events {
             if currentTime < event.endTimestamp && currentTime >= event.startTimestamp {
@@ -79,8 +80,8 @@ class InfoViewController: NSViewController {
             i += 1
         }
         
-        i = 0
         // Get next upcoming event
+        i = 0
         for event in events {
             if currentTime < event.startTimestamp {
                 return i
@@ -145,10 +146,10 @@ class InfoViewController: NSViewController {
         return false
     }
     
-    // TODO: Consider changing to pass an entire EateryInfo object instead
     func updateInfo(eatery: EateryInfo) {
         self.name = eatery.name
         self.events = eatery.events
+        self.eatery = eatery
     }
     
     func changeMeal(to meal: Int) {

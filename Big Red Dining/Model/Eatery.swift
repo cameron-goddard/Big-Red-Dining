@@ -16,6 +16,12 @@ struct Eatery: Decodable {
     let id : Int
     let name : String
     let operatingHours : [OperatingHours]
+    let diningItems : [DiningItem]
+}
+
+struct DiningItem: Decodable {
+    let category : String
+    let item : String
 }
 
 struct OperatingHours: Decodable {
@@ -35,7 +41,7 @@ struct Event: Decodable {
 
 struct MenuCategory: Decodable {
     let category: String
-    let items: [MenuItem]
+    var items: [MenuItem]
 }
 
 struct MenuItem: Decodable {
