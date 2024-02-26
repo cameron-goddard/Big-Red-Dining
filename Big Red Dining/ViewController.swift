@@ -98,11 +98,9 @@ class ViewController: NSViewController {
     @objc func showEateryInfo(notification: Notification) {
         controlIsLocation = false
         infoButton.isHidden = true
-        let name = notification.object as! String
+        let e = notification.object as! EateryInfo
         
-        titleField.stringValue = name
-        
-        let e = allEateries.values.filter({ $0.name == name })[0]
+        titleField.stringValue = e.name
         
         mainControl.segmentDistribution = .fit
         
@@ -110,39 +108,47 @@ class ViewController: NSViewController {
         mainControl.setLabel("Lunch", forSegment: 1)
         mainControl.setLabel("Dinner", forSegment: 2)
         
-        // Necessary to enable all when coming back from times view
-        for i in 0..<3 { mainControl.setEnabled(true, forSegment: i) }
-        
-        var selected = getSelectedSegment(events: e.events)
-        
-        if selected == -1 {
-            for i in 0..<3 { mainControl.setSelected(false, forSegment: i) }
-            for i in 0..<3 { mainControl.setEnabled(false, forSegment: i) }
+        if e.isCafe {
+            for i in 0..<3 {
+                mainControl.setSelected(false, forSegment: i)
+                mainControl.setEnabled(false, forSegment: i)
+            }
         } else {
-            let meals = e.events.map({ $0.descr })
+            // Necessary to enable all when coming back from times view
+            for i in 0..<3 { mainControl.setEnabled(true, forSegment: i) }
             
-            if !meals.contains("Breakfast") {
-                mainControl.setEnabled(false, forSegment: 0)
-                selected += 1
+            var selected = getSelectedSegment(events: e.events)
+            
+            if selected == -1 {
+                for i in 0..<3 { mainControl.setSelected(false, forSegment: i) }
+                for i in 0..<3 { mainControl.setEnabled(false, forSegment: i) }
+            } else {
+                let meals = e.events.map({ $0.descr })
+                
+                if !meals.contains("Breakfast") {
+                    mainControl.setEnabled(false, forSegment: 0)
+                    selected += 1
+                }
+                if !meals.contains("Lunch") {
+                    mainControl.setEnabled(false, forSegment: 1)
+                    if selected == 1 { selected += 1 }
+                }
+                if !meals.contains("Dinner") {
+                    mainControl.setEnabled(false, forSegment: 2)
+                }
+                if meals.contains("Brunch") {
+                    mainControl.setLabel("Brunch", forSegment: 0)
+                    mainControl.setEnabled(false, forSegment: 1)
+                    if selected == 1 { selected += 1 }
+                }
+                if selected > 2 {
+                    selected = 2
+                }
+                mainControl.setSelected(true, forSegment: selected)
             }
-            if !meals.contains("Lunch") {
-                mainControl.setEnabled(false, forSegment: 1)
-                if selected == 1 { selected += 1 }
-            }
-            if !meals.contains("Dinner") {
-                mainControl.setEnabled(false, forSegment: 2)
-            }
-            if meals.contains("Brunch") {
-                mainControl.setLabel("Brunch", forSegment: 0)
-                mainControl.setEnabled(false, forSegment: 1)
-                if selected == 1 { selected += 1 }
-            }
-            if selected > 2 {
-                selected = 2
-            }
-            mainControl.setSelected(true, forSegment: selected)
         }
         
+        // Handle display of main view
         if notification.userInfo?["fromTimes"] is Bool {
             tabVC?.transition(from: timesVC!, to: infoVC!, options: .slideUp)
         } else {
@@ -152,8 +158,7 @@ class ViewController: NSViewController {
     }
     
     @objc func showEateryTimes(notification: Notification) {
-        let name = notification.object as! String
-        let e = allEateries.values.filter({ $0.name == name })[0] // TODO: Change this, pass eatery object
+        let e = notification.object as! EateryInfo
         timesVC?.updateInfo(eatery: e)
         for i in 0..<3 {
             mainControl.setSelected(false, forSegment: i)

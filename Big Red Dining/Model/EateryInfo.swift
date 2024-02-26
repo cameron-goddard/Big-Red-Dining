@@ -23,7 +23,7 @@ class EateryInfo {
                     if let index = menu.firstIndex(where: { $0.category == item.category }) {
                         menu[index].items.append(MenuItem(item: item.item, healthy: false))
                     } else {
-                        var category = MenuCategory(category: item.category, items: [MenuItem(item: item.item, healthy: false)])
+                        let category = MenuCategory(category: item.category, items: [MenuItem(item: item.item, healthy: false)])
                         menu.append(category)
                     }
                 }

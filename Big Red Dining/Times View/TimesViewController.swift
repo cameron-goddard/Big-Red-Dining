@@ -85,7 +85,7 @@ class TimesViewController: NSViewController {
     }
     
     @IBAction func exitButtonPressed(_ sender: NSButton) {
-        NotificationCenter.default.post(name: Notification.Name("ShowInfo"), object: self.eatery!.name, userInfo: ["fromTimes": true])
+        NotificationCenter.default.post(name: Notification.Name("ShowInfo"), object: self.eatery, userInfo: ["fromTimes": true])
     }
 }
 

@@ -20,7 +20,6 @@ class ListViewController: NSViewController {
     
     @IBOutlet weak var tableView: NSTableView!
     
-    //var currentEateries : [EateryInfo] = []
     var currentDiningHalls : [EateryInfo] = []
     var currentCafes : [EateryInfo] = []
 
@@ -163,7 +162,7 @@ extension ListViewController: NSTableViewDelegate {
         let row = tableView.selectedRow
         tableView.deselectRow(row)
         if row != -1 {
-            NotificationCenter.default.post(name: Notification.Name("ShowInfo"), object: getEateryFromRow(row: row).name)
+            NotificationCenter.default.post(name: Notification.Name("ShowInfo"), object: getEateryFromRow(row: row))
         }
     }
     
