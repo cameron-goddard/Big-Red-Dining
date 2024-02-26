@@ -896,11 +896,24 @@
                                                             </connections>
                                                         </tableCellView>
                                                         <tableCellView identifier="separatorCell" id="PfG-rO-cHS">
-                                                            <rect key="frame" x="18" y="40" width="271" height="20"/>
+                                                            <rect key="frame" x="18" y="40" width="271" height="30"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="cxO-xC-EsE">
-                                                                    <rect key="frame" x="3" y="7" width="265" height="5"/>
+                                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KY0-eM-NFL">
+                                                                    <rect key="frame" x="29" y="7" width="42" height="16"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Cafés" id="9qJ-cu-Biq">
+                                                                        <font key="font" metaFont="systemBold"/>
+                                                                        <color key="textColor" name="tertiaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                                <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="dNj-0h-Apa">
+                                                                    <rect key="frame" x="77" y="12" width="191" height="5"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                </box>
+                                                                <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="bP2-8e-xOx">
+                                                                    <rect key="frame" x="3" y="12" width="20" height="5"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 </box>
                                                             </subviews>
@@ -933,7 +946,7 @@
                 </viewController>
                 <customObject id="6MA-Gk-GuB" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="555" y="381"/>
+            <point key="canvasLocation" x="555" y="417"/>
         </scene>
         <!--Info View Controller-->
         <scene sceneID="Ac1-xw-aRh">
@@ -1072,7 +1085,7 @@
                 </viewController>
                 <customObject id="gil-Qg-zau" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="555" y="618"/>
+            <point key="canvasLocation" x="555" y="688"/>
         </scene>
         <!--Times View Controller-->
         <scene sceneID="C1I-4k-DOT">
@@ -1165,7 +1178,7 @@
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField identifier="hourCell" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="drR-Fd-vpZ">
-                                                                    <rect key="frame" x="0.0" y="4" width="115" height="16"/>
+                                                                    <rect key="frame" x="0.0" y="4" width="120" height="16"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="left" title="Hours" id="Raa-kK-EWF">
                                                                         <font key="font" usesAppearanceFont="YES"/>
@@ -1206,7 +1219,7 @@
                 </viewController>
                 <customObject id="a2F-vd-EVe" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="555" y="914"/>
+            <point key="canvasLocation" x="555" y="958"/>
         </scene>
     </scenes>
     <resources>

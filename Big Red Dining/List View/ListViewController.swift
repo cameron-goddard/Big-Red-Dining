@@ -110,7 +110,7 @@ extension ListViewController: NSTableViewDataSource {
 
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         if row == currentDiningHalls.count {
-            return 20
+            return 30
         }
         return 40
     }
