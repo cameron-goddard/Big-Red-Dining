@@ -22,9 +22,9 @@ class EateryInfo {
                 var menu : [MenuCategory] = []
                 for item in obj!.diningItems {
                     if let index = menu.firstIndex(where: { $0.category == item.category }) {
-                        menu[index].items.append(MenuItem(item: item.item, healthy: false))
+                        menu[index].items.append(MenuItem(item: item.item))
                     } else {
-                        let category = MenuCategory(category: item.category, items: [MenuItem(item: item.item, healthy: false)])
+                        let category = MenuCategory(category: item.category, items: [MenuItem(item: item.item)])
                         menu.append(category)
                     }
                 }
@@ -48,7 +48,7 @@ class EateryInfo {
         self.location = location
         self.isCafe = isCafe
         self.obj = obj
-        self.events = [] // TODO: Change to Optional to account for no data available
+        self.events = []
     }
 }
 
@@ -90,5 +90,4 @@ var allEateries : OrderedDictionary = [
     21: EateryInfo(name: "Rusty's", icon: "cup.and.saucer.fill", location: 1, isCafe: true),
     23: EateryInfo(name: "Trillium", icon: "cup.and.saucer.fill", location: 1, isCafe: true),
     45: EateryInfo(name: "Vet School", icon: "cup.and.saucer.fill", location: 1, isCafe: true),
-    
 ]

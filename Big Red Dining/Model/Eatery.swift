@@ -46,5 +46,4 @@ struct MenuCategory: Decodable {
 
 struct MenuItem: Decodable {
     let item: String
-    let healthy: Bool
 }

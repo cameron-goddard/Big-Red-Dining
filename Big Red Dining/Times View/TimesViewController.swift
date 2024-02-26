@@ -29,7 +29,7 @@ class TimesViewController: NSViewController {
         days = []
         hours = []
         self.eatery = eatery
-        let oh = eatery.obj!.operatingHours
+        guard let oh = eatery.obj?.operatingHours else { return }
         let formatter = DateFormatter()
         
         for i in 1..<oh.count {

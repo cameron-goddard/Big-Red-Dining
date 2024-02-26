@@ -14,14 +14,12 @@ class InfoViewController: NSViewController {
     @IBOutlet weak var outlineView: NSOutlineView!
     @IBOutlet weak var status: NSButton!
     
+    var eatery : EateryInfo?
     var events : [Event] = []
     var curr : Int = -1
     
     var currentCategory : [MenuCategory] = []
-    
     var menuItems : [MenuItem] = []
-    
-    var eatery : EateryInfo?
     
     var currentTime = -1
     
