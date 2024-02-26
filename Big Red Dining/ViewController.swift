@@ -100,7 +100,11 @@ class ViewController: NSViewController {
         infoButton.isHidden = true
         let e = notification.object as! EateryInfo
         
-        titleField.stringValue = e.name
+        if (e.shortName == "") {
+            titleField.stringValue = e.name
+        } else {
+            titleField.stringValue = e.shortName
+        }
         
         mainControl.segmentDistribution = .fit
         

@@ -21,7 +21,7 @@ class InfoViewController: NSViewController {
     
     var menuItems : [MenuItem] = []
     
-    var eatery : EateryInfo? // TODO: Investigate a constructor so this doesn't have to be optional
+    var eatery : EateryInfo?
     
     var currentTime = -1
     

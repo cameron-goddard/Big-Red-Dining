@@ -12,6 +12,7 @@ var noEateryInfo = false
 
 class EateryInfo {
     let name: String
+    let shortName: String
     let icon: String
     let location: Int
     let isCafe: Bool
@@ -40,8 +41,9 @@ class EateryInfo {
     }
     var events: [Event]
     
-    init(name: String, icon: String, location: Int, isCafe: Bool = false, obj: Eatery? = nil) {
+    init(name: String, shortName: String = "", icon: String, location: Int, isCafe: Bool = false, obj: Eatery? = nil) {
         self.name = name
+        self.shortName = shortName
         self.icon = icon
         self.location = location
         self.isCafe = isCafe
@@ -50,7 +52,6 @@ class EateryInfo {
     }
 }
 
-// TODO: Consider adding list names and info names fields
 var allEateries : OrderedDictionary = [
     // North
     43: EateryInfo(name: "Morrison", icon: "text.book.closed", location: 2),
@@ -76,18 +77,18 @@ var allEateries : OrderedDictionary = [
     7: EateryInfo(name: "Libe", icon: "cup.and.saucer.fill", location: 1, isCafe: true),
     8: EateryInfo(name: "Atrium", icon: "cup.and.saucer.fill", location: 1, isCafe: true),
     10: EateryInfo(name: "Big Red Barn", icon: "cup.and.saucer.fill", location: 1, isCafe: true),
-    11: EateryInfo(name: "Bus Stop Bagels", icon: "cup.and.saucer.fill", location: 1, isCafe: true),
+    11: EateryInfo(name: "Bus Stop Bagels", shortName: "Bagels", icon: "cup.and.saucer.fill", location: 1, isCafe: true),
     12: EateryInfo(name: "Café Jennie", icon: "cup.and.saucer.fill", location: 1, isCafe: true),
-    13: EateryInfo(name: "Straight from the Market", icon: "cup.and.saucer.fill", location: 1, isCafe: true),
+    13: EateryInfo(name: "Straight from the Market", shortName: "Market", icon: "cup.and.saucer.fill", location: 1, isCafe: true),
     14: EateryInfo(name: "Dairy Bar", icon: "cup.and.saucer.fill", location: 1, isCafe: true),
-    32: EateryInfo(name: "Franny's", icon: "truck.box.fill", location: 1, isCafe: true),
+    32: EateryInfo(name: "Franny's", icon: "cup.and.saucer.fill", location: 1, isCafe: true),
     16: EateryInfo(name: "Goldie's", icon: "cup.and.saucer.fill", location: 1, isCafe: true),
-    15: EateryInfo(name: "Green Dragon", icon: "cup.and.saucer.fill", location: 1, isCafe: true),
+    15: EateryInfo(name: "Green Dragon", shortName: "Dragon", icon: "cup.and.saucer.fill", location: 1, isCafe: true),
     42: EateryInfo(name: "Mann", icon: "cup.and.saucer.fill", location: 1, isCafe: true),
     18: EateryInfo(name: "Martha's", icon: "cup.and.saucer.fill", location: 1, isCafe: true),
     19: EateryInfo(name: "Mattin's", icon: "cup.and.saucer.fill", location: 1, isCafe: true),
     21: EateryInfo(name: "Rusty's", icon: "cup.and.saucer.fill", location: 1, isCafe: true),
-    23: EateryInfo(name: "Trillium", icon: "takeoutbag.and.cup.and.straw.fill", location: 1, isCafe: true),
+    23: EateryInfo(name: "Trillium", icon: "cup.and.saucer.fill", location: 1, isCafe: true),
     45: EateryInfo(name: "Vet School", icon: "cup.and.saucer.fill", location: 1, isCafe: true),
     
 ]
