@@ -6,7 +6,6 @@
 //
 
 import Cocoa
-import Sparkle
 import LaunchAtLogin
 
 class ViewController: NSViewController {
@@ -243,15 +242,6 @@ class ViewController: NSViewController {
     @IBAction func infoButtonPressed(_ sender: NSButton) {
         let infoMenu = NSMenu()
         infoMenu.addItem(withTitle: "About Big Red Dining", action: #selector(showAboutPanel), keyEquivalent: "")
-        
-        let appDelegate = NSApplication.shared.delegate as! AppDelegate
-        
-        let checkForUpdatesItem = NSMenuItem()
-        checkForUpdatesItem.title = "Check for Updates..."
-        checkForUpdatesItem.target = appDelegate.updaterController
-        checkForUpdatesItem.action = #selector(SPUStandardUpdaterController.checkForUpdates(_:))
-        
-        infoMenu.addItem(checkForUpdatesItem)
         infoMenu.addItem(NSMenuItem.separator())
         
         let launchAtLoginItem = NSMenuItem(title: "Launch at login", action: #selector(toggleLaunchAtLogin), keyEquivalent: "")

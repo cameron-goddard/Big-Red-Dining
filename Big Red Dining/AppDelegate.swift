@@ -6,7 +6,6 @@
 //
 
 import Cocoa
-import Sparkle
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -16,12 +15,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     var positioningView: NSView?
     var eventMonitor: EventMonitor?
-    
-    let updaterController: SPUStandardUpdaterController
-
-    override init() {
-        updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: nil, userDriverDelegate: nil)
-    }
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         
