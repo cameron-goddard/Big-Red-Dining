@@ -105,8 +105,6 @@ class ViewController: NSViewController {
             titleField.stringValue = e.shortName
         }
         
-        mainControl.segmentDistribution = .fit
-        
         mainControl.setLabel("Breakfast", forSegment: 0)
         mainControl.setLabel("Lunch", forSegment: 1)
         mainControl.setLabel("Dinner", forSegment: 2)
@@ -205,8 +203,6 @@ class ViewController: NSViewController {
         controlIsLocation = true
         infoButton.isHidden = false
         titleField.stringValue = "All Eateries"
-        
-        mainControl.segmentDistribution = .fillEqually
         
         mainControl.setLabel("West", forSegment: 0)
         mainControl.setLabel("Central", forSegment: 1)

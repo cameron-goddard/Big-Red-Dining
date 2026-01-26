@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="24506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="24506"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -690,9 +691,9 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <box title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="GcP-uF-l5x">
-                                <rect key="frame" x="17" y="16" width="316" height="198"/>
+                                <rect key="frame" x="20" y="20" width="310" height="192"/>
                                 <view key="contentView" wantsLayer="YES" id="Ht2-1O-DgQ">
-                                    <rect key="frame" x="4" y="5" width="308" height="190"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="310" height="192"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <containerView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZRl-Zy-FNA">
@@ -706,11 +707,11 @@
                                 </view>
                             </box>
                             <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9E0-Fd-w8N">
-                                <rect key="frame" x="149" y="215" width="186" height="40"/>
+                                <rect key="frame" x="146" y="220" width="184" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="jCI-Wc-uuD"/>
                                 </constraints>
-                                <segmentedCell key="cell" controlSize="large" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="selectOne" id="FOa-tP-QXJ">
+                                <segmentedCell key="cell" controlSize="large" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="FOa-tP-QXJ">
                                     <font key="font" metaFont="system"/>
                                     <segments>
                                         <segment label="West" selected="YES"/>
@@ -956,17 +957,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="308" height="190"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qEH-TT-SfJ">
-                                <rect key="frame" x="3" y="153" width="40" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" bezelStyle="rounded" image="chevron.left" catalog="system" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="vFO-RV-unF">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="backButtonPressed:" target="zqO-KF-5rA" id="evE-la-Bsq"/>
-                                </connections>
-                            </button>
                             <scrollView fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="24" horizontalPageScroll="10" verticalLineScroll="24" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zdg-Pa-gpO">
                                 <rect key="frame" x="0.0" y="0.0" width="308" height="154"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -1052,11 +1042,12 @@
                                 </scroller>
                             </scrollView>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ggx-5G-Ypx">
-                                <rect key="frame" x="265" y="153" width="40" height="32"/>
+                                <rect key="frame" x="269" y="153" width="28" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" bezelStyle="rounded" image="gearshape" catalog="system" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="YpA-3o-YWf">
+                                <buttonCell key="cell" type="push" bezelStyle="rounded" imagePosition="only" alignment="center" controlSize="small" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="YpA-3o-YWf">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <imageReference key="image" image="gearshape" catalog="system" symbolScale="medium"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="expandAllButtonPressed:" target="zqO-KF-5rA" id="aUg-AT-MNm"/>
@@ -1072,6 +1063,18 @@
                                 <color key="contentTintColor" name="tertiaryLabelColor" catalog="System" colorSpace="catalog"/>
                                 <connections>
                                     <action selector="timesButtonPressed:" target="zqO-KF-5rA" id="1sx-5N-T0o"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qEH-TT-SfJ">
+                                <rect key="frame" x="12" y="153" width="28" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" bezelStyle="rounded" imagePosition="overlaps" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="vFO-RV-unF">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <imageReference key="image" image="chevron.left" catalog="system" symbolScale="medium"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="backButtonPressed:" target="zqO-KF-5rA" id="evE-la-Bsq"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1105,11 +1108,12 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NfE-cj-CQE">
-                                <rect key="frame" x="265" y="153" width="40" height="32"/>
+                                <rect key="frame" x="269" y="153" width="28" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" bezelStyle="rounded" image="chevron.up" catalog="system" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lvb-EB-feN">
+                                <buttonCell key="cell" type="push" bezelStyle="rounded" imagePosition="only" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lvb-EB-feN">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <imageReference key="image" image="chevron.up" catalog="system" symbolScale="medium"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="exitButtonPressed:" target="l5v-ql-ZTT" id="Hxt-08-ccK"/>

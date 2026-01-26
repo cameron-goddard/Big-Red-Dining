@@ -12,7 +12,7 @@ class NetworkManager {
     #if TESTING
     static let host = "http://localhost:8000/eateries"
     #else
-    static let host = "https://now.dining.cornell.edu/api/1.0/dining/eateries.json"
+    static let host = "https://admin-now.dining.cornell.edu/api/1.0/dining/eateries.json"
     #endif
     
     public static func getEateryInfo(completion: @escaping (_ json: [Eatery]?, _ error: Error?)-> ()) {

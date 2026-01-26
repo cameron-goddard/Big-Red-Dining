@@ -58,6 +58,7 @@ var allEateries : OrderedDictionary = [
     3: EateryInfo(name: "North Star", icon: "moon.stars.fill", location: 2),
     4: EateryInfo(name: "Risley", icon: "theatermasks", location: 2),
     
+    41: EateryInfo(name: "Crossings", icon: "cup.and.saucer.fill", location: 2, isCafe: true),
     1: EateryInfo(name: "Nasties", icon: "cup.and.saucer.fill", location: 2, isCafe: true),
     44: EateryInfo(name: "Novick's", icon: "cup.and.saucer.fill", location: 2, isCafe: true),
     
