@@ -28,7 +28,16 @@ class EateryInfo {
                         menu.append(category)
                     }
                 }
-                events.append(Event(descr: "", start: "", end: "", startTimestamp: 0, endTimestamp: 0, menu: menu))
+                
+                #if TESTING
+                let events = (obj?.operatingHours[4].events)!
+                #else
+                let events = (obj?.operatingHours[1].events)!
+                #endif
+                
+                self.events = events.map { ev in
+                    Event(descr: ev.descr, start: ev.start, end: ev.end, startTimestamp: ev.startTimestamp, endTimestamp: ev.endTimestamp, menu: menu)
+                }
             } else {
                 // Get the current day's events - Will always be the second operating hour
                 #if TESTING

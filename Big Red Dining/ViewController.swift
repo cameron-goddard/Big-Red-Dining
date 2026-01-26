@@ -202,7 +202,7 @@ class ViewController: NSViewController {
     @objc func showEateryList(notification: Notification) {
         controlIsLocation = true
         infoButton.isHidden = false
-        titleField.stringValue = "All Eateries"
+        titleField.stringValue = "Eateries"
         
         mainControl.setLabel("West", forSegment: 0)
         mainControl.setLabel("Central", forSegment: 1)

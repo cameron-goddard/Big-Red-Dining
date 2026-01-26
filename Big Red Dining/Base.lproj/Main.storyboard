@@ -729,14 +729,14 @@
                                     <constraint firstAttribute="width" constant="141" id="Pw8-1T-RNU"/>
                                     <constraint firstAttribute="height" constant="24" id="lC9-Wo-8Jb"/>
                                 </constraints>
-                                <textFieldCell key="cell" controlSize="large" lineBreakMode="clipping" title="All Eateries" id="sKW-au-QOz">
+                                <textFieldCell key="cell" controlSize="large" lineBreakMode="clipping" title="Eateries" id="sKW-au-QOz">
                                     <font key="font" metaFont="systemSemibold" size="20"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5ip-E8-XSB">
-                                <rect key="frame" x="127" y="229" width="10.5" height="12"/>
+                                <rect key="frame" x="100" y="229" width="10.5" height="12"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="chevron.down" catalog="system" imagePosition="only" alignment="center" controlSize="large" imageScaling="proportionallyUpOrDown" inset="2" id="1F0-08-Xz7">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1066,7 +1066,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qEH-TT-SfJ">
-                                <rect key="frame" x="12" y="153" width="28" height="32"/>
+                                <rect key="frame" x="11" y="153" width="28" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" bezelStyle="rounded" imagePosition="overlaps" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="vFO-RV-unF">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
