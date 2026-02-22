@@ -26,12 +26,6 @@ class InfoViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         outlineView.backgroundColor = .clear
-        
-        if #available(macOS 13, *) {
-            expandAll.image = NSImage(systemSymbolName: "arrow.up.and.down.text.horizontal", accessibilityDescription: nil)
-        } else {
-            expandAll.image = NSImage(named: "arrow.up.and.down.text.horizontal")
-        }
     }
     
     override func viewWillAppear() {
