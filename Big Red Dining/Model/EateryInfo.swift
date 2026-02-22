@@ -8,6 +8,7 @@
 import Foundation
 import OrderedCollections
 
+@MainActor
 var noEateryInfo = false
 
 class EateryInfo {
@@ -61,6 +62,7 @@ class EateryInfo {
     }
 }
 
+@MainActor
 var allEateries : OrderedDictionary = [
     // North
     43: EateryInfo(name: "Morrison", icon: "text.book.closed", location: 2),
@@ -101,3 +103,4 @@ var allEateries : OrderedDictionary = [
     23: EateryInfo(name: "Trillium", icon: "cup.and.saucer.fill", location: 1, isCafe: true),
     45: EateryInfo(name: "Vet School", icon: "cup.and.saucer.fill", location: 1, isCafe: true),
 ]
+

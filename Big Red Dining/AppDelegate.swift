@@ -8,6 +8,7 @@
 import Cocoa
 
 @main
+@MainActor
 class AppDelegate: NSObject, NSApplicationDelegate {
     
     let statusItem = NSStatusBar.system.statusItem(withLength:NSStatusItem.variableLength)
@@ -62,6 +63,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             $0.identifier == NSUserInterfaceItemIdentifier(rawValue: "positioningView")
         }
         positioningView?.removeFromSuperview()
+        popover.performClose(nil)
         eventMonitor?.stop()
     }
 
