@@ -23,10 +23,10 @@
           "image-name" : "bar long.svg",
           "name" : "bar",
           "position" : {
-            "scale" : 0.3,
+            "scale" : 0.31,
             "translation-in-points" : [
               112.07886636498733,
-              -4.450933158006478
+              -5.580000000000041
             ]
           }
         },
@@ -47,10 +47,10 @@
           "image-name" : "bar long.svg",
           "name" : "bar",
           "position" : {
-            "scale" : 0.3,
+            "scale" : 0.31,
             "translation-in-points" : [
               112.07886636498733,
-              118.03183049199356
+              125.36819767199358
             ]
           }
         },
@@ -71,10 +71,10 @@
           "image-name" : "bar long.svg",
           "name" : "bar",
           "position" : {
-            "scale" : 0.3,
+            "scale" : 0.31,
             "translation-in-points" : [
               112.07886636498733,
-              -126.93369680800652
+              -135.02393118800654
             ]
           }
         },
@@ -96,7 +96,7 @@
           "image-name" : "fork.svg",
           "name" : "utensils",
           "position" : {
-            "scale" : 0.35,
+            "scale" : 0.37,
             "translation-in-points" : [
               -214.2897534132361,
               4.395404841993468
