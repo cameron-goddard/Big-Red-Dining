@@ -6,7 +6,7 @@
 //
 
 import Cocoa
-import LaunchAtLogin
+import ServiceManagement
 
 class ViewController: NSViewController {
     
@@ -226,13 +226,20 @@ class ViewController: NSViewController {
         NSApplication.shared.orderFrontStandardAboutPanel()
     }
     
-    @objc func toggleLaunchAtLogin(_ sender: NSMenuItem) {
-        if LaunchAtLogin.isEnabled {
-            sender.state = .off
+    @objc func toggleOpenAtLogin(_ sender: NSMenuItem) {
+        if SMAppService.mainApp.status != .enabled {
+            do {
+                try SMAppService.mainApp.register()
+            } catch {
+                NSLog("Unable to register as a login item")
+            }
         } else {
-            sender.state = .on
+            do {
+                try SMAppService.mainApp.unregister()
+            } catch {
+                NSLog("Unable to unregister as a login item")
+            }
         }
-        LaunchAtLogin.isEnabled.toggle()
     }
     
     @IBAction func infoButtonPressed(_ sender: NSButton) {
@@ -240,13 +247,13 @@ class ViewController: NSViewController {
         infoMenu.addItem(withTitle: "About Big Red Dining", action: #selector(showAboutPanel), keyEquivalent: "")
         infoMenu.addItem(NSMenuItem.separator())
         
-        let launchAtLoginItem = NSMenuItem(title: "Launch at login", action: #selector(toggleLaunchAtLogin), keyEquivalent: "")
-        if LaunchAtLogin.isEnabled {
-            launchAtLoginItem.state = .on
+        let openAtLoginItem = NSMenuItem(title: "Open at login", action: #selector(toggleOpenAtLogin), keyEquivalent: "")
+        if SMAppService.mainApp.status == .enabled {
+            openAtLoginItem.state = .on
         } else {
-            launchAtLoginItem.state = .off
+            openAtLoginItem.state = .off
         }
-        infoMenu.addItem(launchAtLoginItem)
+        infoMenu.addItem(openAtLoginItem)
         
         infoMenu.addItem(NSMenuItem.separator())
         infoMenu.addItem(withTitle: "Quit Big Red Dining", action: #selector(quitApp), keyEquivalent: "q")

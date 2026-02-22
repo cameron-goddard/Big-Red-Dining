@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3B46A31129660CA100C26502 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 3B46A31029660CA100C26502 /* LaunchAtLogin */; };
 		3B6487172F4A4BCB00AC35E6 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 3B6487162F4A4BCB00AC35E6 /* AppIcon.icon */; };
 		3B6CD6422B4752FF006E9445 /* TimesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6CD6412B4752FF006E9445 /* TimesViewController.swift */; };
 		3B6CD6462B48D6E1006E9445 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 3B6CD6452B48D6E1006E9445 /* OrderedCollections */; };
@@ -51,7 +50,6 @@
 		3BDB3B86294ECF0700ADE2E2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
-				3B46A31129660CA100C26502 /* LaunchAtLogin in Frameworks */,
 				3B6CD6462B48D6E1006E9445 /* OrderedCollections in Frameworks */,
 			);
 		};
@@ -146,7 +144,6 @@
 			);
 			name = "Big Red Dining";
 			packageProductDependencies = (
-				3B46A31029660CA100C26502 /* LaunchAtLogin */,
 				3B6CD6452B48D6E1006E9445 /* OrderedCollections */,
 			);
 			productName = DiningBar;
@@ -177,7 +174,6 @@
 			);
 			mainGroup = 3BDB3B80294ECF0700ADE2E2;
 			packageReferences = (
-				3B46A30F29660CA100C26502 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
 				3B6CD6442B48D6E1006E9445 /* XCRemoteSwiftPackageReference "swift-collections" */,
 			);
 			preferredProjectObjectVersion = 90;
@@ -323,7 +319,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.camerongoddard.brd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -470,7 +466,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.camerongoddard.brd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -502,7 +498,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.camerongoddard.brd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -535,14 +531,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		3B46A30F29660CA100C26502 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sindresorhus/LaunchAtLogin";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 		3B6CD6442B48D6E1006E9445 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-collections.git";
@@ -554,11 +542,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		3B46A31029660CA100C26502 /* LaunchAtLogin */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3B46A30F29660CA100C26502 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;
-			productName = LaunchAtLogin;
-		};
 		3B6CD6452B48D6E1006E9445 /* OrderedCollections */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3B6CD6442B48D6E1006E9445 /* XCRemoteSwiftPackageReference "swift-collections" */;
