@@ -15,7 +15,7 @@ class NetworkManager {
     static let host = "https://admin-now.dining.cornell.edu/api/1.0/dining/eateries.json"
     #endif
     
-    public static func getEateryInfo(completion: @escaping (_ json: [Eatery]?, _ error: Error?)-> ()) {
+    public static func getEateryInfo(completion: @escaping @Sendable (_ json: [Eatery]?, _ error: Error?)-> ()) {
         let request = URLRequest(url: URL(string: host)!)
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in

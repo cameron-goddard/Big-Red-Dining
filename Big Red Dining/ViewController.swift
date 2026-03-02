@@ -44,18 +44,16 @@ class ViewController: NSViewController {
         // Download API data if the date has changed or if connection failed last time
         if dateFormatter.string(from: current) != dateFormatter.string(from: lastMainAPILoad) || noEateryInfo {
             NetworkManager.getEateryInfo(completion: { json, error in
-                if error != nil {
-                    noEateryInfo = true
-                    // This might be a hacky way to do it, change
-                    DispatchQueue.main.async {
-                        self.listVC!.tableView.reloadData()
-                    }
-                    return
-                } else {
-                    noEateryInfo = false
-                }
-                
                 DispatchQueue.main.async {
+                    if error != nil {
+                        noEateryInfo = true
+                        // This might be a hacky way to do it, change
+                        self.listVC!.tableView.reloadData()
+                        return
+                    } else {
+                        noEateryInfo = false
+                    }
+                    
                     for e in json! {
                         // If there exists info for the Eatery with this ID
                         if let eatery = allEateries[e.id] {
