@@ -20,29 +20,37 @@ class ListViewController: NSViewController {
     
     @IBOutlet weak var tableView: NSTableView!
     
-    var currentDiningHalls : [EateryInfo] = []
-    var currentCafes : [EateryInfo] = []
+    private static let timeFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h:mma"
+        formatter.amSymbol = "am"
+        formatter.pmSymbol = "pm"
+        formatter.timeZone = .current
+        return formatter
+    }()
+    
+    var currentLocation = 0
+    
+    var currentDiningHalls: [EateryInfo] {
+        allEateries.values.filter { $0.location == currentLocation && !$0.isCafe }
+    }
+    
+    var currentCafes: [EateryInfo] {
+        allEateries.values.filter { $0.location == currentLocation && $0.isCafe }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.backgroundColor = .clear
-        changeLocation(location: 0)
+        tableView.reloadData()
     }
     
     override func viewDidAppear() {
-        //TODO: Handle reload after day change
         tableView.reloadData()
     }
     
     func changeLocation(location: Int) {
-        currentDiningHalls = allEateries.values.filter({
-            $0.location == location && !$0.isCafe
-        })
-
-        currentCafes = allEateries.values.filter({
-            $0.location == location && $0.isCafe
-        })
-        
+        currentLocation = location
         tableView.reloadData()
     }
     
@@ -52,10 +60,6 @@ class ListViewController: NSViewController {
         #else
         let time = Int(Date().timeIntervalSince1970)
         #endif
-        
-        let format = DateFormatter()
-        format.dateFormat = "MM-dd-yyyy HH:mm"
-        format.timeZone = .current
         
         if noEateryInfo {
             return .error
@@ -81,13 +85,7 @@ class ListViewController: NSViewController {
                 if abs(time - event.startTimestamp) < 30 * 60 {
                     return .openingSoon
                 }
-                let formatTime = DateFormatter()
-                formatTime.dateFormat = "h:mma"
-                formatTime.amSymbol = "am"
-                formatTime.pmSymbol = "pm"
-                formatTime.timeZone = .current
-                
-                return .closed(until: formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(event.startTimestamp))).replacingOccurrences(of: ":00", with: ""))
+                return .closed(until: Self.timeFormatter.string(from: Date(timeIntervalSince1970: TimeInterval(event.startTimestamp))).replacingOccurrences(of: ":00", with: ""))
             }
             i += 1
         }

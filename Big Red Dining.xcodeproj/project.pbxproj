@@ -16,7 +16,7 @@
 		3BDB3B94294ECF0800ADE2E2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BDB3B92294ECF0800ADE2E2 /* Main.storyboard */; };
 		3BDB3B9E294EE22800ADE2E2 /* EateryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB3B9D294EE22800ADE2E2 /* EateryCell.swift */; };
 		3BDB3BA0294F984400ADE2E2 /* Eatery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB3B9F294F984400ADE2E2 /* Eatery.swift */; };
-		3BDB3BA3294F986400ADE2E2 /* Dining API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB3BA2294F986400ADE2E2 /* Dining API.swift */; };
+		3BDB3BA3294F986400ADE2E2 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB3BA2294F986400ADE2E2 /* NetworkManager.swift */; };
 		3BDB3BA9294FADF600ADE2E2 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB3BA8294FADF600ADE2E2 /* ListViewController.swift */; };
 		3BDB3BAB294FAE1300ADE2E2 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB3BAA294FAE1300ADE2E2 /* InfoViewController.swift */; };
 		3BDB3BAD2950141900ADE2E2 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB3BAC2950141900ADE2E2 /* CategoryCell.swift */; };
@@ -37,7 +37,7 @@
 		3BDB3B95294ECF0800ADE2E2 /* Big Red Dining.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Big Red Dining.entitlements"; sourceTree = "<group>"; };
 		3BDB3B9D294EE22800ADE2E2 /* EateryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EateryCell.swift; sourceTree = "<group>"; };
 		3BDB3B9F294F984400ADE2E2 /* Eatery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Eatery.swift; sourceTree = "<group>"; };
-		3BDB3BA2294F986400ADE2E2 /* Dining API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dining API.swift"; sourceTree = "<group>"; };
+		3BDB3BA2294F986400ADE2E2 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		3BDB3BA8294FADF600ADE2E2 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		3BDB3BAA294FAE1300ADE2E2 /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		3BDB3BAC2950141900ADE2E2 /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
@@ -104,7 +104,7 @@
 			children = (
 				3BDB3B9F294F984400ADE2E2 /* Eatery.swift */,
 				3BDB3BB429518DB200ADE2E2 /* EateryInfo.swift */,
-				3BDB3BA2294F986400ADE2E2 /* Dining API.swift */,
+				3BDB3BA2294F986400ADE2E2 /* NetworkManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -210,7 +210,7 @@
 				3BDB3BB529518DB200ADE2E2 /* EateryInfo.swift in Sources */,
 				3BDB3B9E294EE22800ADE2E2 /* EateryCell.swift in Sources */,
 				3BDB3BAF2950142000ADE2E2 /* MenuItemCell.swift in Sources */,
-				3BDB3BA3294F986400ADE2E2 /* Dining API.swift in Sources */,
+				3BDB3BA3294F986400ADE2E2 /* NetworkManager.swift in Sources */,
 				3BDB3B8D294ECF0700ADE2E2 /* AppDelegate.swift in Sources */,
 			);
 		};

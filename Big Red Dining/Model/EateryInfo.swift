@@ -11,54 +11,54 @@ import OrderedCollections
 @MainActor
 var noEateryInfo = false
 
-class EateryInfo {
+struct EateryInfo {
     let name: String
     let shortName: String
     let icon: String
     let location: Int
     let isCafe: Bool
-    var obj: Eatery? {
-        didSet {
-            if isCafe {
-                var menu : [MenuCategory] = []
-                for item in obj!.diningItems {
-                    if let index = menu.firstIndex(where: { $0.category == item.category }) {
-                        menu[index].items.append(MenuItem(item: item.item))
-                    } else {
-                        let category = MenuCategory(category: item.category, items: [MenuItem(item: item.item)])
-                        menu.append(category)
-                    }
-                }
-                
-                #if TESTING
-                let events = (obj?.operatingHours[4].events)!
-                #else
-                let events = (obj?.operatingHours[1].events)!
-                #endif
-                
-                self.events = events.map { ev in
-                    Event(descr: ev.descr, start: ev.start, end: ev.end, startTimestamp: ev.startTimestamp, endTimestamp: ev.endTimestamp, menu: menu)
-                }
-            } else {
-                // Get the current day's events - Will always be the second operating hour
-                #if TESTING
-                self.events = (obj?.operatingHours[4].events)!
-                #else
-                self.events = (obj?.operatingHours[1].events)!
-                #endif
-            }
-        }
-    }
-    var events: [Event]
+    private(set) var obj: Eatery?
+    private(set) var events: [Event] = []
     
-    init(name: String, shortName: String = "", icon: String, location: Int, isCafe: Bool = false, obj: Eatery? = nil) {
+    init(name: String, shortName: String = "", icon: String, location: Int, isCafe: Bool = false) {
         self.name = name
         self.shortName = shortName
         self.icon = icon
         self.location = location
         self.isCafe = isCafe
-        self.obj = obj
-        self.events = []
+    }
+    
+    mutating func update(with eatery: Eatery) {
+        self.obj = eatery
+        
+        #if TESTING
+        let dayIndex = 4
+        #else
+        let dayIndex = 1
+        #endif
+        
+        guard dayIndex < eatery.operatingHours.count else {
+            self.events = []
+            return
+        }
+        
+        let dayEvents = eatery.operatingHours[dayIndex].events
+        
+        if isCafe {
+            var menu: [MenuCategory] = []
+            for item in eatery.diningItems {
+                if let index = menu.firstIndex(where: { $0.category == item.category }) {
+                    menu[index].items.append(MenuItem(item: item.item))
+                } else {
+                    menu.append(MenuCategory(category: item.category, items: [MenuItem(item: item.item)]))
+                }
+            }
+            self.events = dayEvents.map { ev in
+                Event(descr: ev.descr, start: ev.start, end: ev.end, startTimestamp: ev.startTimestamp, endTimestamp: ev.endTimestamp, menu: menu)
+            }
+        } else {
+            self.events = dayEvents
+        }
     }
 }
 

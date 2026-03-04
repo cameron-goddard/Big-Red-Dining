@@ -11,6 +11,18 @@ class TimesViewController: NSViewController {
     
     @IBOutlet weak var tableView: NSTableView!
     
+    private static let dateParser: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
+    
+    private static let dayOfWeekFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "E"
+        return formatter
+    }()
+    
     var eatery: EateryInfo?
     var days: [String] = []
     var hours: [String] = []
@@ -30,13 +42,10 @@ class TimesViewController: NSViewController {
         hours = []
         self.eatery = eatery
         guard let oh = eatery.obj?.operatingHours else { return }
-        let formatter = DateFormatter()
         
         for i in 1..<oh.count {
-            formatter.dateFormat = "yyyy-MM-dd"
-            let date = formatter.date(from: oh[i].date)!
-            formatter.dateFormat = "E"
-            days.append(formatter.string(from: date))
+            let date = Self.dateParser.date(from: oh[i].date)!
+            days.append(Self.dayOfWeekFormatter.string(from: date))
             
             if oh[i].events.isEmpty {
                 hours.append("Closed")

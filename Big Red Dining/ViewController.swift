@@ -24,7 +24,13 @@ class ViewController: NSViewController {
     var timesVC: TimesViewController?
     
     var lastMainAPILoad : Date = Date(timeIntervalSince1970: .zero)
-    var eateries : [Eatery] = []
+    
+    private static let dateComparisonFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.timeZone = TimeZone(abbreviation: "EDT")
+        formatter.dateFormat = "yMMdd"
+        return formatter
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,35 +41,26 @@ class ViewController: NSViewController {
     }
     
     override func viewDidAppear() {
-        let dateFormatter = DateFormatter()
-        dateFormatter.timeZone = TimeZone(abbreviation: "EDT")
-        dateFormatter.dateFormat = "yMMdd"
-        
         let current = Date()
         
         // Download API data if the date has changed or if connection failed last time
-        if dateFormatter.string(from: current) != dateFormatter.string(from: lastMainAPILoad) || noEateryInfo {
-            NetworkManager.getEateryInfo(completion: { json, error in
-                DispatchQueue.main.async {
-                    if error != nil {
-                        noEateryInfo = true
-                        // This might be a hacky way to do it, change
-                        self.listVC!.tableView.reloadData()
-                        return
-                    } else {
-                        noEateryInfo = false
-                    }
-                    
-                    for e in json! {
-                        // If there exists info for the Eatery with this ID
-                        if let eatery = allEateries[e.id] {
-                            eatery.obj = e
-                        }
-                    }
-                    self.listVC!.tableView.reloadData()
-                }
-            })
+        let formatter = Self.dateComparisonFormatter
+        if formatter.string(from: current) != formatter.string(from: lastMainAPILoad) || noEateryInfo {
             lastMainAPILoad = current
+            
+            Task {
+                do {
+                    let eateries = try await NetworkManager.getEateryInfo()
+                    noEateryInfo = false
+                    
+                    for e in eateries {
+                        allEateries[e.id]?.update(with: e)
+                    }
+                } catch {
+                    noEateryInfo = true
+                }
+                listVC?.tableView.reloadData()
+            }
         }
     }
 

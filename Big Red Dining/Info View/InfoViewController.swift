@@ -14,6 +14,15 @@ class InfoViewController: NSViewController {
     @IBOutlet weak var outlineView: NSOutlineView!
     @IBOutlet weak var status: NSButton!
     
+    private static let timeFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h:mma"
+        formatter.amSymbol = "am"
+        formatter.pmSymbol = "pm"
+        formatter.timeZone = .current
+        return formatter
+    }()
+    
     var eatery : EateryInfo?
     var events : [Event] = []
     var curr : Int = -1
@@ -92,12 +101,6 @@ class InfoViewController: NSViewController {
             return (NSImage(named: "NSStatusUnavailable")!, "Closed today")
         }
         
-        let formatTime = DateFormatter()
-        formatTime.timeZone = .current
-        formatTime.dateFormat = "h:mma"
-        formatTime.amSymbol = "am"
-        formatTime.pmSymbol = "pm"
-        
         let event = events[eventIndex]
         if currentTime < event.startTimestamp {
             // Before event started
@@ -105,24 +108,24 @@ class InfoViewController: NSViewController {
             if abs(currentTime - event.startTimestamp) < 30 * 60 {
                 image = .init(named: "NSStatusPartiallyAvailable")
             }
-            return (image!, "Opens at " + formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(event.startTimestamp))).replacingOccurrences(of: ":00", with: ""))
+            return (image!, "Opens at " + Self.timeFormatter.string(from: Date(timeIntervalSince1970: TimeInterval(event.startTimestamp))).replacingOccurrences(of: ":00", with: ""))
         } else {
             if currentTime > event.endTimestamp {
                 // After event ended
-                return (NSImage(named: "NSStatusUnavailable")!, "Closed since " + formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(event.endTimestamp))).replacingOccurrences(of: ":00", with: ""))
+                return (NSImage(named: "NSStatusUnavailable")!, "Closed since " + Self.timeFormatter.string(from: Date(timeIntervalSince1970: TimeInterval(event.endTimestamp))).replacingOccurrences(of: ":00", with: ""))
             }
             // Event is happening now
             
             // TODO: This is assuming the next event is > 30 mins in duration
             if hasNextContiguous(for: eventIndex) {
-                return (NSImage(named: "NSStatusAvailable")!, "Open until " + formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(events[eventIndex+1].endTimestamp))).replacingOccurrences(of: ":00", with: ""))
+                return (NSImage(named: "NSStatusAvailable")!, "Open until " + Self.timeFormatter.string(from: Date(timeIntervalSince1970: TimeInterval(events[eventIndex+1].endTimestamp))).replacingOccurrences(of: ":00", with: ""))
             }
             
             if abs(currentTime - events[curr].endTimestamp) < 30 * 60 {
-                return (NSImage(named: "NSStatusPartiallyAvailable")!, "Closing at " + formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(event.endTimestamp))).replacingOccurrences(of: ":00", with: ""))
+                return (NSImage(named: "NSStatusPartiallyAvailable")!, "Closing at " + Self.timeFormatter.string(from: Date(timeIntervalSince1970: TimeInterval(event.endTimestamp))).replacingOccurrences(of: ":00", with: ""))
             }
             
-            return (NSImage(named: "NSStatusAvailable")!, "Open until " + formatTime.string(from: Date(timeIntervalSince1970: TimeInterval(event.endTimestamp))).replacingOccurrences(of: ":00", with: ""))
+            return (NSImage(named: "NSStatusAvailable")!, "Open until " + Self.timeFormatter.string(from: Date(timeIntervalSince1970: TimeInterval(event.endTimestamp))).replacingOccurrences(of: ":00", with: ""))
         }
     }
     
