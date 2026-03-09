@@ -20,6 +20,10 @@ class ListViewController: NSViewController {
     
     @IBOutlet weak var tableView: NSTableView!
     
+    /// The amount of time, in minutes, before closing that will mark the eatery
+    /// as closing or opening soon
+    private static let soonThreshold = 30 * 60
+    
     private static let timeFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "h:mma"
@@ -29,14 +33,24 @@ class ListViewController: NSViewController {
         return formatter
     }()
     
-    var currentLocation = 0
+    private var currentLocation: Location = .west
     
-    var currentDiningHalls: [EateryInfo] {
+    private var currentDiningHalls: [EateryInfo] {
         allEateries.values.filter { $0.location == currentLocation && !$0.isCafe }
     }
     
-    var currentCafes: [EateryInfo] {
-        allEateries.values.filter { $0.location == currentLocation && $0.isCafe }
+    private var currentCafes: [EateryInfo] {
+        let cafes = allEateries.values.filter { $0.location == currentLocation && $0.isCafe }
+        
+        // Always show open eateries above closed ones
+        return cafes.sorted { a, b in
+            let aOpen = isOpen(status: getCurrentStatus(events: a.events))
+            let bOpen = isOpen(status: getCurrentStatus(events: b.events))
+            if aOpen != bOpen {
+                return aOpen
+            }
+            return a.name < b.name
+        }
     }
 
     override func viewDidLoad() {
@@ -49,11 +63,35 @@ class ListViewController: NSViewController {
         tableView.reloadData()
     }
     
-    func changeLocation(location: Int) {
+    /// Helper function to determine which ``EateryStatus`` values are considered open.
+    /// - Parameter status: The ``EateryStatus`` to query
+    /// - Returns: Whether the given status is considered open
+    private func isOpen(status: EateryStatus) -> Bool {
+        switch status {
+        case .open, .closingSoon, .openingSoon:
+            return true
+        case .closed, .closedToday, .error:
+            return false
+        }
+    }
+    
+    /// Updates the eatery list for a new location
+    /// - Parameter location: The new location
+    func changeLocation(location: Location) {
         currentLocation = location
         tableView.reloadData()
     }
     
+    /// Determines the current operating status of an eatery based on its scheduled events.
+    ///
+    /// - Parameter events: The list of today's events for the eatery, ordered chronologically
+    /// - Returns: An ``EateryStatus`` representing the eatery's current state:
+    ///   - `.open` if the current time falls within an event's time range
+    ///   - `.closingSoon` if the eatery is open but will close within the soon threshold
+    ///   - `.openingSoon` if the eatery is closed but will open within the soon threshold
+    ///   - `.closed(until:)` with the next opening time if a future event exists today
+    ///   - `.closedToday` if there are no events scheduled
+    ///   - `.error` if eatery information is unavailable
     func getCurrentStatus(events: [Event]) -> EateryStatus {
         #if TESTING
         let time = 1686444300
@@ -69,30 +107,30 @@ class ListViewController: NSViewController {
             return .closedToday
         }
         
-        var i = 0
-        for event in events {
+        for (index, event) in events.enumerated() {
             if time < event.endTimestamp {
                 if time >= event.startTimestamp {
-                    if abs(time - event.endTimestamp) < 30 * 60 {
-                        // TODO: Clean this up
-                        if i < events.count - 1 && event.endTimestamp == events[i+1].startTimestamp {
+                    if abs(time - event.endTimestamp) < Self.soonThreshold {
+                        if index < events.count - 1 && event.endTimestamp == events[index+1].startTimestamp {
                             return .open
                         }
                         return .closingSoon
                     }
                     return .open
                 }
-                if abs(time - event.startTimestamp) < 30 * 60 {
+                if abs(time - event.startTimestamp) < Self.soonThreshold {
                     return .openingSoon
                 }
                 return .closed(until: Self.timeFormatter.string(from: Date(timeIntervalSince1970: TimeInterval(event.startTimestamp))).replacingOccurrences(of: ":00", with: ""))
             }
-            i += 1
         }
         return .closed(until: "")
     }
     
-    func getEateryFromRow(row: Int) -> EateryInfo {
+    /// Returns the eatery at a given row index.
+    /// - Parameter row: The row
+    /// - Returns: The ``EateryInfo`` object at that row index
+    private func getEateryFromRow(row: Int) -> EateryInfo {
         if row < currentDiningHalls.count {
             return currentDiningHalls[row]
         }
@@ -146,7 +184,7 @@ extension ListViewController: NSTableViewDataSource {
         case .error:
             eateryCell.statusIcon.image = NSImage(named: "NSStatusNone")!
             eateryCell.statusText.stringValue = "No info"
-        default:
+        case .closedToday:
             eateryCell.statusIcon.image = NSImage(named: "NSStatusUnavailable")!
             eateryCell.statusText.stringValue = "Closed"
         }
@@ -165,10 +203,6 @@ extension ListViewController: NSTableViewDelegate {
     }
     
     func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
-        let view = tableView.view(atColumn: 0, row: row, makeIfNecessary: true)
-        if !(view is EateryCell) {
-            return false
-        }
-        return true
+        return tableView.view(atColumn: 0, row: row, makeIfNecessary: true) is EateryCell
     }
 }

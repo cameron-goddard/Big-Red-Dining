@@ -23,12 +23,12 @@ class InfoViewController: NSViewController {
         return formatter
     }()
     
-    var eatery : EateryInfo?
-    var events : [Event] = []
-    var curr : Int = -1
+    var eatery: EateryInfo?
+    var events: [Event] = []
+    var curr: Int = -1
     
-    var currentCategory : [MenuCategory] = []
-    var menuItems : [MenuItem] = []
+    var currentCategory: [MenuCategory] = []
+    var menuItems: [MenuItem] = []
     
     var currentTime = -1
     
@@ -45,13 +45,13 @@ class InfoViewController: NSViewController {
         currentTime = Int(Date().timeIntervalSince1970)
         #endif
         
-        // Get current event and update its status
+        // Get the current event and update its status
         curr = getCurrentEvent()
         let returnStatus = currentStatus(for: curr)
         status.image = returnStatus.0
         status.title = returnStatus.1
         
-        // Show current event's menu
+        // Show the current event's menu
         if curr == -1 {
             currentCategory = []
         } else {
@@ -59,7 +59,7 @@ class InfoViewController: NSViewController {
         }
         outlineView.reloadData()
         
-        // Update expandAll button
+        // Update the expandAll button
         if let state = UserDefaults.standard.object(forKey: "expandButton") as? NSControl.StateValue {
             expandAll.state = state
         }
@@ -67,30 +67,13 @@ class InfoViewController: NSViewController {
     }
     
     func getCurrentEvent() -> Int {
-        if events.isEmpty {
-            return -1
+        if let i = events.firstIndex(where: { currentTime < $0.endTimestamp && currentTime >= $0.startTimestamp }) {
+            return i
         }
-        
-        // Get event happening now
-        var i = 0
-        for event in events {
-            if currentTime < event.endTimestamp && currentTime >= event.startTimestamp {
-                return i
-            }
-            i += 1
+        if let i = events.firstIndex(where: { currentTime < $0.startTimestamp }) {
+            return i
         }
-        
-        // Get next upcoming event
-        i = 0
-        for event in events {
-            if currentTime < event.startTimestamp {
-                return i
-            }
-            i += 1
-        }
-        
-        // Get last event that happened
-        return events.count - 1
+        return events.isEmpty ? -1 : events.count - 1
     }
     
     func currentStatus(for eventIndex: Int) -> (NSImage, String) {
@@ -130,14 +113,7 @@ class InfoViewController: NSViewController {
     }
     
     func hasNextContiguous(for eventIndex: Int) -> Bool {
-        if eventIndex == events.count - 1 {
-            return false
-        }
-        
-        if events[eventIndex].endTimestamp == events[eventIndex+1].startTimestamp {
-            return true
-        }
-        return false
+        eventIndex < events.count - 1 && events[eventIndex].endTimestamp == events[eventIndex + 1].startTimestamp
     }
     
     func updateInfo(eatery: EateryInfo) {

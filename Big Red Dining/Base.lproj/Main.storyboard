@@ -76,7 +76,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="350" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <box title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="GcP-uF-l5x">
+                            <box borderType="bezel" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="GcP-uF-l5x">
                                 <rect key="frame" x="20" y="20" width="310" height="192"/>
                                 <view key="contentView" wantsLayer="YES" id="Ht2-1O-DgQ">
                                     <rect key="frame" x="0.0" y="0.0" width="310" height="192"/>
@@ -95,9 +95,10 @@
                             <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9E0-Fd-w8N">
                                 <rect key="frame" x="146" y="220" width="184" height="30"/>
                                 <constraints>
+                                    <constraint firstAttribute="width" constant="184" id="AAu-Sf-h3h"/>
                                     <constraint firstAttribute="height" constant="30" id="jCI-Wc-uuD"/>
                                 </constraints>
-                                <segmentedCell key="cell" controlSize="large" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="FOa-tP-QXJ">
+                                <segmentedCell key="cell" controlSize="large" borderStyle="border" alignment="left" segmentDistribution="fill" style="rounded" trackingMode="selectOne" id="FOa-tP-QXJ">
                                     <font key="font" metaFont="system"/>
                                     <segments>
                                         <segment label="West" selected="YES"/>
@@ -110,9 +111,8 @@
                                 </connections>
                             </segmentedControl>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mV2-a6-CFz">
-                                <rect key="frame" x="18" y="223" width="145" height="24"/>
+                                <rect key="frame" x="18" y="223" width="79" height="24"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="141" id="Pw8-1T-RNU"/>
                                     <constraint firstAttribute="height" constant="24" id="lC9-Wo-8Jb"/>
                                 </constraints>
                                 <textFieldCell key="cell" controlSize="large" lineBreakMode="clipping" title="Eateries" id="sKW-au-QOz">

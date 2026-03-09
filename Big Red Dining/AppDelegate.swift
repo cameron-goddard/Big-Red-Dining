@@ -11,14 +11,14 @@ import Cocoa
 @MainActor
 class AppDelegate: NSObject, NSApplicationDelegate {
     
-    let statusItem = NSStatusBar.system.statusItem(withLength:NSStatusItem.variableLength)
-    let popover = NSPopover()
+    private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+    private let popover = NSPopover()
     
-    var positioningView: NSView?
-    var eventMonitor: EventMonitor?
+    private var positioningView: NSView?
+    private var eventMonitor: EventMonitor?
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        
+        // Set up the status bar button
         if let button = statusItem.button {
             let statusImage = NSImage(systemSymbolName: "fork.knife", accessibilityDescription: nil)
             statusImage?.isTemplate = true
@@ -26,49 +26,50 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             button.action = #selector(AppDelegate.togglePopover(_:))
         }
         popover.contentViewController = ViewController.newController()
-        
+
+        // Handle closing the popover when the user clicks away
         eventMonitor = EventMonitor(mask: [.leftMouseDown, .rightMouseDown]) { [weak self] event in
-            if let popover = self?.popover {
-                if popover.isShown {
-                    self?.closePopover(event)
-                }
-            }
+            guard let self, self.popover.isShown else { return }
+            self.closePopover()
         }
         eventMonitor?.start()
     }
-
-    func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
-    }
     
+    /// Toggles the popover's visibility.
+    /// - Parameter sender: The status bar button that triggered the action
     @objc func togglePopover(_ sender: NSButton) {
         if popover.isShown {
-            closePopover(sender)
+            closePopover()
         } else {
             openPopover(sender)
         }
     }
     
+    /// Opens the popover.
+    /// - Parameter sender: The status bar button that triggered the action
     func openPopover(_ sender: NSButton) {
-        let positioningView = NSView(frame: sender.bounds)
-        positioningView.identifier = NSUserInterfaceItemIdentifier(rawValue: "positioningView")
-        sender.addSubview(positioningView)
-        
-        popover.show(relativeTo: positioningView.bounds, of: positioningView, preferredEdge: .maxY)
+        let view = NSView(frame: sender.bounds)
+        sender.addSubview(view)
+        self.positioningView = view
+
+        popover.show(relativeTo: view.bounds, of: view, preferredEdge: .maxY)
+        popover.contentViewController?.view.window?.makeKeyAndOrderFront(nil)
+
+        NSApp.activate(ignoringOtherApps: true)
+
         eventMonitor?.start()
     }
     
-    func closePopover(_ sender: AnyObject?) {
-        let positioningView = statusItem.button?.subviews.first {
-            $0.identifier == NSUserInterfaceItemIdentifier(rawValue: "positioningView")
-        }
+    /// Closes the popover.
+    func closePopover() {
         positioningView?.removeFromSuperview()
+        positioningView = nil
         popover.performClose(nil)
+
         eventMonitor?.stop()
     }
 
     func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
         return true
     }
-
 }

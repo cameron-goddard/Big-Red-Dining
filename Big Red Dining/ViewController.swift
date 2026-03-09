@@ -15,19 +15,19 @@ class ViewController: NSViewController {
     
     @IBOutlet weak var mainControl: NSSegmentedControl!
     
-    var controlIsLocation = true
-    var savedLocation = 0
+    private var controlIsLocation = true
+    private var savedLocation: Location = .west
     
-    var tabVC: NSTabViewController?
-    var listVC: ListViewController?
-    var infoVC: InfoViewController?
-    var timesVC: TimesViewController?
+    private var tabVC: NSTabViewController?
+    private var listVC: ListViewController?
+    private var infoVC: InfoViewController?
+    private var timesVC: TimesViewController?
     
-    var lastMainAPILoad : Date = Date(timeIntervalSince1970: .zero)
+    private var lastAPILoad: Date = Date(timeIntervalSince1970: .zero)
     
-    private static let dateComparisonFormatter: DateFormatter = {
+    private static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.timeZone = TimeZone(abbreviation: "EDT")
+        formatter.timeZone = TimeZone(identifier: "America/New York")
         formatter.dateFormat = "yMMdd"
         return formatter
     }()
@@ -43,10 +43,9 @@ class ViewController: NSViewController {
     override func viewDidAppear() {
         let current = Date()
         
-        // Download API data if the date has changed or if connection failed last time
-        let formatter = Self.dateComparisonFormatter
-        if formatter.string(from: current) != formatter.string(from: lastMainAPILoad) || noEateryInfo {
-            lastMainAPILoad = current
+        // Only download API data if the date has changed or if the last connection failed
+        if Self.dateFormatter.string(from: current) != Self.dateFormatter.string(from: lastAPILoad) || noEateryInfo {
+            lastAPILoad = current
             
             Task {
                 do {
@@ -64,16 +63,11 @@ class ViewController: NSViewController {
         }
     }
 
-    override var representedObject: Any? {
-        didSet {
-        // Update the view, if already loaded.
-        }
-    }
-
     @IBAction func controlDidChange(_ sender: NSSegmentedControl) {
         if controlIsLocation {
-            listVC!.changeLocation(location: sender.selectedSegment)
-            savedLocation = sender.selectedSegment
+            let location = Location(rawValue: sender.selectedSegment) ?? .west
+            listVC?.changeLocation(location: location)
+            savedLocation = location
         } else {
             infoVC?.changeMeal(to: sender.selectedSegment)
         }
@@ -92,7 +86,7 @@ class ViewController: NSViewController {
     @objc func showEateryInfo(notification: Notification) {
         controlIsLocation = false
         infoButton.isHidden = true
-        let e = notification.object as! EateryInfo
+        guard let e = notification.object as? EateryInfo else { return }
         
         if (e.shortName == "") {
             titleField.stringValue = e.name
@@ -154,7 +148,7 @@ class ViewController: NSViewController {
     }
     
     @objc func showEateryTimes(notification: Notification) {
-        let e = notification.object as! EateryInfo
+        guard let e = notification.object as? EateryInfo else { return }
         timesVC?.updateInfo(eatery: e)
         for i in 0..<3 {
             mainControl.setSelected(false, forSegment: i)
@@ -170,7 +164,7 @@ class ViewController: NSViewController {
         let current = Int(Date().timeIntervalSince1970)
         #endif
         
-        if events.count == 0 {
+        if events.isEmpty {
             return -1
         }
         var eventNames: [String] = []
@@ -194,6 +188,8 @@ class ViewController: NSViewController {
         return events.count - 1
     }
     
+    /// Show the eatery list view
+    /// - Parameter notification: <#notification description#>
     @objc func showEateryList(notification: Notification) {
         controlIsLocation = true
         infoButton.isHidden = false
@@ -204,8 +200,7 @@ class ViewController: NSViewController {
         mainControl.setLabel("North", forSegment: 2)
         
         for i in 0..<3 { mainControl.setEnabled(true, forSegment: i) }
-        
-        mainControl.setSelected(true, forSegment: savedLocation)
+        mainControl.setSelected(true, forSegment: savedLocation.rawValue)
         
         tabVC?.transition(from: infoVC!, to: listVC!, options: .slideRight)
     }
@@ -216,7 +211,7 @@ class ViewController: NSViewController {
     
     @objc func showAboutPanel() {
         let appDelegate = NSApplication.shared.delegate as! AppDelegate
-        appDelegate.closePopover(nil)
+        appDelegate.closePopover()
         NSApplication.shared.activate(ignoringOtherApps: true)
         NSApplication.shared.orderFrontStandardAboutPanel()
     }
