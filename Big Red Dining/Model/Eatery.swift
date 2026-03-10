@@ -32,8 +32,6 @@ struct OperatingHours: Decodable {
 
 struct Event: Decodable {
     let descr: String
-    let start: String
-    let end: String
     let startTimestamp: Int
     let endTimestamp: Int
     let menu: [MenuCategory]

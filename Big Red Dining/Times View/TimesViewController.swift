@@ -8,35 +8,46 @@
 import Cocoa
 
 class TimesViewController: NSViewController {
-    
+
     @IBOutlet weak var tableView: NSTableView!
-    
+
     private static let dateParser: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter
     }()
-    
+
     private static let dayOfWeekFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "E"
         return formatter
     }()
+
+    private static let timeFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h:mma"
+        formatter.amSymbol = "am"
+        formatter.pmSymbol = "pm"
+        formatter.timeZone = .current
+        return formatter
+    }()
     
-    var eatery: EateryInfo?
-    var days: [String] = []
-    var hours: [String] = []
+    private var eatery: EateryInfo?
+    private var days: [String] = []
+    private var hours: [String] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.backgroundColor = .clear
     }
-    
+
     override func viewWillAppear() {
         super.viewWillAppear()
         tableView.reloadData()
     }
-    
+
+    /// Populates the view with the given eatery's operating hours.
+    /// - Parameter eatery: The ``EateryInfo`` whose hours should be displayed
     func updateInfo(eatery: EateryInfo) {
         days = []
         hours = []
@@ -50,8 +61,11 @@ class TimesViewController: NSViewController {
             if oh[i].events.isEmpty {
                 hours.append("Closed")
             } else {
-                let start = oh[i].events.first!.start
-                let end = oh[i].events.last!.end
+                let startDate = Date(timeIntervalSince1970: TimeInterval(oh[i].events.first!.startTimestamp))
+                let endDate = Date(timeIntervalSince1970: TimeInterval(oh[i].events.last!.endTimestamp))
+
+                let start = Self.timeFormatter.string(from: startDate)
+                let end = Self.timeFormatter.string(from: endDate)
                 hours.append("\(start) - \(end)")
             }
         }
@@ -92,21 +106,26 @@ class TimesViewController: NSViewController {
         days = combinedDays
         hours = combinedHours
     }
-    
+
+    /// Handles the exit button tap by posting a notification to navigate back to the info view.
+    /// - Parameter sender: The button that triggered the action
     @IBAction func exitButtonPressed(_ sender: NSButton) {
         NotificationCenter.default.post(name: Notification.Name("ShowInfo"), object: self.eatery, userInfo: ["fromTimes": true])
     }
 }
 
 extension TimesViewController: NSTableViewDataSource {
+    /// Returns the number of rows, corresponding to the number of day/hour entries.
     func numberOfRows(in tableView: NSTableView) -> Int {
         return hours.count
     }
 
+    /// Returns a fixed row height of 25 points for all rows.
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         return 25
     }
 
+    /// Returns the appropriate cell for the given column.
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         if tableColumn == tableView.tableColumns[0] {
             guard let dayCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "dayCell"), owner: self) as? NSTableCellView else { return nil }
@@ -119,12 +138,12 @@ extension TimesViewController: NSTableViewDataSource {
             hourCell.textField?.stringValue = hours[row]
             return hourCell
         }
-        
     }
 }
 
 extension TimesViewController: NSTableViewDelegate {
     
+    /// Row selection is not used in this view.
     func tableViewSelectionDidChange(_ notification: Notification) {
         
     }

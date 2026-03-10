@@ -9,29 +9,29 @@ import Cocoa
 import ServiceManagement
 
 class ViewController: NSViewController {
-    
+
     @IBOutlet weak var titleField: NSTextField!
     @IBOutlet weak var infoButton: NSButton!
-    
+
     @IBOutlet weak var mainControl: NSSegmentedControl!
-    
+
     private var controlIsLocation = true
     private var savedLocation: Location = .west
-    
+
     private var tabVC: NSTabViewController?
     private var listVC: ListViewController?
     private var infoVC: InfoViewController?
     private var timesVC: TimesViewController?
-    
+
     private var lastAPILoad: Date = Date(timeIntervalSince1970: .zero)
-    
+
     private static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.timeZone = TimeZone(identifier: "America/New York")
+        formatter.timeZone = TimeZone(identifier: "America/New_York")
         formatter.dateFormat = "yMMdd"
         return formatter
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -39,7 +39,7 @@ class ViewController: NSViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.showEateryList(notification:)), name: Notification.Name("ShowList"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.showEateryTimes(notification:)), name: Notification.Name("ShowTimes"), object: nil)
     }
-    
+
     override func viewDidAppear() {
         let current = Date()
         
@@ -73,6 +73,7 @@ class ViewController: NSViewController {
         }
     }
     
+    /// Captures references to the child view controllers (list, info, times) from the embedded tab view controller.
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         guard let tabViewController = segue.destinationController
           as? NSTabViewController else { return }
@@ -83,6 +84,8 @@ class ViewController: NSViewController {
         timesVC = tabViewController.tabViewItems[2].viewController as? TimesViewController
     }
     
+    /// Transitions to the info view for the selected eatery.
+    /// - Parameter notification: A notification whose object is the `EateryInfo` to display.
     @objc func showEateryInfo(notification: Notification) {
         controlIsLocation = false
         infoButton.isHidden = true
@@ -146,7 +149,26 @@ class ViewController: NSViewController {
             tabVC?.transition(from: listVC!, to: infoVC!, options: .slideLeft)
         }
     }
-    
+
+    /// Transitions to the eatery list view.
+    /// - Parameter notification: The notification that triggered this navigation
+    @objc func showEateryList(notification: Notification) {
+        controlIsLocation = true
+        infoButton.isHidden = false
+        titleField.stringValue = "Eateries"
+        
+        mainControl.setLabel("West", forSegment: 0)
+        mainControl.setLabel("Central", forSegment: 1)
+        mainControl.setLabel("North", forSegment: 2)
+        
+        for i in 0..<3 { mainControl.setEnabled(true, forSegment: i) }
+        mainControl.setSelected(true, forSegment: savedLocation.rawValue)
+        
+        tabVC?.transition(from: infoVC!, to: listVC!, options: .slideRight)
+    }
+
+    /// Transitions to the times view for the selected eatery.
+    /// - Parameter notification: A notification whose object is the `EateryInfo` to display
     @objc func showEateryTimes(notification: Notification) {
         guard let e = notification.object as? EateryInfo else { return }
         timesVC?.updateInfo(eatery: e)
@@ -156,8 +178,11 @@ class ViewController: NSViewController {
         }
         tabVC?.transition(from: infoVC!, to: timesVC!, options: .slideDown)
     }
-    
-    func getSelectedSegment(events: [Event]) -> Int {
+
+    /// Determines which main control segment should be selected based on the current time and available events.
+    /// - Parameter events: The eatery's meal periods for the day
+    /// - Returns: The index of the segment to select, or `-1` if there are no events
+    private func getSelectedSegment(events: [Event]) -> Int {
         #if TESTING
         let current = 1686444300
         #else
@@ -187,35 +212,22 @@ class ViewController: NSViewController {
         }
         return events.count - 1
     }
-    
-    /// Show the eatery list view
-    /// - Parameter notification: <#notification description#>
-    @objc func showEateryList(notification: Notification) {
-        controlIsLocation = true
-        infoButton.isHidden = false
-        titleField.stringValue = "Eateries"
-        
-        mainControl.setLabel("West", forSegment: 0)
-        mainControl.setLabel("Central", forSegment: 1)
-        mainControl.setLabel("North", forSegment: 2)
-        
-        for i in 0..<3 { mainControl.setEnabled(true, forSegment: i) }
-        mainControl.setSelected(true, forSegment: savedLocation.rawValue)
-        
-        tabVC?.transition(from: infoVC!, to: listVC!, options: .slideRight)
-    }
-    
+
+    /// Quits the application.
     @objc func quitApp() {
         NSApp.terminate(self)
     }
-    
+
+    /// Shows the standard About panel.
     @objc func showAboutPanel() {
         let appDelegate = NSApplication.shared.delegate as! AppDelegate
         appDelegate.closePopover()
         NSApplication.shared.activate(ignoringOtherApps: true)
         NSApplication.shared.orderFrontStandardAboutPanel()
     }
-    
+
+    /// Toggles whether the app should open at login by default.
+    /// - Parameter sender: The menu item that triggered the action
     @objc func toggleOpenAtLogin(_ sender: NSMenuItem) {
         if SMAppService.mainApp.status != .enabled {
             do {
@@ -231,7 +243,9 @@ class ViewController: NSViewController {
             }
         }
     }
-    
+
+    /// Presents a context menu anchored to the info button with app options.
+    /// - Parameter sender: The button that triggered the action
     @IBAction func infoButtonPressed(_ sender: NSButton) {
         let infoMenu = NSMenu()
         infoMenu.addItem(withTitle: "About Big Red Dining", action: #selector(showAboutPanel), keyEquivalent: "")
@@ -254,6 +268,7 @@ class ViewController: NSViewController {
 }
 
 extension ViewController {
+    /// Instantiates and returns a new `ViewController` from the Main storyboard.
     static func newController() -> ViewController {
         let storyboard = NSStoryboard(name: NSStoryboard.Name("Main"), bundle: nil)
         let identifier = NSStoryboard.SceneIdentifier("ViewController")

@@ -13,7 +13,7 @@ class InfoViewController: NSViewController {
     @IBOutlet weak var expandAll: NSButton!
     @IBOutlet weak var outlineView: NSOutlineView!
     @IBOutlet weak var status: NSButton!
-    
+
     private static let timeFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "h:mma"
@@ -22,21 +22,21 @@ class InfoViewController: NSViewController {
         formatter.timeZone = .current
         return formatter
     }()
-    
-    var eatery: EateryInfo?
-    var events: [Event] = []
-    var curr: Int = -1
-    
-    var currentCategory: [MenuCategory] = []
-    var menuItems: [MenuItem] = []
-    
-    var currentTime = -1
-    
+
+    private var eatery: EateryInfo?
+    private var events: [Event] = []
+    private var curr: Int = -1
+
+    private var currentCategory: [MenuCategory] = []
+    private var menuItems: [MenuItem] = []
+
+    private var currentTime = -1
+
     override func viewDidLoad() {
         super.viewDidLoad()
         outlineView.backgroundColor = .clear
     }
-    
+
     override func viewWillAppear() {
         // Update current time
         #if TESTING
@@ -65,8 +65,39 @@ class InfoViewController: NSViewController {
         }
         expandAllButtonPressed(expandAll)
     }
+
+    /// Updates the view controller with new eatery data, replacing the current events list.
+    /// - Parameter eatery: The ``EateryInfo`` containing events and menu data to display
+    func updateInfo(eatery: EateryInfo) {
+        self.events = eatery.events
+        self.eatery = eatery
+    }
     
-    func getCurrentEvent() -> Int {
+    /// Switches the displayed menu to the specified meal
+    /// - Parameter meal: The meal index to display
+    func changeMeal(to meal: Int) {
+        if meal == 0 {
+            if !events.filter({ $0.descr == "Breakfast" }).isEmpty {
+                currentCategory = events.filter({ $0.descr == "Breakfast" })[0].menu
+            } else {
+                currentCategory = events.filter({ $0.descr == "Brunch" })[0].menu
+            }
+        } else if meal == 1 {
+            currentCategory = events.filter({ $0.descr == "Lunch" })[0].menu
+        } else if meal == 2 {
+            currentCategory = events.filter({ $0.descr == "Dinner" })[0].menu
+        }
+        
+        outlineView.reloadData()
+        expandAllButtonPressed(expandAll)
+    }
+    
+    /// Returns the index of the most relevant event based on the current time.
+    ///
+    /// Prioritizes the currently active event, then the next upcoming event, and finally
+    /// falls back to the last event in the list. Returns `-1` if there are no events.
+    /// - Returns: The index of the current or most relevant event, or `-1` if none exist.
+    private func getCurrentEvent() -> Int {
         if let i = events.firstIndex(where: { currentTime < $0.endTimestamp && currentTime >= $0.startTimestamp }) {
             return i
         }
@@ -76,7 +107,10 @@ class InfoViewController: NSViewController {
         return events.isEmpty ? -1 : events.count - 1
     }
     
-    func currentStatus(for eventIndex: Int) -> (NSImage, String) {
+    /// Returns the status image and description string for the given event index.
+    /// - Parameter eventIndex: The index of the event to check, or `-1` if no events exist
+    /// - Returns: A tuple of the status image and a human-readable status string
+    private func currentStatus(for eventIndex: Int) -> (NSImage, String) {
         if eventIndex == -1 {
             if noEateryInfo {
                 return (NSImage(named: "NSStatusNone")!, "Could not get eatery info")
@@ -98,8 +132,7 @@ class InfoViewController: NSViewController {
                 return (NSImage(named: "NSStatusUnavailable")!, "Closed since " + Self.timeFormatter.string(from: Date(timeIntervalSince1970: TimeInterval(event.endTimestamp))).replacingOccurrences(of: ":00", with: ""))
             }
             // Event is happening now
-            
-            // TODO: This is assuming the next event is > 30 mins in duration
+            // Note: This is assuming the next event is >30 mins in duration
             if hasNextContiguous(for: eventIndex) {
                 return (NSImage(named: "NSStatusAvailable")!, "Open until " + Self.timeFormatter.string(from: Date(timeIntervalSince1970: TimeInterval(events[eventIndex+1].endTimestamp))).replacingOccurrences(of: ":00", with: ""))
             }
@@ -112,42 +145,27 @@ class InfoViewController: NSViewController {
         }
     }
     
-    func hasNextContiguous(for eventIndex: Int) -> Bool {
+    /// Checks whether the next event starts immediately when the given event ends.
+    /// - Parameter eventIndex: The index of the event to check
+    /// - Returns: Whether there is a following event whose start time equals this event's end time
+    private func hasNextContiguous(for eventIndex: Int) -> Bool {
         eventIndex < events.count - 1 && events[eventIndex].endTimestamp == events[eventIndex + 1].startTimestamp
     }
     
-    func updateInfo(eatery: EateryInfo) {
-        self.events = eatery.events
-        self.eatery = eatery
-    }
-    
-    func changeMeal(to meal: Int) {
-        if meal == 0 {
-            if !events.filter({ $0.descr == "Breakfast" }).isEmpty {
-                currentCategory = events.filter({ $0.descr == "Breakfast" })[0].menu
-            } else {
-                currentCategory = events.filter({ $0.descr == "Brunch" })[0].menu
-            }
-        }
-        if meal == 1 {
-            currentCategory = events.filter({ $0.descr == "Lunch" })[0].menu
-        }
-        if meal == 2 {
-            currentCategory = events.filter({ $0.descr == "Dinner" })[0].menu
-        }
-        
-        outlineView.reloadData()
-        expandAllButtonPressed(expandAll)
-    }
-    
+    /// Handles the back button tap by posting a notification to return to the list view.
+    /// - Parameter sender: The button that triggered the action
     @IBAction func backButtonPressed(_ sender: NSButton) {
         NotificationCenter.default.post(name: Notification.Name("ShowList"), object: nil)
     }
     
+    /// Handles the times button tap by posting a notification to show the times view.
+    /// - Parameter sender: The button that triggered the action
     @IBAction func timesButtonPressed(_ sender: NSButton) {
         NotificationCenter.default.post(name: Notification.Name("ShowTimes"), object: self.eatery!)
     }
     
+    /// Toggles expanding or collapsing all outline view items and persists the state to user defaults.
+    /// - Parameter sender: The button that triggered the action
     @IBAction func expandAllButtonPressed(_ sender: NSButton) {
         if sender.state == .on {
             outlineView.animator().expandItem(nil, expandChildren: true)
@@ -156,10 +174,10 @@ class InfoViewController: NSViewController {
         }
         UserDefaults.standard.set(sender.state, forKey: "expandButton")
     }
-    
 }
 
 extension InfoViewController: NSOutlineViewDataSource {
+    /// Returns the number of children for the given item: menu items for a category, or categories at the root level.
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
         if let category = item as? MenuCategory {
             return category.items.count
@@ -167,6 +185,7 @@ extension InfoViewController: NSOutlineViewDataSource {
         return currentCategory.count
     }
     
+    /// Returns the child object at the given index: a menu item within a category, or a category at the root level.
     func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
         if let category = item as? MenuCategory {
             return category.items[index]
@@ -174,6 +193,7 @@ extension InfoViewController: NSOutlineViewDataSource {
         return currentCategory[index]
     }
     
+    /// Returns whether the item can be expanded. Only `MenuCategory` items are expandable.
     func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
         if item is MenuCategory { return true }
         return false
@@ -181,26 +201,27 @@ extension InfoViewController: NSOutlineViewDataSource {
 }
 
 extension InfoViewController: NSOutlineViewDelegate {
+    /// Returns the appropriate cell view for the given item, configured with the category name or menu item name.
     func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
-        if item is MenuCategory {
-            guard let categoryCell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "categoryCell"), owner: self) as? CategoryCell else { return nil }
-            
-            categoryCell.name.stringValue = (item as! MenuCategory).category
-            return categoryCell
+        if let category = item as? MenuCategory {
+            guard let cell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "categoryCell"), owner: self) as? NSTableCellView else { return nil }
+            cell.textField?.stringValue = category.category
+            return cell
         }
-        if item is MenuItem {
-            guard let menuItemCell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "menuItemCell"), owner: self) as? MenuItemCell else { return nil }
-            
-            menuItemCell.name.stringValue = (item as! MenuItem).item
-            return menuItemCell
+        if let menuItem = item as? MenuItem {
+            guard let cell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "menuItemCell"), owner: self) as? NSTableCellView else { return nil }
+            cell.textField?.stringValue = menuItem.item
+            return cell
         }
         return nil
     }
     
+    /// Returns a fixed row height of 16 points for all outline view items.
     func outlineView(_ outlineView: NSOutlineView, heightOfRowByItem item: Any) -> CGFloat {
         return 16
     }
     
+    /// Prevents row selection in the outline view.
     func selectionShouldChange(in outlineView: NSOutlineView) -> Bool {
         return false
     }

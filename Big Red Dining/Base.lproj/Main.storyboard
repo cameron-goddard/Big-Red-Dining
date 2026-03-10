@@ -369,7 +369,7 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="categoryCell" id="q2W-8T-Vil" customClass="CategoryCell" customModule="Big_Red_Dining" customModuleProvider="target">
+                                                        <tableCellView identifier="categoryCell" id="q2W-8T-Vil">
                                                             <rect key="frame" x="18" y="0.0" width="271" height="24"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -384,11 +384,10 @@
                                                                 </textField>
                                                             </subviews>
                                                             <connections>
-                                                                <outlet property="name" destination="zrx-E6-N6L" id="fZv-FH-hem"/>
                                                                 <outlet property="textField" destination="zrx-E6-N6L" id="kpD-Of-J7a"/>
                                                             </connections>
                                                         </tableCellView>
-                                                        <tableCellView identifier="menuItemCell" id="Pbe-fJ-NLB" customClass="MenuItemCell" customModule="Big_Red_Dining" customModuleProvider="target">
+                                                        <tableCellView identifier="menuItemCell" id="Pbe-fJ-NLB">
                                                             <rect key="frame" x="18" y="24" width="271" height="24"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -403,7 +402,6 @@
                                                                 </textField>
                                                             </subviews>
                                                             <connections>
-                                                                <outlet property="name" destination="3lM-Wn-t4m" id="sR4-yO-oMk"/>
                                                                 <outlet property="textField" destination="3lM-Wn-t4m" id="09e-5b-Maq"/>
                                                             </connections>
                                                         </tableCellView>

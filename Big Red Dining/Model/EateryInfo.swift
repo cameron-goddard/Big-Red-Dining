@@ -69,7 +69,7 @@ struct EateryInfo {
                 }
             }
             self.events = dayEvents.map { ev in
-                Event(descr: ev.descr, start: ev.start, end: ev.end, startTimestamp: ev.startTimestamp, endTimestamp: ev.endTimestamp, menu: menu)
+                Event(descr: ev.descr, startTimestamp: ev.startTimestamp, endTimestamp: ev.endTimestamp, menu: menu)
             }
         } else {
             self.events = dayEvents

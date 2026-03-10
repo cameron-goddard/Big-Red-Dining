@@ -17,13 +17,13 @@ enum EateryStatus {
 }
 
 class ListViewController: NSViewController {
-    
+
     @IBOutlet weak var tableView: NSTableView!
-    
+
     /// The amount of time, in minutes, before closing that will mark the eatery
     /// as closing or opening soon
     private static let soonThreshold = 30 * 60
-    
+
     private static let timeFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "h:mma"
@@ -32,16 +32,16 @@ class ListViewController: NSViewController {
         formatter.timeZone = .current
         return formatter
     }()
-    
+
     private var currentLocation: Location = .west
-    
+
     private var currentDiningHalls: [EateryInfo] {
         allEateries.values.filter { $0.location == currentLocation && !$0.isCafe }
     }
-    
+
     private var currentCafes: [EateryInfo] {
         let cafes = allEateries.values.filter { $0.location == currentLocation && $0.isCafe }
-        
+
         // Always show open eateries above closed ones
         return cafes.sorted { a, b in
             let aOpen = isOpen(status: getCurrentStatus(events: a.events))
@@ -58,30 +58,18 @@ class ListViewController: NSViewController {
         self.tableView.backgroundColor = .clear
         tableView.reloadData()
     }
-    
+
     override func viewDidAppear() {
         tableView.reloadData()
     }
-    
-    /// Helper function to determine which ``EateryStatus`` values are considered open.
-    /// - Parameter status: The ``EateryStatus`` to query
-    /// - Returns: Whether the given status is considered open
-    private func isOpen(status: EateryStatus) -> Bool {
-        switch status {
-        case .open, .closingSoon, .openingSoon:
-            return true
-        case .closed, .closedToday, .error:
-            return false
-        }
-    }
-    
-    /// Updates the eatery list for a new location
+
+    /// Updates the eatery list for a new location.
     /// - Parameter location: The new location
     func changeLocation(location: Location) {
         currentLocation = location
         tableView.reloadData()
     }
-    
+
     /// Determines the current operating status of an eatery based on its scheduled events.
     ///
     /// - Parameter events: The list of today's events for the eatery, ordered chronologically
@@ -92,7 +80,7 @@ class ListViewController: NSViewController {
     ///   - `.closed(until:)` with the next opening time if a future event exists today
     ///   - `.closedToday` if there are no events scheduled
     ///   - `.error` if eatery information is unavailable
-    func getCurrentStatus(events: [Event]) -> EateryStatus {
+    private func getCurrentStatus(events: [Event]) -> EateryStatus {
         #if TESTING
         let time = 1686444300
         #else
@@ -126,7 +114,19 @@ class ListViewController: NSViewController {
         }
         return .closed(until: "")
     }
-    
+
+    /// Helper function to determine which ``EateryStatus`` values are considered open.
+    /// - Parameter status: The ``EateryStatus`` to query
+    /// - Returns: Whether the given status is considered open
+    private func isOpen(status: EateryStatus) -> Bool {
+        switch status {
+        case .open, .closingSoon, .openingSoon:
+            return true
+        case .closed, .closedToday, .error:
+            return false
+        }
+    }
+
     /// Returns the eatery at a given row index.
     /// - Parameter row: The row
     /// - Returns: The ``EateryInfo`` object at that row index
@@ -140,10 +140,12 @@ class ListViewController: NSViewController {
 
 extension ListViewController: NSTableViewDataSource {
 
+    /// Returns the total number of rows, including dining halls, cafes, and a separator row.
     func numberOfRows(in tableView: NSTableView) -> Int {
         return currentDiningHalls.count + currentCafes.count + 1
     }
 
+    /// Returns the height for a given row, using a smaller height for the separator row.
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         if row == currentDiningHalls.count {
             return 30
@@ -151,6 +153,7 @@ extension ListViewController: NSTableViewDataSource {
         return 40
     }
 
+    /// Configures and returns the appropriate cell view for a row.
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         if row == currentDiningHalls.count {
             guard let separatorCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "separatorCell"), owner: self) as? NSTableCellView else { return nil }
@@ -194,6 +197,7 @@ extension ListViewController: NSTableViewDataSource {
 
 extension ListViewController: NSTableViewDelegate {
 
+    /// Handles row selection by posting a ``ShowInfo`` notification with the selected eatery.
     func tableViewSelectionDidChange(_ notification: Notification) {
         let row = tableView.selectedRow
         tableView.deselectRow(row)
@@ -202,6 +206,7 @@ extension ListViewController: NSTableViewDelegate {
         }
     }
     
+    /// Prevents the separator row from being selected.
     func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
         return tableView.view(atColumn: 0, row: row, makeIfNecessary: true) is EateryCell
     }
