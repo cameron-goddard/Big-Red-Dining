@@ -425,18 +425,6 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ggx-5G-Ypx">
-                                <rect key="frame" x="269" y="153" width="28" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" bezelStyle="rounded" imagePosition="only" alignment="center" controlSize="small" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="YpA-3o-YWf">
-                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                    <font key="font" metaFont="smallSystem"/>
-                                    <imageReference key="image" image="arrow.up.and.down.text.horizontal" catalog="system" symbolScale="medium"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="expandAllButtonPressed:" target="zqO-KF-5rA" id="aUg-AT-MNm"/>
-                                </connections>
-                            </button>
                             <button imageHugsTitle="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WMy-96-Xon">
                                 <rect key="frame" x="44" y="162" width="220" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -449,23 +437,33 @@
                                     <action selector="timesButtonPressed:" target="zqO-KF-5rA" id="1sx-5N-T0o"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qEH-TT-SfJ">
-                                <rect key="frame" x="11" y="153" width="28" height="32"/>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="h5a-gh-MCY">
+                                <rect key="frame" x="269" y="158" width="31" height="24"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" bezelStyle="rounded" imagePosition="overlaps" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="vFO-RV-unF">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="smallSystem"/>
-                                    <imageReference key="image" image="chevron.left" catalog="system" symbolScale="medium"/>
+                                <buttonCell key="cell" type="push" bezelStyle="rounded" image="arrow.up.and.down.text.horizontal" catalog="system" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="luS-PZ-QrQ">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                    <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="backButtonPressed:" target="zqO-KF-5rA" id="evE-la-Bsq"/>
+                                    <action selector="expandAllButtonPressed:" target="zqO-KF-5rA" id="5ry-vo-OOv"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Clh-oF-Fus">
+                                <rect key="frame" x="10" y="159" width="31" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" bezelStyle="rounded" image="chevron.backward" catalog="system" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="5oB-xr-AMT">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="backButtonPressed:" target="zqO-KF-5rA" id="8CY-y4-vhG"/>
                                 </connections>
                             </button>
                         </subviews>
                     </view>
                     <connections>
-                        <outlet property="back" destination="qEH-TT-SfJ" id="Ccm-KS-oTu"/>
-                        <outlet property="expandAll" destination="ggx-5G-Ypx" id="aos-Ym-PBx"/>
+                        <outlet property="back" destination="Clh-oF-Fus" id="cmt-k9-Irf"/>
+                        <outlet property="expandAll" destination="h5a-gh-MCY" id="5ar-4W-ffr"/>
                         <outlet property="outlineView" destination="kHf-Hp-pf9" id="dMa-hG-5xY"/>
                         <outlet property="status" destination="WMy-96-Xon" id="yUK-T9-g0T"/>
                     </connections>
@@ -614,9 +612,9 @@
         <image name="NSStatusAvailable" width="16" height="16"/>
         <image name="arrow.up.and.down.text.horizontal" catalog="system" width="20" height="14"/>
         <image name="atom" catalog="system" width="17" height="18"/>
+        <image name="chevron.backward" catalog="system" width="10" height="14"/>
         <image name="chevron.down" catalog="system" width="15" height="9"/>
         <image name="chevron.forward" catalog="system" width="10" height="14"/>
-        <image name="chevron.left" catalog="system" width="10" height="14"/>
         <image name="chevron.up" catalog="system" width="15" height="9"/>
     </resources>
 </document>
