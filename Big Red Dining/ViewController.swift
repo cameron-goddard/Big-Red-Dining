@@ -247,9 +247,10 @@ class ViewController: NSViewController {
     /// Presents a context menu anchored to the info button with app options.
     /// - Parameter sender: The button that triggered the action
     @IBAction func infoButtonPressed(_ sender: NSButton) {
-        let infoMenu = NSMenu()
-        infoMenu.addItem(withTitle: "About Big Red Dining", action: #selector(showAboutPanel), keyEquivalent: "")
-        infoMenu.addItem(NSMenuItem.separator())
+        let aboutItem = NSMenuItem(title: "About Big Red Dining", action: #selector(showAboutPanel), keyEquivalent: "")
+        if #available(macOS 26.0, *) {
+            aboutItem.image = NSImage(systemSymbolName: "info.circle", accessibilityDescription: "")
+        }
         
         let openAtLoginItem = NSMenuItem(title: "Open at login", action: #selector(toggleOpenAtLogin), keyEquivalent: "")
         if SMAppService.mainApp.status == .enabled {
@@ -257,10 +258,21 @@ class ViewController: NSViewController {
         } else {
             openAtLoginItem.state = .off
         }
-        infoMenu.addItem(openAtLoginItem)
+        if #available(macOS 26.0, *) {
+            openAtLoginItem.image = NSImage(systemSymbolName: "menubar.arrow.up.rectangle", accessibilityDescription: "")
+        }
         
+        let quitItem = NSMenuItem(title: "Quit Big Red Dining", action: #selector(quitApp), keyEquivalent: "q")
+        if #available(macOS 26.0, *) {
+            quitItem.image = NSImage(systemSymbolName: "xmark.rectangle", accessibilityDescription: "")
+        }
+        
+        let infoMenu = NSMenu()
+        infoMenu.addItem(aboutItem)
         infoMenu.addItem(NSMenuItem.separator())
-        infoMenu.addItem(withTitle: "Quit Big Red Dining", action: #selector(quitApp), keyEquivalent: "q")
+        infoMenu.addItem(openAtLoginItem)
+        infoMenu.addItem(NSMenuItem.separator())
+        infoMenu.addItem(quitItem)
         
         let p = NSPoint(x: -110, y: sender.frame.height+15)
         infoMenu.popUp(positioning: nil, at: p, in: sender)
