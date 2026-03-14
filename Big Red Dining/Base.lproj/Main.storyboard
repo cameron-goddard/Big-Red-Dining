@@ -598,6 +598,7 @@
                         </subviews>
                     </view>
                     <connections>
+                        <outlet property="back" destination="Uo7-8k-34a" id="nez-tC-Eha"/>
                         <outlet property="tableView" destination="c9I-mR-3ge" id="vNM-Mh-U8Z"/>
                     </connections>
                 </viewController>

@@ -9,6 +9,7 @@ import Cocoa
 
 class TimesViewController: NSViewController {
 
+    @IBOutlet weak var back: NSButton!
     @IBOutlet weak var tableView: NSTableView!
 
     private static let dateParser: DateFormatter = {
@@ -39,6 +40,11 @@ class TimesViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.backgroundColor = .clear
+        
+        // Adjust button size for macOS 15 and below
+        if #unavailable(macOS 26, ) {
+            back.frame = NSRect(x: 3, y: 153, width: 40, height: 32)
+        }
     }
 
     override func viewWillAppear() {
