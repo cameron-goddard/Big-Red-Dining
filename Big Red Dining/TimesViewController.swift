@@ -43,7 +43,7 @@ class TimesViewController: NSViewController {
         
         // Adjust button size for macOS 15 and below
         if #unavailable(macOS 26, ) {
-            back.frame = NSRect(x: 3, y: 153, width: 40, height: 32)
+            back.frame = NSRect(x: 265, y: 153, width: 40, height: 32)
         }
     }
 
